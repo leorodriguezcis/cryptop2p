@@ -5,6 +5,8 @@ import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "transactions")
@@ -18,7 +20,7 @@ public class Transaction implements Serializable {
     @Column(name = "user_name")
     public Integer nominalValue;
     @Column(name = "cotization_value")
-    public Integer valueCotization;
+    public BigDecimal valueCotization;
     @Column(name = "pesos_value")
     public Integer valuePesos;
     @Column(name = "operation user_number")
@@ -31,15 +33,14 @@ public class Transaction implements Serializable {
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
     private User user;
 
-    public Transaction(Boolean transactionType, LocalDateTime fecha, CryptoEnum cryptoName, Integer value, Integer cotization, Integer valuePesos, User user) {
+    public Transaction(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
         this.cryptoType = cryptoName;
-        this.transactionDate = fecha;
+        this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
-        this.valueCotization = cotization;
         this.nominalValue = value;
         this.transactionType = transactionType;
         this.user = user;
-
+        this.valueCotization = cotization;
     }
 
 
@@ -50,7 +51,7 @@ public class Transaction implements Serializable {
     public void setNominalValue(Integer nominalValue) {
         this.nominalValue = nominalValue;
     }
-    public void setValueCotization(Integer valueCotization) {
+    public void setValueCotization(BigDecimal valueCotization) {
         this.valueCotization = valueCotization;
     }
     public void setValuePesos(Integer valuePesos) {
@@ -71,7 +72,7 @@ public class Transaction implements Serializable {
     public Integer getNominalValue() {
         return nominalValue;
     }
-    public Integer getValueCotization() {
+    public BigDecimal getValueCotization() {
         return valueCotization;
     }
     public Integer getValuePesos() {
