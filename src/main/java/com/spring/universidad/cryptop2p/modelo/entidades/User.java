@@ -35,9 +35,10 @@ public class User implements Serializable {
     public Set<Transaction> listTransactions;
     @Column(name = "user_reputation")
     public Integer reputation;
-    private Crypto crypto = new Crypto();
-    public ManagerTransaction transactionManager;
-    public User( String name, String lastname, String email, String address, String password, Integer cvu, String wallet, ManagerTransaction transactionManager ){
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public Set<Transaction> transactions;
+
+    public User( String name, String lastname, String email, String address, String password, Integer cvu, String wallet ){
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -45,7 +46,6 @@ public class User implements Serializable {
         this.password = password;
         this.cvu = cvu;
         this.wallet = wallet;
-        this.transactionManager = transactionManager;
     }
 
     public Integer getId() {
@@ -80,9 +80,4 @@ public class User implements Serializable {
         return wallet;
     }
 
-    public void transactionIntention(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer ValuePesos ){
-        BigDecimal cotization = crypto.getInfo(cryptoName);
-        Transaction transaction = new Transaction(transactionType, cryptoName ,  value,  ValuePesos,this, cotization);
-        this.transactionManager.addTransaction(transaction);
-    }
 }

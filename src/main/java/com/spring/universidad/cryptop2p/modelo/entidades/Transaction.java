@@ -31,7 +31,8 @@ public class Transaction implements Serializable {
     public Boolean transactionType;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
-    private User user;
+    public User user;
+
 
     public Transaction(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
         this.cryptoType = cryptoName;
