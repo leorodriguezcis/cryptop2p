@@ -23,7 +23,7 @@ public class Transaction implements Serializable {
     public BigDecimal valueCotization;
     @Column(name = "pesos_value")
     public Integer valuePesos;
-    @Column(name = "operation user_number")
+    @Column(name = "operation_user_number")
     public Integer operationUserNumber;
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;

@@ -24,12 +24,7 @@ public class Crypto implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION_ID"))
     private Transaction transaction;
-    private RestTemplate rTemplate = new RestTemplate();
-    private BinanceService binanceService = new BinanceService(rTemplate);
     public Crypto(){
 
-    }
-    public BigDecimal getInfo(CryptoEnum nameCrypto){
-       return binanceService.getPrice(nameCrypto);
     }
 }

@@ -12,8 +12,6 @@ public class UniversidadBackendApplication {
 
 
 	public static void main(String[] args) {
-		Crypto crypto = new Crypto();
-		System.out.println(crypto.getInfo(CryptoEnum.BTCUSDT));
 		String[] str = SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
 	}
 
