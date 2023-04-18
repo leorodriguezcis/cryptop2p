@@ -19,14 +19,4 @@ public class UserController {
         return ResponseEntity.ok(user.getName());
     }
 
-    @GetMapping(value="/api")
-    public ResponseEntity<String> getUsers() {
-
-        return ResponseEntity.ok().body("holaMundoLawea");
-    }
-    @GetMapping("/hola")
-    public String holaMundo() {
-        return "Hola Mundo";
-    }
-
 }
