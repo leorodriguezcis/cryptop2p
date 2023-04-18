@@ -1,12 +1,9 @@
 package com.spring.universidad.cryptop2p.modelo.entidades;
 
 import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
-import org.springframework.web.client.RestTemplate;
-import services.BinanceService;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity

@@ -1,4 +1,4 @@
-package services;
+package com.spring.universidad.cryptop2p.services;
 import com.spring.universidad.cryptop2p.modelo.entidades.User;
 import com.spring.universidad.cryptop2p.modelo.entidades.dto.UserRegisterDto;
 import com.spring.universidad.cryptop2p.modelo.entidades.repository.UserRepository;
@@ -21,8 +21,6 @@ public class UserService {
                     userRegisterDto.getCvu(),userRegisterDto.getAddrWallet());
                     userRepository.save(user);
             return user;
-        }
-        public UserService (){
         }
         public  UserService (UserRepository userRepository){
         this.userRepository = userRepository;

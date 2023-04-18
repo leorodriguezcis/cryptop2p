@@ -1,6 +1,7 @@
 package com.spring.universidad.cryptop2p.modelo.entidades.dto;
 
-public class UserRegisterDto {
+
+public class UserRegisterDto{
 
     private String name;
     private String lastName;
@@ -40,7 +41,7 @@ public class UserRegisterDto {
 
     public UserRegisterDto(String name, String lastName, String email, String address, String password
             , String cvu, String addrWallet){
-        super();
+
         this.name =name;
         this.lastName = lastName;
         this.email = email;
@@ -49,5 +50,6 @@ public class UserRegisterDto {
         this.cvu = cvu;
         this.addrWallet = addrWallet;
     }
-    
+    public UserRegisterDto(){}
+
 }
