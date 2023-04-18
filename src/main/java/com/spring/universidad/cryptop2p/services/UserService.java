@@ -1,7 +1,7 @@
 package com.spring.universidad.cryptop2p.services;
-import com.spring.universidad.cryptop2p.modelo.entidades.User;
-import com.spring.universidad.cryptop2p.modelo.entidades.dto.UserRegisterDto;
-import com.spring.universidad.cryptop2p.modelo.entidades.repository.UserRepository;
+import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDto;
+import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

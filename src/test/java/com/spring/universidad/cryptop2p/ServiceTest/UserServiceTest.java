@@ -1,7 +1,7 @@
 package com.spring.universidad.cryptop2p.ServiceTest;
 
 
-import com.spring.universidad.cryptop2p.modelo.entidades.dto.UserRegisterDto;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDto;
 import com.spring.universidad.cryptop2p.services.UserService;
 import org.junit.Assert;
 import org.junit.Before;

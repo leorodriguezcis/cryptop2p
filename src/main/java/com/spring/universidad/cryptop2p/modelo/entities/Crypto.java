@@ -1,6 +1,6 @@
-package com.spring.universidad.cryptop2p.modelo.entidades;
+package com.spring.universidad.cryptop2p.modelo.entities;
 
-import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
