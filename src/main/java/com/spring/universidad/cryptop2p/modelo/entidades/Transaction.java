@@ -1,12 +1,12 @@
 package com.spring.universidad.cryptop2p.modelo.entidades;
 
 
+
 import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "transactions")
@@ -23,7 +23,7 @@ public class Transaction implements Serializable {
     public BigDecimal valueCotization;
     @Column(name = "pesos_value")
     public Integer valuePesos;
-    @Column(name = "operation user_number")
+    @Column(name = "operation_user_number")
     public Integer operationUserNumber;
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
@@ -31,7 +31,8 @@ public class Transaction implements Serializable {
     public Boolean transactionType;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
-    private User user;
+    public User user;
+
 
     public Transaction(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
         this.cryptoType = cryptoName;

@@ -1,13 +1,8 @@
 package com.spring.universidad.cryptop2p.modelo.entidades;
 
-import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -28,16 +23,17 @@ public class User implements Serializable {
     @Column(name = "user_password")
     protected String password;
     @Column(name = "user_cvu")
-    protected Integer cvu;
+    protected String cvu;
     @Column(name = "user_wallet")
     protected String wallet;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     public Set<Transaction> listTransactions;
     @Column(name = "user_reputation")
     public Integer reputation;
-    private Crypto crypto = new Crypto();
-    public ManagerTransaction transactionManager;
-    public User( String name, String lastname, String email, String address, String password, Integer cvu, String wallet, ManagerTransaction transactionManager ){
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    public Set<Transaction> transactions;
+
+    public User(String name, String lastname, String email, String address, String password, String cvu, String wallet ){
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -45,7 +41,6 @@ public class User implements Serializable {
         this.password = password;
         this.cvu = cvu;
         this.wallet = wallet;
-        this.transactionManager = transactionManager;
     }
 
     public Integer getId() {
@@ -72,7 +67,7 @@ public class User implements Serializable {
         return password;
     }
 
-    public Integer getCvu() {
+    public String getCvu() {
         return cvu;
     }
 
@@ -80,9 +75,4 @@ public class User implements Serializable {
         return wallet;
     }
 
-    public void transactionIntention(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer ValuePesos ){
-        BigDecimal cotization = crypto.getInfo(cryptoName);
-        Transaction transaction = new Transaction(transactionType, cryptoName ,  value,  ValuePesos,this, cotization);
-        this.transactionManager.addTransaction(transaction);
-    }
 }
