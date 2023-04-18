@@ -74,5 +74,7 @@ public class User implements Serializable {
     public String getWallet() {
         return wallet;
     }
+    public User() {
 
+    }
 }
