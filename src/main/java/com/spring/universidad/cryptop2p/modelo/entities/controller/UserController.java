@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "register user")
-    @PostMapping(value="/api/auth/register")
+    @PostMapping(value="/register")
     public ResponseEntity<String> userRegister(@Valid @RequestBody UserRegisterDto user){
         System.out.println(user.getName());
         userService.registerUser(user);
