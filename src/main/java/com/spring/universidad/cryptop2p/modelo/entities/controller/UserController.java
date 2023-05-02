@@ -1,8 +1,8 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
-import com.spring.universidad.cryptop2p.services.UserService;
+import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +11,17 @@ import javax.validation.Valid;
 import io.swagger.annotations.Api;
 @RestController
 @Api(tags = "Register")
-public class UserController {
+public class UserController extends GenericController <User, UserDAO>{
     @Autowired
-    private UserService userService;
+    public UserController(UserDAO service) {
+        super(service);
+    }
 
     @ApiOperation(value = "register user")
     @PostMapping(value="/register")
     public ResponseEntity<String> userRegister(@Valid @RequestBody UserRegisterDto user){
         System.out.println(user.getName());
-        userService.registerUser(user);
+        service.registerUser(user);
         return ResponseEntity.ok(user.getName());
     }
 
