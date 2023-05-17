@@ -1,6 +1,7 @@
 package com.spring.universidad.cryptop2p.modelo.entidades.dto;
 
-import com.spring.universidad.cryptop2p.modelo.entidades.numeradores.CryptoEnum;
+
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
 import java.time.LocalDate;
 

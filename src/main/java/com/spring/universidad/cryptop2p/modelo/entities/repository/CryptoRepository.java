@@ -1,6 +1,6 @@
-package com.spring.universidad.cryptop2p.modelo.entidades.repository;
+package com.spring.universidad.cryptop2p.modelo.entities.repository;
 
-import com.spring.universidad.cryptop2p.modelo.entidades.Crypto;
+import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
