@@ -18,6 +18,9 @@ public class Crypto implements Serializable {
     public LocalDate date;
     @Column(name = "value")
     public Double value;
+    @Column(name = "valueInArs")
+    public Double valueInArs;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION_ID"))
     private Transaction transaction;

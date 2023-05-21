@@ -9,6 +9,15 @@ public class CryptoDTO {
     public CryptoEnum name;
     public LocalDate date;
     public Double value;
+    public Double valueInArs;
+
+    public Double getValueInArs() {
+        return valueInArs;
+    }
+
+    public void setValueInArs(Double valueInArs) {
+        this.valueInArs = valueInArs;
+    }
 
     public CryptoDTO(CryptoEnum name, LocalDate date, Double value) {
         this.name = name;
