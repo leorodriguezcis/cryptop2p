@@ -21,30 +21,35 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
     public  CryptoDAOimpl (CryptoRepository repo) {super(repo);
     }
 
+    @Transactional
     public Crypto createCrypto(CryptoDTO cryptoDTO){
         Crypto crypto = new Crypto();
-        crypto.setDate(cryptoDTO.getDate());
-        crypto.setName(cryptoDTO.getName());
-        crypto.setValue(crypto.getValue());
+        crypto.setDate(cryptoDTO.getHourCotization().toLocalDate());
+        crypto.setName(cryptoDTO.getSymbolToEnum());
+        crypto.setValue(cryptoDTO.getPrice());
+        crypto.setValueInArs(cryptoDTO.getPriceArs());
         repo.save(crypto);
         return  crypto;
     }
     public CryptoDTO getCotizationBySymbol(CryptoEnum symbol) {
-        Double dollar = Double.parseDouble(priceUsd());
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
         CryptoDTO crypto = restTemplate.getForObject(url, CryptoDTO.class);
-        Double priceCriptoInUsd = crypto.getValue();
-        Double priceArs = priceCriptoInUsd * dollar;
-        crypto.setValueInArs(priceArs);
-        crypto.setDate(hour.toLocalDate());
-        return crypto;
+        System.out.println("print test"+crypto.getPrice());
+        System.out.println(crypto);
+        Double priceCriptoInUsd = crypto.getPrice();
+        Double priceArs = priceCriptoInUsd * 350;
+        crypto.setPriceArs(priceArs);
+        crypto.setHourCotization(hour);
+        crypto.setSymbolToEnum(symbol);
+return crypto;
     }
     @Override
-    @Transactional
+
     public Boolean inicializerCrypto(CryptoEnum[] cryptoEnumList) {
         for(CryptoEnum cryptoEnum:cryptoEnumList){
-            repo.save(createCrypto(getCotizationBySymbol(cryptoEnum)));
+            System.out.println(cryptoEnum);
+            createCrypto(getCotizationBySymbol(cryptoEnum));
         }
 
         return true;

@@ -16,6 +16,31 @@ public class Crypto implements Serializable {
     public CryptoEnum name;
     @Column(name = "date")
     public LocalDate date;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getValueInArs() {
+        return valueInArs;
+    }
+
+    public void setValueInArs(Double valueInArs) {
+        this.valueInArs = valueInArs;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
     @Column(name = "value")
     public Double value;
     @Column(name = "valueInArs")

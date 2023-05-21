@@ -2,50 +2,58 @@ package com.spring.universidad.cryptop2p.modelo.entities.dto;
 
 
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.services.implementation.CryptoDAOimpl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class CryptoDTO {
-    public CryptoEnum name;
-    public LocalDate date;
-    public Double value;
-    public Double valueInArs;
+    private LocalDateTime hourCotization;
+    private String symbol;
+    private Double price ;
+    private Double priceArs;
+    private CryptoEnum SymbolToEnum;
 
-    public Double getValueInArs() {
-        return valueInArs;
+
+    public CryptoEnum getSymbolToEnum() {
+        return SymbolToEnum;
     }
 
-    public void setValueInArs(Double valueInArs) {
-        this.valueInArs = valueInArs;
+    public void setSymbolToEnum(CryptoEnum symbolToEnum) {
+        SymbolToEnum = symbolToEnum;
     }
 
-    public CryptoDTO(CryptoEnum name, LocalDate date, Double value) {
-        this.name = name;
-        this.date = date;
-        this.value = value;
+    public LocalDateTime getHourCotization() {
+        return hourCotization;
     }
 
-    public CryptoEnum getName() {
-        return name;
+    public void setHourCotization(LocalDateTime hourCotization) {
+        this.hourCotization = hourCotization;
     }
 
-    public void setName(CryptoEnum name) {
-        this.name = name;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public Double getPrice() {
+        return price;
     }
 
-    public Double getValue() {
-        return value;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public Double getPriceArs() {
+        return priceArs;
     }
+
+    public void setPriceArs(Double priceArs) {
+        this.priceArs = priceArs;
+    }
+
+    public CryptoDTO(){}
 }

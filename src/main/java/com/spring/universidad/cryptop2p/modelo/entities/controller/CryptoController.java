@@ -29,21 +29,21 @@ public class CryptoController extends GenericController<Crypto, CryptoDAO> {
     @ApiOperation(value = "initialize crypto")
     @PostMapping(value="/initialize/crypto")
     public ResponseEntity<String> initializeCrypto(){
-        CryptoEnum[] crypotoList = new CryptoEnum[15];
+        CryptoEnum[] crypotoList = new CryptoEnum[14];
         crypotoList[0] = ALICEUSDT;
         crypotoList[1] = MATICUSDT;
         crypotoList[2] = AXSUSDT ;
         crypotoList[3] = AAVEUSDT;
-        crypotoList[5] = ATOMUSDT ;
-        crypotoList[6] = NEOUSDT;
-        crypotoList[7] = DOTUSDT;
-        crypotoList[8] = ETHUSDT;
-        crypotoList[9] = CAKEUSDT;
-        crypotoList[10] = BTCUSDT;
-        crypotoList[11] = BNBUSDT;
-        crypotoList[12] = ADAUSDT;
-        crypotoList[13] = TRXUSDT ;
-        crypotoList[14] = AUDIOUSDT;
+        crypotoList[4] = ATOMUSDT ;
+        crypotoList[5] = NEOUSDT;
+        crypotoList[6] = DOTUSDT;
+        crypotoList[7] = ETHUSDT;
+        crypotoList[8] = CAKEUSDT;
+        crypotoList[9] = BTCUSDT;
+        crypotoList[10] = BNBUSDT;
+        crypotoList[11] = ADAUSDT;
+        crypotoList[12] = TRXUSDT ;
+        crypotoList[13] = AUDIOUSDT;
         service.inicializerCrypto(crypotoList);
         return ResponseEntity.ok("hola");
     }
