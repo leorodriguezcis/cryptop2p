@@ -13,6 +13,7 @@ public class Crypto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "name")
+    @Enumerated(EnumType.STRING)
     public CryptoEnum name;
     @Column(name = "date")
     public LocalDate date;
@@ -33,22 +34,13 @@ public class Crypto implements Serializable {
         this.valueInArs = valueInArs;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
-    }
 
     @Column(name = "value")
     public Double value;
     @Column(name = "valueInArs")
     public Double valueInArs;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "transaction_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION_ID"))
-    private Transaction transaction;
+
     public Crypto(){
 
     }
