@@ -1,4 +1,4 @@
-package com.spring.universidad.cryptop2p.modelo.entidades.dto;
+package com.spring.universidad.cryptop2p.modelo.entities.dto;
 
 
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;

@@ -1,8 +1,8 @@
 package com.spring.universidad.cryptop2p.ServiceTest;
 
 
-import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDto;
-import com.spring.universidad.cryptop2p.services.UserService;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
+import com.spring.universidad.cryptop2p.services.implementation.UserDaoImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,16 +15,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class UserServiceTest {
 
-    private UserRegisterDto userTest;
-    private UserRegisterDto userTest1;
+    private UserRegisterDTO userTest;
+    private UserRegisterDTO userTest1;
 
     @Autowired
-    private UserService userService;
+    private UserDaoImpl userService;
 
     @Before
     public void setUp() throws Exception{
-         userTest = new UserRegisterDto("chaco","lopez","chaaaco@gmail.com","123","1234","1234567891234567891234","asdf");
-         userTest1 = new UserRegisterDto("leo","rodriguez","leoRodriguez@gmail.com","392","diego1234","9876543210987654321098","VACALORO");
+         userTest = new UserRegisterDTO("chaco","lopez","chaaaco@gmail.com","123","1234","1234567891234567891234","asdf");
+         userTest1 = new UserRegisterDTO("leo","rodriguez","leoRodriguez@gmail.com","392","diego1234","9876543210987654321098","VACALORO");
     }
 
     @Test

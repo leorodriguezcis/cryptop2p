@@ -1,8 +1,7 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
-import com.spring.universidad.cryptop2p.modelo.entidades.dto.CryptoDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.CryptoDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DolarDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoRepository;
