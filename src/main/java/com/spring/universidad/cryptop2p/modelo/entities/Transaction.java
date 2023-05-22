@@ -48,8 +48,8 @@ public class Transaction implements Serializable {
         this.crypto = crypto;
     }
 
-    public Transaction(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
-        this.cryptoType = cryptoName;
+    public Transaction(Boolean transactionType, Crypto crypto, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
+        this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
         this.nominalValue = value;

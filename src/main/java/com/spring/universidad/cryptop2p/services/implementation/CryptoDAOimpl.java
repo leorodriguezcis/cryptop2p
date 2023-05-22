@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> implements CryptoDAO {
@@ -56,6 +57,11 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         }
 
         return true;
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Crypto> findCryptoByName(CryptoEnum nombre) {
+        return repo.findCryptoByName(nombre);
     }
 
     public String priceUsd(){
