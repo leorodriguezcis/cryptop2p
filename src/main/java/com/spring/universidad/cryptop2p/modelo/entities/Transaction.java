@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
 import javax.persistence.*;
@@ -48,8 +49,10 @@ public class Transaction implements Serializable {
 
     @Column(name = "transaction_isActive")
     public boolean isActive;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
     public User user;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))

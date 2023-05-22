@@ -4,6 +4,7 @@ import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
@@ -11,9 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -40,5 +39,11 @@ public class TransactionController extends GenericController<Transaction, Transa
         transactionModel.setUser(user.get());
         service.save(transactionModel);
         return ResponseEntity.ok(transaction.getUser());
+    }
+    @ApiOperation(value = "Transactions")
+    @GetMapping(value="/transaction/{crypto}")
+    public ResponseEntity<Iterable<Transaction>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
+        Iterable<Transaction> transactions = service.transactionByCryptoName(crypto);
+        return ResponseEntity.ok(transactions);
     }
 }

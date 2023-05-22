@@ -34,6 +34,7 @@ public class TransactionDTO {
         this.transactionType = transactionType;
         this.user = user;
         this.valueCotization = cotization;
+        this.isActive = true;
     }
 
     public Integer getId() {

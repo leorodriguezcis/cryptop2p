@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.services.implementation;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,12 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         transaction.setTransactionType(transactionDTO.getTransactionType());
         transaction.setActive(transactionDTO.getIsActive());
         return transaction;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Transaction> transactionByCryptoName(CryptoEnum crypto) {
+        Iterable<Transaction> transactions = repo.transactionByCryptoName(crypto);
+        return transactions;
     }
 }
