@@ -36,6 +36,10 @@ public class Transaction implements Serializable {
     @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
     private Crypto crypto;
 
+    public Transaction() {
+
+    }
+
     public Crypto getCrypto() {
         return crypto;
     }

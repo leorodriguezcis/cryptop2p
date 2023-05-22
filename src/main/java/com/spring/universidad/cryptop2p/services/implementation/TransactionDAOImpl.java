@@ -6,6 +6,7 @@ import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRe
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionRepository> implements TransactionDAO {
@@ -15,7 +16,16 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
     }
 
     @Override
+    @Transactional
     public Transaction addTransaction(TransactionDTO transactionDTO) {
-        return null;
+        Transaction transaction = new Transaction();
+        transaction.setTransactionDate(transactionDTO.getTransactionDate());
+        transaction.setCryptoType(transactionDTO.getCryptoType());
+        transaction.setValuePesos(transactionDTO.getValuePesos());
+        transaction.setNominalValue(transactionDTO.getNominalValue());
+        transaction.setValueCotization(transactionDTO.getValueCotization());
+        transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
+        repo.save(transaction);
+        return transaction;
     }
 }

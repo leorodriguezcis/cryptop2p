@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,13 +22,11 @@ public class TransactionController extends GenericController<Transaction, Transa
     public TransactionController(TransactionDAO service) {
         super(service);
     }
+
     @ApiOperation(value = "Transactions")
-    @GetMapping(value="/transaction")
-    public ResponseEntity<String> helloWorld2(@Valid @RequestBody TransactionDTO transaction){
-        return ResponseEntity.ok("helloWorld");
-    }
-    @GetMapping(value="/transaction/hello")
-    public ResponseEntity<String> helloWorld2(){
-        return ResponseEntity.ok("helloWorld");
+    @PostMapping(value="/transaction/new")
+    public ResponseEntity<String> createTransaction(@Valid @RequestBody TransactionDTO transaction){
+        service.addTransaction(transaction);
+        return ResponseEntity.ok(transaction.getUser().getName());
     }
 }
