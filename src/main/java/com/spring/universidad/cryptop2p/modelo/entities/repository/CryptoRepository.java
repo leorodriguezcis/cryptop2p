@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository("cryptoRepository")
 public interface CryptoRepository extends CrudRepository<Crypto, Integer> {
-    Optional<Crypto> findCryptoByName(CryptoEnum nombre);
+    Optional<Crypto> findCryptosByName(CryptoEnum nombre);
 }

@@ -60,8 +60,8 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
     }
     @Override
     @Transactional(readOnly = true)
-    public Optional<Crypto> findCryptoByName(CryptoEnum nombre) {
-        return repo.findCryptoByName(nombre);
+    public Optional<Crypto> findCryptosByName(CryptoEnum nombre) {
+        return repo.findCryptosByName(nombre);
     }
 
     public String priceUsd(){

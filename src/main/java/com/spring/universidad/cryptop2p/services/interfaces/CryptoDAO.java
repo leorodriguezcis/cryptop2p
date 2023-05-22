@@ -11,5 +11,5 @@ public interface CryptoDAO extends GenericDAO<Crypto>{
     Boolean inicializerCrypto(CryptoEnum[] cryptoEnum);
 
     @Transactional(readOnly = true)
-    Optional<Crypto> findCryptoByName(CryptoEnum nombre);
+    Optional<Crypto> findCryptosByName(CryptoEnum nombre);
 }

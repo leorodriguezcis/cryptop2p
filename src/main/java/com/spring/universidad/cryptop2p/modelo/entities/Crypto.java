@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "crypto")
+@Table(name = "cryptos")
 public class Crypto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

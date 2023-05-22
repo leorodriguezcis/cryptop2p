@@ -16,7 +16,17 @@ public class TransactionDTO {
     public BigDecimal valueCotization;
     public Integer valuePesos;
     public Integer operationUserNumber;
-    public TransactionDTO(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, String user, BigDecimal cotization) {
+    public boolean isActive;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public TransactionDTO(String transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, String user, BigDecimal cotization) {
         this.cryptoType = cryptoName;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
@@ -82,11 +92,11 @@ public class TransactionDTO {
         this.transactionDate = transactionDate;
     }
 
-    public Boolean getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(Boolean transactionType) {
+    public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -99,7 +109,7 @@ public class TransactionDTO {
     }
 
     public LocalDateTime transactionDate;
-    public Boolean transactionType;
+    public String transactionType;
     public String user;
 
 }

@@ -28,7 +28,26 @@ public class Transaction implements Serializable {
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
-    public Boolean transactionType;
+    public String transactionType;
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Column(name = "transaction_isActive")
+    public boolean isActive;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
     public User user;
@@ -40,6 +59,14 @@ public class Transaction implements Serializable {
 
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Crypto getCrypto() {
         return crypto;
     }
@@ -48,7 +75,7 @@ public class Transaction implements Serializable {
         this.crypto = crypto;
     }
 
-    public Transaction(Boolean transactionType, Crypto crypto, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
+    public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, User w, BigDecimal cotization) {
         this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;

@@ -1,7 +1,9 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
+import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserDaoImpl extends GenericDAOImpl<User, UserRepository>  implements UserDAO {
@@ -39,5 +42,9 @@ public class UserDaoImpl extends GenericDAOImpl<User, UserRepository>  implement
         }
 
         return users ;
+    }
+    @Transactional(readOnly = true)
+    public Optional<User> findUsersByName(String nombre) {
+        return repo.findUsersByName(nombre);
     }
 }

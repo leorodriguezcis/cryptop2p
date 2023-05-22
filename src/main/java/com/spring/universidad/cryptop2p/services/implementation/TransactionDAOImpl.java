@@ -25,6 +25,8 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         transaction.setNominalValue(transactionDTO.getNominalValue());
         transaction.setValueCotization(transactionDTO.getValueCotization());
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
+        transaction.setTransactionType(transactionDTO.getTransactionType());
+        transaction.setActive(transactionDTO.getIsActive());
         return transaction;
     }
 }
