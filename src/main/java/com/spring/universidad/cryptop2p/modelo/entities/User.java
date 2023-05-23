@@ -88,7 +88,7 @@ public class User implements Serializable {
         return wallet;
     }
     public void cancelTransaction(){
-        this.reputation =- 10;
+        this.reputation = this.reputation -10;
     }
     public User() {
 
