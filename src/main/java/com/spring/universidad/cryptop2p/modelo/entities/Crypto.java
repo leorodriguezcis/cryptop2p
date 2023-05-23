@@ -22,6 +22,6 @@ public class Crypto implements Serializable {
     @JoinColumn(name = "transaction_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION_ID"))
     private Transaction transaction;
     public Crypto(){
-
+    //need a blank constructor
     }
 }
