@@ -20,7 +20,6 @@ public class UserController extends GenericController <User, UserDAO>{
     @ApiOperation(value = "register user")
     @PostMapping(value="/register")
     public ResponseEntity<String> userRegister(@Valid @RequestBody UserRegisterDto user){
-        System.out.println(user.getName());
         service.registerUser(user);
         return ResponseEntity.ok(user.getName());
     }
