@@ -37,4 +37,11 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         Iterable<Transaction> transactions = repo.transactionByCryptoName(crypto);
         return transactions;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Transaction> transactionsActive() {
+        Iterable<Transaction> transactions = repo.transactionsActive();
+        return transactions;
+    }
 }

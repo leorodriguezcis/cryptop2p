@@ -29,7 +29,7 @@ public class TransactionController extends GenericController<Transaction, Transa
         this.userDAO = userDAO;
     }
 
-    @ApiOperation(value = "Transactions")
+    @ApiOperation(value = "create")
     @PostMapping(value="/transaction/new")
     public ResponseEntity<String> createTransaction(@Valid @RequestBody TransactionDTO transaction){
         Optional<Crypto> crypto = cryptoDAO.findCryptosByName(transaction.getCryptoType());
@@ -40,10 +40,17 @@ public class TransactionController extends GenericController<Transaction, Transa
         service.save(transactionModel);
         return ResponseEntity.ok(transaction.getUser());
     }
-    @ApiOperation(value = "Transactions")
+    @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
     public ResponseEntity<Iterable<Transaction>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
         Iterable<Transaction> transactions = service.transactionByCryptoName(crypto);
+        return ResponseEntity.ok(transactions);
+    }
+
+    @ApiOperation(value = "get by cryptoName")
+    @GetMapping(value="/transaction/getActives")
+    public ResponseEntity<Iterable<Transaction>> searchTransactionsActive(){
+        Iterable<Transaction> transactions = service.transactionsActive();
         return ResponseEntity.ok(transactions);
     }
 }
