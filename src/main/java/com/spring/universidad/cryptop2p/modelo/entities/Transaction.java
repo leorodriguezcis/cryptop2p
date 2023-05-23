@@ -113,6 +113,7 @@ public class Transaction implements Serializable {
     }
 
     public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, BigDecimal cotization) {
+
         this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;

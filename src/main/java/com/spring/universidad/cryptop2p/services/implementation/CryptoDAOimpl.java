@@ -50,7 +50,7 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         return crypto;
     }
     @Override
-
+    @Transactional
     public Boolean inicializerCrypto(CryptoEnum[] cryptoEnumList) {
         for(CryptoEnum cryptoEnum:cryptoEnumList){
             createCrypto(getCotizationBySymbol(cryptoEnum));
