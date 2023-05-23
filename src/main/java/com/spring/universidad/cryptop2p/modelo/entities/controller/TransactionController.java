@@ -65,40 +65,70 @@ public class TransactionController extends GenericController<Transaction, Transa
         return ResponseEntity.ok(user.get().getCvu());
     }
     @ApiOperation(value = "user buy activity ")
-    @PostMapping(value="/transaction/{userId}/buy/{transactionID")
+    @PostMapping(value="/transaction/{userId}/buy/{transactionID}")
     public ResponseEntity<String> userBuyIntention(@PathVariable Integer userId,@PathVariable Integer transactionID ){
         Transaction transaction = service.findById(transactionID).get();
         transaction.setOtherUserId(userId);
         transaction.setIsActive(false);
+        service.save(transaction);
         User user = userDAO.findById(userId).get();
         return ResponseEntity.ok(user.getWallet());
     }
     @ApiOperation(value = "user confirm transference ")
-    @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID")
+    @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID}")
     public ResponseEntity<String> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID ){
         Transaction transaction = service.findById(transactionID).get();
         transaction.setConfirmTransfer(true);
+        service.save(transaction);
         return ResponseEntity.ok("confirmation ok");
     }
     @ApiOperation(value = "user confirm receive ")
-    @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID")
-    public ResponseEntity<?> userConfirmReceive(@PathVariable Integer userId,@PathVariable Integer transactionID, BindingResult result){
+    @PostMapping(value="/transaction/{userId}/confirmReceive/{transactionID}")
+    public ResponseEntity<Map<String, Object>> userConfirmReceive(@PathVariable Integer userId,@PathVariable Integer transactionID){
         Map<String, Object> message = new HashMap<>();
         Optional<Transaction> transactionO = service.findById(transactionID);
-        if (result.hasErrors()){
-            result.getFieldErrors()
-                    .forEach(fieldError -> message.put(fieldError.getField(), fieldError.getDefaultMessage()));
-            return ResponseEntity.badRequest().body(message);
-        }
         if (transactionO.isEmpty()) {
             message.put("succes", Boolean.FALSE);
             message.put("message", String.format("no existe ninguna transaccion con id: %s", transactionID));
             return ResponseEntity.badRequest().body(message);
         }
+
         Transaction transRes = transactionO.get();
-        transRes.setConfirmReception(true);
+        if(!transRes.isConfirmTransfer()){
+            message.put("succes", Boolean.FALSE);
+            message.put("message", String.format("no puede confirmar la transaccion con id: %s ya que el usuario no confirmo la transferencia", transactionID));
+            return ResponseEntity.badRequest().body(message);
+        }
+        if(userId == transRes.getUser().getId()){
+            transRes.setConfirmReception(true);
+        }
         message.put("succes", Boolean.TRUE);
         message.put("datos", transRes);
+        service.save(transRes);
         return ResponseEntity.ok(message);
+    }
+    @ApiOperation(value = "user cancel transaction ")
+    @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
+    public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID){
+        Optional<Transaction> transactionO = service.findById(transactionID);
+        Map<String, Object> message = new HashMap<>();
+        Transaction transRes = transactionO.get();
+        User user = userDAO.findById(userId).get();
+        if(userId == transRes.getOtherUserId() || userId == transRes.getUser().getId()){
+            transRes.setUser(null);
+            transRes.setCrypto(null);
+            service.save(transRes);
+            service.deleteById(transactionID);
+            user.cancelTransaction();
+            userDAO.save(user);
+            message.put("succes", Boolean.TRUE);
+            message.put("Se elimino la transaccion con id:", transactionID);
+            return ResponseEntity.ok(message);
+        }
+        else{
+            message.put("succes", Boolean.FALSE);
+            message.put("El usuario no pertenece a esta transaccion", userId);
+            return ResponseEntity.ok(message);
+        }
     }
 }

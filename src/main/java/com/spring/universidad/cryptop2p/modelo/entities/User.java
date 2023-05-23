@@ -32,7 +32,16 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     public Set<Transaction> listTransactions;
     @Column(name = "user_reputation")
-    public Integer reputation;
+    public Integer reputation = 100;
+
+    public Integer getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"user"})
     public Set<Transaction> transactions;
@@ -77,6 +86,9 @@ public class User implements Serializable {
 
     public String getWallet() {
         return wallet;
+    }
+    public void cancelTransaction(){
+        this.reputation =- 10;
     }
     public User() {
 
