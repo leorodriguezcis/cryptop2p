@@ -12,9 +12,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -79,14 +82,23 @@ public class TransactionController extends GenericController<Transaction, Transa
     }
     @ApiOperation(value = "user confirm receive ")
     @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID")
-    public ResponseEntity<String> userConfirmReceive(@PathVariable Integer userId,@PathVariable Integer transactionID ){
-        Transaction transaction = service.findById(transactionID).get();
-        if(transaction.isConfirmTransfer()) {
-            transaction.setConfirmReception(true);
+    public ResponseEntity<?> userConfirmReceive(@PathVariable Integer userId,@PathVariable Integer transactionID, BindingResult result){
+        Map<String, Object> message = new HashMap<>();
+        Optional<Transaction> transactionO = service.findById(transactionID);
+        if (result.hasErrors()){
+            result.getFieldErrors()
+                    .forEach(fieldError -> message.put(fieldError.getField(), fieldError.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(message);
         }
-        else{
-            System.out.println("error");
+        if (transactionO.isEmpty()) {
+            message.put("succes", Boolean.FALSE);
+            message.put("message", String.format("no existe ninguna transaccion con id: %s", transactionID));
+            return ResponseEntity.badRequest().body(message);
         }
-        return ResponseEntity.ok("confirmation ok");
+        Transaction transRes = transactionO.get();
+        transRes.setConfirmReception(true);
+        message.put("succes", Boolean.TRUE);
+        message.put("datos", transRes);>
+        return ResponseEntity.ok(message);
     }
 }
