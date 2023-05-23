@@ -27,11 +27,11 @@ public class User implements Serializable {
     @Column(name = "user_wallet")
     protected String wallet;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    public Set<Transaction> listTransactions;
+    private Set<Transaction> listTransactions;
     @Column(name = "user_reputation")
-    public Integer reputation;
+    private Integer reputation;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    public Set<Transaction> transactions;
+    private Set<Transaction> transactions;
 
     public User(String name, String lastname, String email, String address, String password, String cvu, String wallet ){
         this.name = name;
