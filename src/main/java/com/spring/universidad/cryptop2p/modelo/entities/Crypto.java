@@ -42,7 +42,7 @@ public class Crypto implements Serializable {
 
 
     public Crypto(){
-
+    //need a blank constructor
     }
 
     public CryptoEnum getName() {
