@@ -7,7 +7,7 @@ public class UniversidadBackendApplication {
 
 
 	public static void main(String[] args) {
-		String[] str = SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
+		 SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
 	}
 
 }
