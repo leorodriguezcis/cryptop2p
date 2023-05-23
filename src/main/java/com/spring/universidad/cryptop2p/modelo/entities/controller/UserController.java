@@ -1,6 +1,7 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
 import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
 import javax.validation.Valid;
 import io.swagger.annotations.Api;
 @RestController
-@Api(tags = "Register")
+@Api(tags = "User")
 public class UserController extends GenericController <User, UserDAO>{
     @Autowired
     public UserController(UserDAO service) {

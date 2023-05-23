@@ -1,9 +1,11 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
+import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
+import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionRepository> implements TransactionDAO {
-
     @Autowired
     public  TransactionDAOImpl (TransactionRepository repo) {super(repo);
     }
+
 
     @Override
     @Transactional
@@ -27,7 +29,7 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         transaction.setValueCotization(transactionDTO.getValueCotization());
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
         transaction.setTransactionType(transactionDTO.getTransactionType());
-        transaction.setActive(transactionDTO.getIsActive());
+        transaction.setIsActive(transactionDTO.getIsActive());
         return transaction;
     }
 
@@ -43,5 +45,12 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
     public Iterable<Transaction> transactionsActive() {
         Iterable<Transaction> transactions = repo.transactionsActive();
         return transactions;
+    }
+    @Override
+    @Transactional
+    public Transaction newSellIntention(User user, TransactionDTO transactionDTO){
+        Transaction transaction = addTransaction(transactionDTO);
+        transaction.setOtherUserId(user.getId());
+        return transaction;
     }
 }
