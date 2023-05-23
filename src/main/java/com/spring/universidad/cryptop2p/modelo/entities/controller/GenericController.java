@@ -16,18 +16,5 @@ public class GenericController<E, S extends GenericDAO<E>>{
     public GenericController(S service) {
         this.service = service;
     }
-    @GetMapping
-    public ResponseEntity<?> obtenerTodos(){
-        Map<String, Object> message = new HashMap<>();
-        List<E> res = (List<E>)service.findAll();
-        if(res.isEmpty()){
-            //throw new BadRequestException(String.format("no hay ninguna entidad %ss", nombreEntidad));
-            message.put("succes", Boolean.FALSE);
-            message.put("message", String.format("no existe ninguna entidad del tipo %s", nombreEntidad));
-            return ResponseEntity.badRequest().body(message);
-        }
-        message.put("succes", Boolean.TRUE);
-        message.put("datos", res);
-        return ResponseEntity.ok(message);
-    }
+
 }
