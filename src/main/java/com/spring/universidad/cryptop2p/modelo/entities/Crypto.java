@@ -7,21 +7,65 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "crypto")
+@Table(name = "cryptos")
 public class Crypto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "name")
+    @Enumerated(EnumType.STRING)
     public CryptoEnum name;
     @Column(name = "date")
     public LocalDate date;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getValueInArs() {
+        return valueInArs;
+    }
+
+    public void setValueInArs(Double valueInArs) {
+        this.valueInArs = valueInArs;
+    }
+
+
     @Column(name = "value")
     public Double value;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "transaction_id", foreignKey = @ForeignKey(name = "FK_TRANSACTION_ID"))
-    private Transaction transaction;
+    @Column(name = "valueInArs")
+    public Double valueInArs;
+
+
     public Crypto(){
 
+    }
+
+    public CryptoEnum getName() {
+        return name;
+    }
+
+    public void setName(CryptoEnum name) {
+        this.name = name;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 }

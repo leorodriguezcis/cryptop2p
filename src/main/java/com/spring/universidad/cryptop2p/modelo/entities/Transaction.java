@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
 import javax.persistence.*;
@@ -28,14 +29,57 @@ public class Transaction implements Serializable {
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
-    public Boolean transactionType;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_ID"))
+    public String transactionType;
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Column(name = "transaction_isActive")
+    public boolean isActive;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
     public User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
+    private Crypto crypto;
 
+    public Transaction() {
 
-    public Transaction(Boolean transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
-        this.cryptoType = cryptoName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Crypto getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(Crypto crypto) {
+        this.crypto = crypto;
+    }
+
+    public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, User w, BigDecimal cotization) {
+        this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
         this.nominalValue = value;

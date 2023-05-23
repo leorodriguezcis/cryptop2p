@@ -1,5 +1,8 @@
 package com.spring.universidad.cryptop2p.modelo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -31,6 +34,7 @@ public class User implements Serializable {
     @Column(name = "user_reputation")
     public Integer reputation;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"user"})
     public Set<Transaction> transactions;
 
     public User(String name, String lastname, String email, String address, String password, String cvu, String wallet ){

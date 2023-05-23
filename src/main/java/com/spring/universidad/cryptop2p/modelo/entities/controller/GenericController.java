@@ -16,7 +16,7 @@ public class GenericController<E, S extends GenericDAO<E>>{
     public GenericController(S service) {
         this.service = service;
     }
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<?> obtenerTodos(){
         Map<String, Object> message = new HashMap<>();
         List<E> res = (List<E>)service.findAll();
@@ -29,5 +29,5 @@ public class GenericController<E, S extends GenericDAO<E>>{
         message.put("succes", Boolean.TRUE);
         message.put("datos", res);
         return ResponseEntity.ok(message);
-    }
+    }*/
 }
