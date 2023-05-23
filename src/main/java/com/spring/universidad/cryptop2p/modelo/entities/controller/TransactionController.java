@@ -98,7 +98,7 @@ public class TransactionController extends GenericController<Transaction, Transa
         Transaction transRes = transactionO.get();
         transRes.setConfirmReception(true);
         message.put("succes", Boolean.TRUE);
-        message.put("datos", transRes);>
+        message.put("datos", transRes);
         return ResponseEntity.ok(message);
     }
 }
