@@ -99,7 +99,7 @@ public class TransactionController extends GenericController<Transaction, Transa
             message.put("message", String.format("no puede confirmar la transaccion con id: %s ya que el usuario no confirmo la transferencia", transactionID));
             return ResponseEntity.badRequest().body(message);
         }
-        if(userId == transRes.getUser().getId()){
+        if(userId.equals(transRes.getUser().getId())){
             transRes.setConfirmReception(true);
         }
         message.put("succes", Boolean.TRUE);
@@ -114,7 +114,7 @@ public class TransactionController extends GenericController<Transaction, Transa
         Map<String, Object> message = new HashMap<>();
         Transaction transRes = transactionO.get();
         User user = userDAO.findById(userId).get();
-        if(userId == transRes.getOtherUserId() || userId == transRes.getUser().getId()){
+        if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
             transRes.setUser(null);
             transRes.setCrypto(null);
             service.save(transRes);
