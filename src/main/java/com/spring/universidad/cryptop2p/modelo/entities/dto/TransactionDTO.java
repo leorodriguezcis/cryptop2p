@@ -1,10 +1,7 @@
 package com.spring.universidad.cryptop2p.modelo.entities.dto;
 
-import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
