@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
     @Query("select t from Transaction t where t.cryptoType = ?1")
     Iterable<Transaction> transactionByCryptoName(CryptoEnum cryptoType);
-    @Query("select t from Transaction t where t.isActive = true")
+    @Query("select t from Transaction t where t.isTActive = true")
     Iterable<Transaction> transactionsActive();
 }

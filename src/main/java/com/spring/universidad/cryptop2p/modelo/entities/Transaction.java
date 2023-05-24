@@ -30,15 +30,22 @@ public class Transaction implements Serializable {
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
     public String transactionType;
-    @Column(name = "is_active")
-    public boolean isTACtive;
     @Column(name = "transaction_other_user_id")
     public Integer otherUserId;
     @Column(name = "confirm_transfer")
     public boolean confirmTransfer = false;
     @Column(name = "confirm_reception")
     public boolean confirmReception = false;
+    @Column(name = "transaction_is_t_active")
+    public boolean isTActive;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
+    public User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
+    private Crypto crypto;
     public boolean isConfirmTransfer() {
         return confirmTransfer;
     }
@@ -66,23 +73,14 @@ public class Transaction implements Serializable {
     }
 
     public boolean getIsActive() {
-        return this.isTACtive;
+        return this.isTActive;
     }
 
     public void setIsActive(boolean active) {
-        this.isTACtive = active;
+        this.isTActive = active;
     }
 
-    @Column(name = "transaction_isActive")
-    public boolean isActive;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
-    public User user;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
-    private Crypto crypto;
 
     public Transaction() {
 

@@ -6,13 +6,13 @@ import com.spring.universidad.cryptop2p.modelo.entities.dto.DolarDTOHelper;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -35,10 +35,14 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         repo.save(crypto);
         return  crypto;
     }
-    @SneakyThrows
     public CryptoDTO getCotizationBySymbol(CryptoEnum symbol) {
         NumberFormat nf = NumberFormat.getInstance();
-        Double dollarPrice = nf.parse(priceUsd()).doubleValue();
+        Double dollarPrice = null;
+        try {
+            dollarPrice = nf.parse(priceUsd()).doubleValue();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
         CryptoDTO crypto = restTemplate.getForObject(url, CryptoDTO.class);

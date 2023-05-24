@@ -89,21 +89,21 @@ public class TransactionController extends GenericController<Transaction, Transa
         Map<String, Object> message = new HashMap<>();
         Optional<Transaction> transactionO = service.findById(transactionID);
         if (transactionO.isEmpty()) {
-            message.put(success, Boolean.FALSE);
+            message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put("message", String.format("no existe ninguna transaccion con id: %s", transactionID));
             return ResponseEntity.badRequest().body(message);
         }
 
         Transaction transRes = transactionO.get();
         if(!transRes.isConfirmTransfer()){
-            message.put(success, Boolean.FALSE);
+            message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put("message", String.format("no puede confirmar la transaccion con id: %s ya que el usuario no confirmo la transferencia", transactionID));
             return ResponseEntity.badRequest().body(message);
         }
         if(userId.equals(transRes.getUser().getId())){
             transRes.setConfirmReception(true);
         }
-        message.put(success, Boolean.TRUE);
+        message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transRes);
         service.save(transRes);
         return ResponseEntity.ok(message);
@@ -122,12 +122,12 @@ public class TransactionController extends GenericController<Transaction, Transa
             service.deleteById(transactionID);
             user.cancelTransaction();
             userDAO.save(user);
-            message.put(success, Boolean.TRUE);
+            message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("Se elimino la transaccion con id:", transactionID);
             return ResponseEntity.ok(message);
         }
         else{
-            message.put(success, Boolean.FALSE);
+            message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put("El usuario no pertenece a esta transaccion", userId);
             return ResponseEntity.ok(message);
         }
