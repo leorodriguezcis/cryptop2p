@@ -5,7 +5,6 @@ import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
-import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
