@@ -1,7 +1,7 @@
 package com.spring.universidad.cryptop2p.modelo.entities.numeradores;
 
 public enum CryptoEnum {
-    ALICEUSDT,
+    ALICEUSDT ,
     MATICUSDT,
     AXSUSDT,
     AAVEUSDT,
