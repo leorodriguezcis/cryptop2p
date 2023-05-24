@@ -31,7 +31,6 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         crypto.setName(cryptoDTO.getSymbolToEnum());
         crypto.setValue(cryptoDTO.getPrice());
         crypto.setValueInArs(cryptoDTO.getPriceArs());
-        System.out.println("name"+cryptoDTO.getSymbolToEnum().toString());
         repo.save(crypto);
         return  crypto;
     }
@@ -41,7 +40,7 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         try {
             dollarPrice = nf.parse(priceUsd()).doubleValue();
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new BadRequestException("Error al convertir");
         }
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
@@ -72,5 +71,11 @@ public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> impl
         String url ="https://www.dolarsi.com/api/api.php?type=valoresprincipales";
 		DolarDTOHelper[] casa = restTemplate.getForObject(url, DolarDTOHelper[].class);
        return casa[1].getCasa().getCompra();
+    }
+    public class BadRequestException extends RuntimeException{
+
+        public BadRequestException(String message) {
+            super(message);
+        }
     }
 }

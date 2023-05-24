@@ -35,15 +35,13 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
     @Override
     @Transactional(readOnly = true)
     public Iterable<Transaction> transactionByCryptoName(CryptoEnum crypto) {
-        Iterable<Transaction> transactions = repo.transactionByCryptoName(crypto);
-        return transactions;
+        return repo.transactionByCryptoName(crypto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Iterable<Transaction> transactionsActive() {
-        Iterable<Transaction> transactions = repo.transactionsActive();
-        return transactions;
+        return repo.transactionsActive();
     }
     @Override
     @Transactional

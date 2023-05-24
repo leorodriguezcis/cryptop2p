@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 public class TransactionDTO {
 
     private Integer id;
-    public CryptoEnum cryptoType;
-    public Integer nominalValue;
-    public BigDecimal valueCotization;
-    public Integer valuePesos;
-    public Integer operationUserNumber;
-    public boolean isActive;
+    private CryptoEnum cryptoType;
+    private Integer nominalValue;
+    private BigDecimal valueCotization;
+    private Integer valuePesos;
+    private Integer operationUserNumber;
+    private boolean isActive;
 
     public boolean getIsActive() {
         return isActive;
@@ -106,8 +106,8 @@ public class TransactionDTO {
         this.user = user;
     }
 
-    public LocalDateTime transactionDate;
-    public String transactionType;
-    public String user;
+    private LocalDateTime transactionDate;
+    private String transactionType;
+    private String user;
 
 }
