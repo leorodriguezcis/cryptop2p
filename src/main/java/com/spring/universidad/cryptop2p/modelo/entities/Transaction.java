@@ -31,7 +31,7 @@ public class Transaction implements Serializable {
     @Column(name = "transaction_type")
     public String transactionType;
     @Column(name = "is_active")
-    public boolean isACtive;
+    public boolean isTACtive;
     @Column(name = "transaction_other_user_id")
     public Integer otherUserId;
     @Column(name = "confirm_transfer")
@@ -66,11 +66,11 @@ public class Transaction implements Serializable {
     }
 
     public boolean getIsActive() {
-        return this.isActive;
+        return this.isTACtive;
     }
 
     public void setIsActive(boolean active) {
-        this.isActive = active;
+        this.isTACtive = active;
     }
 
     @Column(name = "transaction_isActive")
