@@ -25,7 +25,7 @@ import java.util.Optional;
 public class TransactionController extends GenericController<Transaction, TransactionDAO>{
     private final CryptoDAO cryptoDAO;
     private final UserDAO userDAO;
-    private final static String success = "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$";
+    private static final  String success = "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$";
     @Autowired
     public TransactionController(TransactionDAO service, CryptoDAO cryptoDAO, UserDAO userDAO ) {
         super(service);
