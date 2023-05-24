@@ -25,7 +25,7 @@ import java.util.Optional;
 public class TransactionController extends GenericController<Transaction, TransactionDAO>{
     private final CryptoDAO cryptoDAO;
     private final UserDAO userDAO;
-    private final String success = "success";
+    private final static String success = "success";
     @Autowired
     public TransactionController(TransactionDAO service, CryptoDAO cryptoDAO, UserDAO userDAO ) {
         super(service);
