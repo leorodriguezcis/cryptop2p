@@ -47,4 +47,5 @@ public class UserDaoImpl extends GenericDAOImpl<User, UserRepository>  implement
     public Optional<User> findUsersByName(String nombre) {
         return repo.findUsersByName(nombre);
     }
+
 }

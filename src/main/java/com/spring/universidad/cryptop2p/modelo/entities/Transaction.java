@@ -30,6 +30,32 @@ public class Transaction implements Serializable {
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
     public String transactionType;
+    @Column(name = "is_active")
+    public boolean isTACtive;
+    @Column(name = "transaction_other_user_id")
+    public Integer otherUserId;
+    @Column(name = "confirm_transfer")
+    public boolean confirmTransfer = false;
+    @Column(name = "confirm_reception")
+    public boolean confirmReception = false;
+
+    public boolean isConfirmTransfer() {
+        return confirmTransfer;
+    }
+
+    public void setConfirmTransfer(boolean confirmTransfer) {
+        this.confirmTransfer = confirmTransfer;
+    }
+
+    public boolean isConfirmReception() {
+        return confirmReception;
+    }
+
+    public void setConfirmReception(boolean confirmReception) {
+        this.confirmReception = confirmReception;
+    }
+
+
 
     public String getTransactionType() {
         return transactionType;
@@ -39,12 +65,12 @@ public class Transaction implements Serializable {
         this.transactionType = transactionType;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean getIsActive() {
+        return this.isTACtive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(boolean active) {
+        this.isTACtive = active;
     }
 
     @Column(name = "transaction_isActive")
@@ -70,6 +96,14 @@ public class Transaction implements Serializable {
         this.user = user;
     }
 
+    public Integer getOtherUserId() {
+        return otherUserId;
+    }
+
+    public void setOtherUserId(Integer otherUserId) {
+        this.otherUserId = otherUserId;
+    }
+
     public Crypto getCrypto() {
         return crypto;
     }
@@ -78,13 +112,13 @@ public class Transaction implements Serializable {
         this.crypto = crypto;
     }
 
-    public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, User user, BigDecimal cotization) {
+    public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, BigDecimal cotization) {
+
         this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
         this.nominalValue = value;
         this.transactionType = transactionType;
-        this.user = user;
         this.valueCotization = cotization;
     }
 

@@ -12,9 +12,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class TransactionController extends GenericController<Transaction, TransactionDAO>{
     private final CryptoDAO cryptoDAO;
     private final UserDAO userDAO;
+    private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
     public TransactionController(TransactionDAO service, CryptoDAO cryptoDAO, UserDAO userDAO ) {
         super(service);
@@ -29,17 +33,6 @@ public class TransactionController extends GenericController<Transaction, Transa
         this.userDAO = userDAO;
     }
 
-    @ApiOperation(value = "create")
-    @PostMapping(value="/transaction/new")
-    public ResponseEntity<String> createTransaction(@Valid @RequestBody TransactionDTO transaction){
-        Optional<Crypto> crypto = cryptoDAO.findCryptosByName(transaction.getCryptoType());
-        Optional<User> user = userDAO.findUsersByName(transaction.getUser());
-        Transaction transactionModel = service.addTransaction(transaction);
-        transactionModel.setCrypto(crypto.get());
-        transactionModel.setUser(user.get());
-        service.save(transactionModel);
-        return ResponseEntity.ok(transaction.getUser());
-    }
     @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
     public ResponseEntity<Iterable<Transaction>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
@@ -47,10 +40,96 @@ public class TransactionController extends GenericController<Transaction, Transa
         return ResponseEntity.ok(transactions);
     }
 
-    @ApiOperation(value = "get by cryptoName")
+    @ApiOperation(value = "get by cryptoActive")
     @GetMapping(value="/transaction/getActives")
     public ResponseEntity<Iterable<Transaction>> searchTransactionsActive(){
         Iterable<Transaction> transactions = service.transactionsActive();
         return ResponseEntity.ok(transactions);
+    }
+
+    @ApiOperation(value = "get transaction by id")
+    @GetMapping(value="/transaction/get/{transactionId}")
+    public ResponseEntity<Transaction> searchTransaction(@PathVariable Integer transactionId){
+        Transaction transaction = service.findById(transactionId).get();
+        return ResponseEntity.ok(transaction);
+    }
+
+    @ApiOperation(value = "user sell activity ")
+    @PostMapping(value="/transaction/{userId}/sell")
+    public ResponseEntity<String> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction  ){
+        Optional<Crypto> crypto = cryptoDAO.findCryptosByName(transaction.getCryptoType());
+        Optional<User> user = userDAO.findById(userId);
+        Transaction transactionModel = service.addTransaction(transaction);
+        transactionModel.setCrypto(crypto.get());
+        transactionModel.setUser(user.get());
+        service.save(transactionModel);
+        return ResponseEntity.ok(user.get().getCvu());
+    }
+    @ApiOperation(value = "user buy activity ")
+    @PostMapping(value="/transaction/{userId}/buy/{transactionID}")
+    public ResponseEntity<String> userBuyIntention(@PathVariable Integer userId,@PathVariable Integer transactionID ){
+        Transaction transaction = service.findById(transactionID).get();
+        transaction.setOtherUserId(userId);
+        transaction.setIsActive(false);
+        service.save(transaction);
+        User user = userDAO.findById(userId).get();
+        return ResponseEntity.ok(user.getWallet());
+    }
+    @ApiOperation(value = "user confirm transference ")
+    @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID}")
+    public ResponseEntity<String> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID ){
+        Transaction transaction = service.findById(transactionID).get();
+        transaction.setConfirmTransfer(true);
+        service.save(transaction);
+        return ResponseEntity.ok("confirmation ok");
+    }
+    @ApiOperation(value = "user confirm receive ")
+    @PostMapping(value="/transaction/{userId}/confirmReceive/{transactionID}")
+    public ResponseEntity<Map<String, Object>> userConfirmReceive(@PathVariable Integer userId,@PathVariable Integer transactionID){
+        Map<String, Object> message = new HashMap<>();
+        Optional<Transaction> transactionO = service.findById(transactionID);
+        if (transactionO.isEmpty()) {
+            message.put(success, Boolean.FALSE);
+            message.put("message", String.format("no existe ninguna transaccion con id: %s", transactionID));
+            return ResponseEntity.badRequest().body(message);
+        }
+
+        Transaction transRes = transactionO.get();
+        if(!transRes.isConfirmTransfer()){
+            message.put(success, Boolean.FALSE);
+            message.put("message", String.format("no puede confirmar la transaccion con id: %s ya que el usuario no confirmo la transferencia", transactionID));
+            return ResponseEntity.badRequest().body(message);
+        }
+        if(userId.equals(transRes.getUser().getId())){
+            transRes.setConfirmReception(true);
+        }
+        message.put(success, Boolean.TRUE);
+        message.put("datos", transRes);
+        service.save(transRes);
+        return ResponseEntity.ok(message);
+    }
+    @ApiOperation(value = "user cancel transaction ")
+    @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
+    public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID){
+        Optional<Transaction> transactionO = service.findById(transactionID);
+        Map<String, Object> message = new HashMap<>();
+        Transaction transRes = transactionO.get();
+        User user = userDAO.findById(userId).get();
+        if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
+            transRes.setUser(null);
+            transRes.setCrypto(null);
+            service.save(transRes);
+            service.deleteById(transactionID);
+            user.cancelTransaction();
+            userDAO.save(user);
+            message.put(success, Boolean.TRUE);
+            message.put("Se elimino la transaccion con id:", transactionID);
+            return ResponseEntity.ok(message);
+        }
+        else{
+            message.put(success, Boolean.FALSE);
+            message.put("El usuario no pertenece a esta transaccion", userId);
+            return ResponseEntity.ok(message);
+        }
     }
 }

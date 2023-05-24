@@ -11,7 +11,7 @@ public class UniversidadBackendApplication {
 
 
 	public static void main(String[] args) {
-		 SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
+		SpringApplication.run(UniversidadBackendApplication.class, args).getBeanDefinitionNames();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.spring.universidad.cryptop2p.services.interfaces;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
+import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,4 +12,6 @@ public interface TransactionDAO extends GenericDAO<Transaction>{
 
     @Transactional(readOnly = true)
     Iterable<Transaction> transactionsActive();
+
+    Transaction newSellIntention(User user, TransactionDTO transactionDTO);
 }
