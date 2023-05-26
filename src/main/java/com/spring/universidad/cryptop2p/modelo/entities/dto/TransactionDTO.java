@@ -3,6 +3,7 @@ package com.spring.universidad.cryptop2p.modelo.entities.dto;
 import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,14 +17,18 @@ public class TransactionDTO {
     public BigDecimal valueCotization;
     public Integer valuePesos;
     public Integer operationUserNumber;
-    public boolean isActive;
+    public TransactionState state;
+    public LocalDateTime transactionDate;
+    public String transactionType;
 
-    public boolean getIsActive() {
-        return isActive;
+    public String user;
+
+    public TransactionState getIsActive() {
+        return state;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setActive(TransactionState active) {
+        state = TransactionState.NEW;
     }
 
     public TransactionDTO(String transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, String user, BigDecimal cotization) {
@@ -34,7 +39,7 @@ public class TransactionDTO {
         this.transactionType = transactionType;
         this.user = user;
         this.valueCotization = cotization;
-        this.isActive = true;
+        this.state = TransactionState.NEW;
     }
 
     public Integer getId() {
@@ -108,9 +113,5 @@ public class TransactionDTO {
     public void setUser(String user) {
         this.user = user;
     }
-
-    public LocalDateTime transactionDate;
-    public String transactionType;
-    public String user;
 
 }

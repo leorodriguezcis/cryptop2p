@@ -4,8 +4,12 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,19 +23,26 @@ public class Transaction implements Serializable {
     @Enumerated(EnumType.STRING)
     public CryptoEnum cryptoType;
     @Column(name = "user_name")
+    @Positive
+    @Min(value = 1, message = "nominal value should not be less than 1")
+    @Max(value = 99999999, message = "nominal value should not be greater than 99999999")
     public Integer nominalValue;
     @Column(name = "cotization_value")
+    @Positive
     public BigDecimal valueCotization;
     @Column(name = "pesos_value")
+    @Positive
     public Integer valuePesos;
     @Column(name = "operation_user_number")
+    @Positive
     public Integer operationUserNumber;
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
     public String transactionType;
-    @Column(name = "is_active")
-    public boolean isTACtive;
+    @Column(name = "state_of_transaction")
+    @Enumerated(EnumType.STRING)
+    public TransactionState transactionState;
     @Column(name = "transaction_other_user_id")
     public Integer otherUserId;
     @Column(name = "confirm_transfer")
@@ -39,46 +50,8 @@ public class Transaction implements Serializable {
     @Column(name = "confirm_reception")
     public boolean confirmReception = false;
 
-    public boolean isConfirmTransfer() {
-        return confirmTransfer;
-    }
-
-    public void setConfirmTransfer(boolean confirmTransfer) {
-        this.confirmTransfer = confirmTransfer;
-    }
-
-    public boolean isConfirmReception() {
-        return confirmReception;
-    }
-
-    public void setConfirmReception(boolean confirmReception) {
-        this.confirmReception = confirmReception;
-    }
-
-
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public boolean getIsActive() {
-        return this.isTACtive;
-    }
-
-    public void setIsActive(boolean active) {
-        this.isTACtive = active;
-    }
-
-    @Column(name = "transaction_isActive")
-    public boolean isActive;
-
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
+    @JoinColumn(name = "user_id")    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
     public User user;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
@@ -87,31 +60,6 @@ public class Transaction implements Serializable {
     public Transaction() {
 
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Integer getOtherUserId() {
-        return otherUserId;
-    }
-
-    public void setOtherUserId(Integer otherUserId) {
-        this.otherUserId = otherUserId;
-    }
-
-    public Crypto getCrypto() {
-        return crypto;
-    }
-
-    public void setCrypto(Crypto crypto) {
-        this.crypto = crypto;
-    }
-
     public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, BigDecimal cotization) {
 
         this.crypto = crypto;
@@ -121,8 +69,6 @@ public class Transaction implements Serializable {
         this.transactionType = transactionType;
         this.valueCotization = cotization;
     }
-
-
 
     public void setCryptoType(CryptoEnum cryptoType) {
         this.cryptoType = cryptoType;
@@ -159,5 +105,61 @@ public class Transaction implements Serializable {
     }
     public Integer getOperationUserNumber() {
         return operationUserNumber;
+    }
+
+    public boolean isConfirmTransfer() {
+        return confirmTransfer;
+    }
+
+    public void setConfirmTransfer(boolean confirmTransfer) {
+        this.confirmTransfer = confirmTransfer;
+    }
+
+    public boolean isConfirmReception() {
+        return confirmReception;
+    }
+
+    public void setConfirmReception(boolean confirmReception) {
+        this.confirmReception = confirmReception;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public TransactionState getIsActive() {
+        return this.transactionState;
+    }
+
+    public void setIsActive(TransactionState active) {
+        this.transactionState = active;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getOtherUserId() {
+        return otherUserId;
+    }
+
+    public void setOtherUserId(Integer otherUserId) {
+        this.otherUserId = otherUserId;
+    }
+
+    public Crypto getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(Crypto crypto) {
+        this.crypto = crypto;
     }
 }

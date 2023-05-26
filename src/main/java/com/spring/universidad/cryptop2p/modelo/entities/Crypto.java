@@ -3,6 +3,7 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ public class Crypto implements Serializable {
     @Enumerated(EnumType.STRING)
     public CryptoEnum name;
     @Column(name = "date")
+    @FutureOrPresent
     public LocalDate date;
 
     public Integer getId() {

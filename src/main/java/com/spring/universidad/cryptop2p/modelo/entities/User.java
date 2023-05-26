@@ -2,8 +2,13 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -20,14 +25,25 @@ public class User implements Serializable {
     @Column(name = "user_lastname")
     protected String lastname;
     @Column(name = "user_email")
+    @Email(message = "Email should be valid")
     protected String email;
     @Column(name = "user_address")
+    @Positive
+    @Min(value = 1, message = "address should not be less than 1")
+    @Max(value = 99999999, message = "address should not be greater than 99999999")
     protected String address;
     @Column(name = "user_password")
+    @Length(min = 6, max = 20, message ="the password needs between 6 and 20 characters")
     protected String password;
     @Column(name = "user_cvu")
+    @Positive
+    @Min(value = 1, message = "address should not be less than 1")
+    @Max(value = 99999999, message = "address should not be greater than 99999999")
     protected String cvu;
     @Column(name = "user_wallet")
+    @Positive
+    @Min(value = 1, message = "address should not be less than 1")
+    @Max(value = 99999999, message = "address should not be greater than 99999999")
     protected String wallet;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Transaction> listTransactions;

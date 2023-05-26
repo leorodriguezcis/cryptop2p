@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.services.implementation;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
@@ -9,6 +10,10 @@ import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionRepository> implements TransactionDAO {
@@ -51,5 +56,11 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         Transaction transaction = addTransaction(transactionDTO);
         transaction.setOtherUserId(user.getId());
         return transaction;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Transaction> searchByRangeActivity(LocalDateTime start, LocalDateTime end) {
+        return repo.searchByRangeActivity(start, end);
     }
 }
