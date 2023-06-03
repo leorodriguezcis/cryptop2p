@@ -2,30 +2,36 @@ package com.spring.universidad.cryptop2p.services.implementation;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
+import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
 
 @Service
-public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionRepository> implements TransactionDAO {
+public class TransactionService extends GenericService<Transaction, TransactionRepository> implements TransactionDAO {
+
+    private UserRepository userRepository;
+    private CryptoRepository cryptoRepository;
     @Autowired
-    public  TransactionDAOImpl (TransactionRepository repo) {super(repo);
+    public TransactionService(TransactionRepository repo, UserRepository userRepo, CryptoRepository cryptoRepo) {
+        super(repo);
+        this.userRepository = userRepo;
+        this.cryptoRepository = cryptoRepo;
     }
 
 
     @Override
     @Transactional
-    public Transaction addTransaction(TransactionDTO transactionDTO) {
+    public String addTransaction(TransactionDTO transactionDTO, int user_id) {
         Transaction transaction = new Transaction();
+        User user =userRepository.findById(user_id).get();
         transaction.setTransactionDate(transactionDTO.getTransactionDate());
         transaction.setCryptoType(transactionDTO.getCryptoType());
         transaction.setValuePesos(transactionDTO.getValuePesos());
@@ -33,8 +39,11 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
         transaction.setValueCotization(transactionDTO.getValueCotization());
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
         transaction.setTransactionType(transactionDTO.getTransactionType());
-        transaction.setIsActive(transactionDTO.getIsActive());
-        return transaction;
+        transaction.setIsActive(transactionDTO.getState());
+        transaction.setUser(user);
+        transaction.setCrypto(cryptoRepository.findCryptosByName(transactionDTO.getCryptoType()).get());
+        repo.save(transaction);
+        return transactionDTO.getTransactionType() == "sell" ? user.getCvu(): user.getWallet();
     }
 
     @Override
@@ -53,7 +62,7 @@ public class TransactionDAOImpl extends GenericDAOImpl<Transaction, TransactionR
     @Override
     @Transactional
     public Transaction newSellIntention(User user, TransactionDTO transactionDTO){
-        Transaction transaction = addTransaction(transactionDTO);
+        Transaction transaction = addTransaction(transactionDTO, user.getId());
         transaction.setOtherUserId(user.getId());
         return transaction;
     }

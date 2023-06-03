@@ -1,9 +1,7 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
-import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserDaoImpl extends GenericDAOImpl<User, UserRepository>  implements UserDAO {
+public class UserService extends GenericService<User, UserRepository> implements UserDAO {
     @Autowired
-    public UserDaoImpl(UserRepository repo) {
+    public UserService(UserRepository repo) {
         super(repo);
     }
 

@@ -45,13 +45,10 @@ public class Transaction implements Serializable {
     public TransactionState transactionState;
     @Column(name = "transaction_other_user_id")
     public Integer otherUserId;
-    @Column(name = "confirm_transfer")
-    public boolean confirmTransfer = false;
-    @Column(name = "confirm_reception")
-    public boolean confirmReception = false;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "transactions"})
     public User user;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "crypto_id", foreignKey = @ForeignKey(name = "FK_CRYPTO_ID"))
@@ -105,22 +102,6 @@ public class Transaction implements Serializable {
     }
     public Integer getOperationUserNumber() {
         return operationUserNumber;
-    }
-
-    public boolean isConfirmTransfer() {
-        return confirmTransfer;
-    }
-
-    public void setConfirmTransfer(boolean confirmTransfer) {
-        this.confirmTransfer = confirmTransfer;
-    }
-
-    public boolean isConfirmReception() {
-        return confirmReception;
-    }
-
-    public void setConfirmReception(boolean confirmReception) {
-        this.confirmReception = confirmReception;
     }
 
     public String getTransactionType() {

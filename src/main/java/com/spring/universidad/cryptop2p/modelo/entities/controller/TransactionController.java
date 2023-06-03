@@ -1,6 +1,5 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
-import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
@@ -14,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,17 +54,13 @@ public class TransactionController extends GenericController<Transaction, Transa
         return ResponseEntity.ok(transaction);
     }
 
-    @ApiOperation(value = "user sell activity ")
-    @PostMapping(value="/transaction/{userId}/sell")
+    @ApiOperation(value = "user intention activity ")
+    @PostMapping(value="/transaction/{userId}/intention")
     public ResponseEntity<String> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction  ){
-        Optional<Crypto> crypto = cryptoDAO.findCryptosByName(transaction.getCryptoType());
-        Optional<User> user = userDAO.findById(userId);
-        Transaction transactionModel = service.addTransaction(transaction);
-        transactionModel.setCrypto(crypto.get());
-        transactionModel.setUser(user.get());
-        service.save(transactionModel);
-        return ResponseEntity.ok(user.get().getCvu());
+        String userCVU = service.addTransaction(transaction,userId);
+        return ResponseEntity.ok(userCVU);
     }
+
     @ApiOperation(value = "user buy activity ")
     @PostMapping(value="/transaction/{userId}/buy/{transactionID}")
     public ResponseEntity<String> userBuyIntention(@PathVariable Integer userId,@PathVariable Integer transactionID ){
@@ -81,7 +75,6 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/confirmTransference/{transactionID}")
     public ResponseEntity<String> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID ){
         Transaction transaction = service.findById(transactionID).get();
-        transaction.setConfirmTransfer(true);
         service.save(transaction);
         return ResponseEntity.ok("confirmation ok");
     }
@@ -97,14 +90,6 @@ public class TransactionController extends GenericController<Transaction, Transa
         }
 
         Transaction transRes = transactionO.get();
-        if(!transRes.isConfirmTransfer()){
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put("message", String.format("no puede confirmar la transaccion con id: %s ya que el usuario no confirmo la transferencia", transactionID));
-            return ResponseEntity.badRequest().body(message);
-        }
-        if(userId.equals(transRes.getUser().getId())){
-            transRes.setConfirmReception(true);
-        }
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transRes);
         service.save(transRes);

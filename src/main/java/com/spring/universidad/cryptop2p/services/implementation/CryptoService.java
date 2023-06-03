@@ -18,10 +18,10 @@ import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
-public class CryptoDAOimpl extends GenericDAOImpl<Crypto, CryptoRepository> implements CryptoDAO {
+public class CryptoService extends GenericService<Crypto, CryptoRepository> implements CryptoDAO {
     private RestTemplate restTemplate= new RestTemplate();
     @Autowired
-    public  CryptoDAOimpl (CryptoRepository repo) {super(repo);
+    public CryptoService(CryptoRepository repo) {super(repo);
     }
 
     @Transactional

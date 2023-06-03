@@ -6,12 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public class GenericDAOImpl<E, R extends CrudRepository<E, Integer> > implements GenericDAO<E> {
+public class GenericService<E, R extends CrudRepository<E, Integer> > implements GenericDAO<E> {
 
 
     protected final R repo;
 
-    public GenericDAOImpl(R repo) {
+    public GenericService(R repo) {
         this.repo = repo;
     }
 

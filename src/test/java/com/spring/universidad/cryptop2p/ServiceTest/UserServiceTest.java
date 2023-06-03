@@ -2,7 +2,7 @@ package com.spring.universidad.cryptop2p.ServiceTest;
 
 
 import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
-import com.spring.universidad.cryptop2p.services.implementation.UserDaoImpl;
+import com.spring.universidad.cryptop2p.services.implementation.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class UserServiceTest {
     private UserRegisterDTO userTest1;
 
     @Autowired
-    private UserDaoImpl userService;
+    private UserService userService;
 
     @Before
     public void setUp() throws Exception{
