@@ -7,6 +7,7 @@ import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public interface TransactionDAO extends GenericDAO<Transaction>{
     String addTransaction(TransactionDTO transactionDTO, int user_id);
@@ -15,7 +16,14 @@ public interface TransactionDAO extends GenericDAO<Transaction>{
     @Transactional(readOnly = true)
     Iterable<Transaction> transactionsActive();
 
-    Transaction newSellIntention(User user, TransactionDTO transactionDTO);
-
     Iterable<Transaction> searchByRangeActivity(LocalDateTime startDate, LocalDateTime endDate);
+
+    String buyAnIntention(Integer userId, Integer transactionID);
+
+
+    String sellAnIntention(Integer userId, Integer transactionID);
+
+    Map<String, Object> confirmTransference(Integer userId, Integer transactionID, String action);
+
+    Map<String, Object> cancelTransaction(Integer userId, Integer transactionID);
 }
