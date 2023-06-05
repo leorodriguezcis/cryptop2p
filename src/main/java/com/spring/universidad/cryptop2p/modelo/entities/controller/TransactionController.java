@@ -1,11 +1,9 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
@@ -35,23 +33,32 @@ public class TransactionController extends GenericController<Transaction, Transa
 
     @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
-    public ResponseEntity<Iterable<Transaction>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
-        Iterable<Transaction> transactions = service.transactionByCryptoName(crypto);
-        return ResponseEntity.ok(transactions);
+    public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
+        Map<String, Object> message = service.transactionByCryptoName(crypto);
+        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+            return ResponseEntity.badRequest().body(message);
+        }
+        return ResponseEntity.ok(message);
     }
 
     @ApiOperation(value = "get by cryptoActive")
     @GetMapping(value="/transaction/getActives")
-    public ResponseEntity<Iterable<Transaction>> searchTransactionsActive(){
-        Iterable<Transaction> transactions = service.transactionsActive();
-        return ResponseEntity.ok(transactions);
+    public ResponseEntity<Map<String, Object>> searchTransactionsActive(){
+        Map<String, Object> message = service.transactionsActive();
+        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+            return ResponseEntity.badRequest().body(message);
+        }
+        return ResponseEntity.ok(message);
     }
 
     @ApiOperation(value = "get transaction by id")
     @GetMapping(value="/transaction/get/{transactionId}")
-    public ResponseEntity<Transaction> searchTransaction(@PathVariable Integer transactionId){
-        Transaction transaction = service.findById(transactionId).get();
-        return ResponseEntity.ok(transaction);
+    public ResponseEntity<Map<String, Object>> searchTransaction(@PathVariable Integer transactionId){
+        Map<String, Object> message = service.BuscarTransaccion(transactionId);
+        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+            return ResponseEntity.badRequest().body(message);
+        }
+        return ResponseEntity.ok(message);
     }
 
     @ApiOperation(value = "user intention activity ")

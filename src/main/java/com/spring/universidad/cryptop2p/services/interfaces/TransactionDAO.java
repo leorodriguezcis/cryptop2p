@@ -11,10 +11,8 @@ import java.util.Map;
 
 public interface TransactionDAO extends GenericDAO<Transaction>{
     String addTransaction(TransactionDTO transactionDTO, int user_id);
-    Iterable<Transaction> transactionByCryptoName(CryptoEnum crypto);
-
-    @Transactional(readOnly = true)
-    Iterable<Transaction> transactionsActive();
+    Map<String, Object> transactionByCryptoName(CryptoEnum crypto);
+    Map<String, Object> transactionsActive();
 
     Iterable<Transaction> searchByRangeActivity(LocalDateTime startDate, LocalDateTime endDate);
 
@@ -26,4 +24,6 @@ public interface TransactionDAO extends GenericDAO<Transaction>{
     Map<String, Object> confirmTransference(Integer userId, Integer transactionID, String action);
 
     Map<String, Object> cancelTransaction(Integer userId, Integer transactionID);
+
+    Map<String, Object> BuscarTransaccion(Integer transactionId);
 }

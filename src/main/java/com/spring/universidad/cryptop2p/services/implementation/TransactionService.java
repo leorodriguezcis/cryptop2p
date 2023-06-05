@@ -53,16 +53,22 @@ public class TransactionService extends GenericService<Transaction, TransactionR
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Transaction> transactionByCryptoName(CryptoEnum crypto) {
+    public Map<String, Object> transactionByCryptoName(CryptoEnum crypto) {
+        Map<String, Object> message = new HashMap<>();
         Iterable<Transaction> transactions = repo.transactionByCryptoName(crypto);
-        return transactions;
+        message.put(MSG_SUCCESS, Boolean.TRUE);
+        message.put("datos", transactions);
+        return message;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Transaction> transactionsActive() {
+    public Map<String, Object> transactionsActive() {
+        Map<String, Object> message = new HashMap<>();
         Iterable<Transaction> transactions = repo.transactionsActive();
-        return transactions;
+        message.put(MSG_SUCCESS, Boolean.TRUE);
+        message.put("datos", transactions);
+        return message;
     }
 
     @Override
@@ -149,6 +155,21 @@ public class TransactionService extends GenericService<Transaction, TransactionR
             message.put("El usuario no pertenece a esta transaccion", userId);
             return message;
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> BuscarTransaccion(Integer transactionId) {
+        Map<String, Object> message = new HashMap<>();
+        Optional<Transaction> transactionO = repo.findById(transactionId);
+        if(transactionO.isEmpty()){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put("message", String.format("no existe ninguna transaccion con id: %s", transactionId));
+            return message;
+        }
+        message.put(MSG_SUCCESS, Boolean.TRUE);
+        message.put("datos", transactionO.get());
+        return message;
     }
 
 
