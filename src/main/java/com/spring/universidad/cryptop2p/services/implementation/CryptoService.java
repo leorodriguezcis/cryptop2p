@@ -6,7 +6,6 @@ import com.spring.universidad.cryptop2p.modelo.entities.dto.DolarDTOHelper;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -16,6 +16,8 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
     Iterable<Transaction> transactionByCryptoName(CryptoEnum cryptoType);
     @Query("select t from Transaction t where t.isActive = true")
     Iterable<Transaction> transactionsActive();
-    @Query("select t from Transaction t where t.isActive = false and t.confirmTransfer = true and t.confirmReception = true and t.transactionDate between ?1 and ?2")
-    Iterable<Transaction> searchByRangeActivity(LocalDateTime start, LocalDateTime end);
+    @Query(nativeQuery = true,
+            value = "SELECT * FROM (SELECT * FROM transactions JOIN (SELECT * FROM users WHERE id = ?3)as userfind ON transactions.user_id = userfind.id) AS transactionUser HERE transactionUser.transaction_date BETWEEN ?1 and ?2"
+            )
+    Iterable<Transaction> searchByRangeActivity(LocalDateTime start, LocalDateTime end, Integer userId);
 }

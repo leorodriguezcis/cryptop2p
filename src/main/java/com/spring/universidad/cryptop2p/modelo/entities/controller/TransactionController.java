@@ -72,12 +72,11 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
     public ResponseEntity<String> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention ){
         String userTransferData = "";
-        if(intention=="buy") {
+        if(intention=="buy")
             userTransferData = service.buyAnIntention(userId, transactionID);
-        }
-        if(intention=="sell"){
+        if(intention=="sell")
             userTransferData = service.sellAnIntention(userId, transactionID);
-        }
+
         return ResponseEntity.ok(userTransferData);
     }
     @ApiOperation(value = "user confirm transference ")
@@ -95,24 +94,21 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
     public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID){
         Map<String, Object> message = service.cancelTransaction(userId,transactionID);
-        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+        if(message.get("SUCCESS").equals(Boolean.FALSE))
             return ResponseEntity.badRequest().body(message);
-        }
+
         return ResponseEntity.ok(message);
     }
 
     @ApiOperation(value = "List activity betwen 2 dates")
-    @GetMapping(value="/transaction/get/range")
-    public ResponseEntity<Map<String, Object>> getTransactionByDates(@Valid @RequestBody DateRangeDTO rangeDTO){
+    @GetMapping(value="/transaction/get/range/toUser/{userId}")
+    public ResponseEntity<Map<String, Object>> getTransactionByDates(@Valid @RequestBody DateRangeDTO rangeDTO, @PathVariable Integer userId){
         Map<String, Object> message = new HashMap<>();
-        Iterable<Transaction> transactionRange = service.searchByRangeActivity(convertToLocalDateTime(rangeDTO.getStartDate()), convertToLocalDateTime(rangeDTO.getEndDate()));
+        Iterable<Transaction> transactionRange = service.searchByRangeActivity(rangeDTO, userId);
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transactionRange);
         return ResponseEntity.ok(message);
     }
 
-    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return LocalDateTime.ofInstant(
-                dateToConvert.toInstant(), ZoneId.systemDefault());
-    }
+
 }

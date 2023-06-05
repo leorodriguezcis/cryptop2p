@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.services.implementation;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
+import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
@@ -9,12 +10,15 @@ import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoReposit
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -73,8 +77,10 @@ public class TransactionService extends GenericService<Transaction, TransactionR
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Transaction> searchByRangeActivity(LocalDateTime start, LocalDateTime end) {
-        return repo.searchByRangeActivity(start, end);
+    public Iterable<Transaction> searchByRangeActivity(DateRangeDTO dateRange, Integer userId) {
+        LocalDateTime start = convertToLocalDateTime(dateRange.getStartDate());
+        LocalDateTime end = convertToLocalDateTime(dateRange.getEndDate());
+        return repo.searchByRangeActivity(start, end, userId);
     }
     @Transactional
     @Override
@@ -170,6 +176,13 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transactionO.get());
         return message;
+    }
+
+
+
+    public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+        return LocalDateTime.ofInstant(
+                dateToConvert.toInstant(), ZoneId.systemDefault());
     }
 
 
