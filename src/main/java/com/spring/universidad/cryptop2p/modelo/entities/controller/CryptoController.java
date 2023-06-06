@@ -1,16 +1,13 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.CryptoDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;

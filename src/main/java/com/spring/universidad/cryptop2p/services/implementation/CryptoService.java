@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
@@ -30,14 +31,17 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
         crypto.setName(cryptoDTO.getSymbolToEnum());
         crypto.setValue(cryptoDTO.getPrice());
         crypto.setValueInArs(cryptoDTO.getPriceArs());
-        System.out.println("name"+cryptoDTO.getSymbolToEnum().toString());
         repo.save(crypto);
         return  crypto;
     }
-    @SneakyThrows
     public CryptoDTO getCotizationBySymbol(CryptoEnum symbol) {
         NumberFormat nf = NumberFormat.getInstance();
-        Double dollarPrice = nf.parse(priceUsd()).doubleValue();
+        Double dollarPrice = null;
+        try {
+            dollarPrice = nf.parse(priceUsd()).doubleValue();
+        } catch (ParseException e) {
+            throw new BadRequestException("Error al convertir");
+        }
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
         CryptoDTO crypto = restTemplate.getForObject(url, CryptoDTO.class);
@@ -67,5 +71,11 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
         String url ="https://www.dolarsi.com/api/api.php?type=valoresprincipales";
 		DolarDTOHelper[] casa = restTemplate.getForObject(url, DolarDTOHelper[].class);
        return casa[1].getCasa().getCompra();
+    }
+    public class BadRequestException extends RuntimeException{
+
+        public BadRequestException(String message) {
+            super(message);
+        }
     }
 }

@@ -10,15 +10,15 @@ public class CryptoDTO {
     private String symbol;
     private Double price ;
     private Double priceArs;
-    private CryptoEnum SymbolToEnum;
+    private CryptoEnum SYMBOL_ENUM;
 
 
     public CryptoEnum getSymbolToEnum() {
-        return SymbolToEnum;
+        return SYMBOL_ENUM;
     }
 
     public void setSymbolToEnum(CryptoEnum symbolToEnum) {
-        SymbolToEnum = symbolToEnum;
+        SYMBOL_ENUM = symbolToEnum;
     }
 
     public LocalDateTime getHourCotization() {
@@ -53,5 +53,7 @@ public class CryptoDTO {
         this.priceArs = priceArs;
     }
 
-    public CryptoDTO(){}
+    public CryptoDTO(){
+        //need blank constructor
+    }
 }
