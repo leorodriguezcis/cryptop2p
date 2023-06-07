@@ -19,29 +19,17 @@ public class Crypto implements Serializable {
     @Column(name = "date")
     @FutureOrPresent
     public LocalDate date;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getValueInArs() {
-        return valueInArs;
-    }
-
-    public void setValueInArs(Double valueInArs) {
-        this.valueInArs = valueInArs;
-    }
-
-
     @Column(name = "value")
     public Double value;
     @Column(name = "valueInArs")
     public Double valueInArs;
 
+    public Crypto(CryptoEnum name, LocalDate date, Double value, Double valueInArs) {
+        this.name = name;
+        this.date = date;
+        this.value = value;
+        this.valueInArs = valueInArs;
+    }
 
     public Crypto(){
     //need a blank constructor
@@ -69,5 +57,20 @@ public class Crypto implements Serializable {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getValueInArs() {
+        return valueInArs;
+    }
+
+    public void setValueInArs(Double valueInArs) {
+        this.valueInArs = valueInArs;
     }
 }
