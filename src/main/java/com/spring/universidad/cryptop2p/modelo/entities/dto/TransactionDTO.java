@@ -10,9 +10,9 @@ public class TransactionDTO {
 
     private Integer id;
     public CryptoEnum cryptoType;
-    public Integer nominalValue;
+    public Double nominalValue;
     public BigDecimal valueCotization;
-    public Integer valuePesos;
+    public Double valuePesos;
     public Integer operationUserNumber;
     public TransactionState state;
     public LocalDateTime transactionDate;
@@ -20,7 +20,7 @@ public class TransactionDTO {
 
     public String user;
 
-    public TransactionDTO(String transactionType, CryptoEnum cryptoName, Integer value, Integer valuePesos, String user, BigDecimal cotization) {
+    public TransactionDTO(String transactionType, CryptoEnum cryptoName, Double value, Double valuePesos, String user, BigDecimal cotization) {
         this.cryptoType = cryptoName;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
@@ -47,11 +47,11 @@ public class TransactionDTO {
         this.cryptoType = cryptoType;
     }
 
-    public Integer getNominalValue() {
+    public Double getNominalValue() {
         return nominalValue;
     }
 
-    public void setNominalValue(Integer nominalValue) {
+    public void setNominalValue(Double nominalValue) {
         this.nominalValue = nominalValue;
     }
 
@@ -63,11 +63,11 @@ public class TransactionDTO {
         this.valueCotization = valueCotization;
     }
 
-    public Integer getValuePesos() {
+    public Double getValuePesos() {
         return valuePesos;
     }
 
-    public void setValuePesos(Integer valuePesos) {
+    public void setValuePesos(Double valuePesos) {
         this.valuePesos = valuePesos;
     }
 

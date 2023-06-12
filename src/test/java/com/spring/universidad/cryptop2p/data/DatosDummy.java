@@ -1,10 +1,12 @@
-package com.spring.universidad.cryptop2p.ServiceTest.data;
+package com.spring.universidad.cryptop2p.data;
 
 import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDecimalConversion;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class DatosDummy {
@@ -29,10 +31,19 @@ public class DatosDummy {
     public static Crypto TRXUSDT = new Crypto(CryptoEnum.TRXUSDT, LocalDate.now(),0.07658000,36.7584);
     public static Crypto AUDIOUSDT = new Crypto(CryptoEnum.AUDIOUSDT, LocalDate.now(),0.20030000,96.144);
 
+    //transactions
+    public static Transaction transaction1 = new Transaction("sell",DOTUSDT,10d,DOTUSDT.getValueInArs()*10, new BigDecimal(DOTUSDT.getValue()));
+    public static Transaction transaction2 = new Transaction("buy",ETHUSDT,5d,ETHUSDT.getValueInArs()*5, new BigDecimal(ETHUSDT.getValue()));
 
+    public static User getUser1() {
+        return user1;
+    }
 
+    public static User getUser2() {
+        return user2;
+    }
 
-
-
-
+    public static User getUser3() {
+        return user3;
+    }
 }

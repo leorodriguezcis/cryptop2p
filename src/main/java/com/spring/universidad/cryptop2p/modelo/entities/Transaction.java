@@ -26,13 +26,13 @@ public class Transaction implements Serializable {
     @Positive
     @Min(value = 1, message = "nominal value should not be less than 1")
     @Max(value = 99999999, message = "nominal value should not be greater than 99999999")
-    public Integer nominalValue;
+    public Double nominalValue;
     @Column(name = "cotization_value")
     @Positive
     public BigDecimal valueCotization;
     @Column(name = "pesos_value")
     @Positive
-    public Integer valuePesos;
+    public Double valuePesos;
     @Column(name = "operation_user_number")
     @Positive
     public Integer operationUserNumber;
@@ -57,7 +57,7 @@ public class Transaction implements Serializable {
     public Transaction() {
 
     }
-    public Transaction(String transactionType, Crypto crypto, Integer value, Integer valuePesos, BigDecimal cotization) {
+    public Transaction(String transactionType, Crypto crypto, Double value, Double valuePesos, BigDecimal cotization) {
 
         this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
@@ -70,13 +70,13 @@ public class Transaction implements Serializable {
     public void setCryptoType(CryptoEnum cryptoType) {
         this.cryptoType = cryptoType;
     }
-    public void setNominalValue(Integer nominalValue) {
+    public void setNominalValue(Double nominalValue) {
         this.nominalValue = nominalValue;
     }
     public void setValueCotization(BigDecimal valueCotization) {
         this.valueCotization = valueCotization;
     }
-    public void setValuePesos(Integer valuePesos) {
+    public void setValuePesos(Double valuePesos) {
         this.valuePesos = valuePesos;
     }
     public void setOperationUserNumber(Integer operationUserNumber) {
@@ -91,13 +91,13 @@ public class Transaction implements Serializable {
     public CryptoEnum getCryptoType() {
         return cryptoType;
     }
-    public Integer getNominalValue() {
+    public Double getNominalValue() {
         return nominalValue;
     }
     public BigDecimal getValueCotization() {
         return valueCotization;
     }
-    public Integer getValuePesos() {
+    public Double getValuePesos() {
         return valuePesos;
     }
     public Integer getOperationUserNumber() {
