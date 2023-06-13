@@ -38,12 +38,7 @@ public class UserService extends GenericService<User, UserRepository> implements
                     user.getCvu(),user.getWallet());
             users.add(userR);
         }
-
         return users ;
-    }
-    @Transactional(readOnly = true)
-    public Optional<User> findUsersByName(String nombre) {
-        return repo.findUsersByName(nombre);
     }
 
 }

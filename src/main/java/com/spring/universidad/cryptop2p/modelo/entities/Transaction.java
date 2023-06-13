@@ -19,9 +19,6 @@ public class Transaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "crypto_type")
-    @Enumerated(EnumType.STRING)
-    public CryptoEnum cryptoType;
     @Column(name = "user_name")
     @Positive
     @Min(value = 1, message = "nominal value should not be less than 1")
@@ -67,9 +64,6 @@ public class Transaction implements Serializable {
         this.valueCotization = cotization;
     }
 
-    public void setCryptoType(CryptoEnum cryptoType) {
-        this.cryptoType = cryptoType;
-    }
     public void setNominalValue(Double nominalValue) {
         this.nominalValue = nominalValue;
     }
@@ -87,9 +81,6 @@ public class Transaction implements Serializable {
     }
     public LocalDateTime getTransactionDate() {
         return transactionDate;
-    }
-    public CryptoEnum getCryptoType() {
-        return cryptoType;
     }
     public Double getNominalValue() {
         return nominalValue;
@@ -142,5 +133,8 @@ public class Transaction implements Serializable {
 
     public void setCrypto(Crypto crypto) {
         this.crypto = crypto;
+    }
+    public Integer getId() {
+        return id;
     }
 }

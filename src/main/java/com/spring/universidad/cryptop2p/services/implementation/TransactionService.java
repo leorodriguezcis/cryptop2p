@@ -10,9 +10,7 @@ import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoReposit
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +40,6 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Transaction transaction = new Transaction();
         User user =userRepository.findById(user_id).get();
         transaction.setTransactionDate(transactionDTO.getTransactionDate());
-        transaction.setCryptoType(transactionDTO.getCryptoType());
         transaction.setValuePesos(transactionDTO.getValuePesos());
         transaction.setNominalValue(transactionDTO.getNominalValue());
         transaction.setValueCotization(transactionDTO.getValueCotization());

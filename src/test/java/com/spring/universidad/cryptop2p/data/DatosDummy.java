@@ -35,6 +35,14 @@ public class DatosDummy {
     public static Transaction transaction1 = new Transaction("sell",DOTUSDT,10d,DOTUSDT.getValueInArs()*10, new BigDecimal(DOTUSDT.getValue()));
     public static Transaction transaction2 = new Transaction("buy",ETHUSDT,5d,ETHUSDT.getValueInArs()*5, new BigDecimal(ETHUSDT.getValue()));
 
+    public static Transaction getTransaction1() {
+        return transaction1;
+    }
+
+    public static Transaction getTransaction2() {
+        return transaction2;
+    }
+
     public static User getUser1() {
         return user1;
     }

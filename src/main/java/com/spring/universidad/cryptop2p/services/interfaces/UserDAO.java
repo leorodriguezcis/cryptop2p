@@ -9,6 +9,4 @@ import java.util.Optional;
 
 public interface UserDAO extends GenericDAO<User>{
      User registerUser(UserRegisterDTO userRegisterDto);
-     @Transactional(readOnly = true)
-     Optional<User> findUsersByName(String nombre);
 }
