@@ -137,4 +137,5 @@ public class Transaction implements Serializable {
     public Integer getId() {
         return id;
     }
+
 }

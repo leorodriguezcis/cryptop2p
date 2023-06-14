@@ -29,7 +29,6 @@ public class User implements Serializable {
     @Column(name = "user_address")
     protected String address;
     @Column(name = "user_password")
-    @Length(min = 6, max = 20, message ="the password needs between 6 and 20 characters")
     protected String password;
     @Column(name = "user_cvu")
     protected String cvu;
@@ -96,7 +95,11 @@ public class User implements Serializable {
     public void cancelTransaction(){
         this.reputation = this.reputation -10;
     }
-    public User() {
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User() {
     }
 }
