@@ -175,8 +175,6 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         return message;
     }
 
-
-
     public LocalDateTime convertToLocalDateTime(Date dateToConvert) {
         return LocalDateTime.ofInstant(
                 dateToConvert.toInstant(), ZoneId.systemDefault());

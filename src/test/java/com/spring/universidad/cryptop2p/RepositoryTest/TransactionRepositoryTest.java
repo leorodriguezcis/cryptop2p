@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.RepositoryTest;
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
 import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,8 +23,13 @@ public class TransactionRepositoryTest {
 
     @BeforeEach
     void setup() {
+        DatosDummy.getTransaction1().setIsActive(TransactionState.NEW);
+        DatosDummy.getTransaction2().setIsActive(TransactionState.CANCELLED);
+        DatosDummy.getTransaction3().setIsActive(TransactionState.FINISHED);
+        transactionRepository.save(DatosDummy.getTransaction3());
         transactionRepository.save(DatosDummy.getTransaction2());
         transactionRepository.save(DatosDummy.getTransaction1());
+
     }
     @AfterEach
     void tearDown() {
@@ -34,8 +41,14 @@ public class TransactionRepositoryTest {
     @DisplayName("find transaction with crypto type")
     void findTransactionByCryptoType() {
         Iterable<Transaction> expected = transactionRepository.transactionByCryptoName(CryptoEnum.ETHUSDT);
-        System.out.println(expected+"holala");
         assertThat(((List<Transaction>)expected).size() == 1).isTrue();
         assertThat(((List<Transaction>)expected).get(0).getCrypto().getName() == CryptoEnum.ETHUSDT).isTrue();
+    }
+
+    @Test
+    @DisplayName("obtener transacciones activas")
+    void transactionsActive() {
+        Iterable<Transaction> expected = transactionRepository.transactionsActive();
+        assertThat(((List<Transaction>)expected).size() == 1).isTrue();
     }
 }
