@@ -3,7 +3,6 @@ package com.spring.universidad.cryptop2p.modelo.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
 
 import javax.persistence.*;

@@ -4,8 +4,7 @@ public enum TransactionState {
     NEW,
     ON_PROCESS,
     FINISHED,
-    CONFIRMEDRECEIVE,
-    CONFIRMEDSEND,
+    CONFIRMED,
     CANCELLED
 
 }

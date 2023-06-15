@@ -1,5 +1,6 @@
 package com.spring.universidad.cryptop2p.modelo.entities.controller;
 
+import com.spring.universidad.cryptop2p.modelo.entities.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 @RestController
@@ -54,7 +53,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @ApiOperation(value = "get transaction by id")
     @GetMapping(value="/transaction/get/{transactionId}")
     public ResponseEntity<Map<String, Object>> searchTransaction(@PathVariable Integer transactionId){
-        Map<String, Object> message = service.BuscarTransaccion(transactionId);
+        Map<String, Object> message = service.findTransaction(transactionId);
         if(message.get("SUCCESS").equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
@@ -72,10 +71,12 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
     public ResponseEntity<String> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention ){
         String userTransferData = "";
-        if(intention=="buy")
+        if(intention.equals("buy")) {
             userTransferData = service.buyAnIntention(userId, transactionID);
-        if(intention=="sell")
+        }
+        if(intention.equals("sell")) {
             userTransferData = service.sellAnIntention(userId, transactionID);
+        }
 
         return ResponseEntity.ok(userTransferData);
     }
@@ -104,7 +105,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @GetMapping(value="/transaction/get/range/toUser/{userId}")
     public ResponseEntity<Map<String, Object>> getTransactionByDates(@Valid @RequestBody DateRangeDTO rangeDTO, @PathVariable Integer userId){
         Map<String, Object> message = new HashMap<>();
-        Iterable<Transaction> transactionRange = service.searchByRangeActivity(rangeDTO, userId);
+        CryptoActiveResult transactionRange = service.searchByRangeActivity(rangeDTO, userId);
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transactionRange);
         return ResponseEntity.ok(message);

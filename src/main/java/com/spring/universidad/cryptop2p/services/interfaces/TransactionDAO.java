@@ -1,13 +1,11 @@
 package com.spring.universidad.cryptop2p.services.interfaces;
 
+import com.spring.universidad.cryptop2p.modelo.entities.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public interface TransactionDAO extends GenericDAO<Transaction>{
@@ -15,7 +13,7 @@ public interface TransactionDAO extends GenericDAO<Transaction>{
     Map<String, Object> transactionByCryptoName(CryptoEnum crypto);
     Map<String, Object> transactionsActive();
 
-    Iterable<Transaction> searchByRangeActivity(DateRangeDTO dateRangeDTO, Integer userID);
+    CryptoActiveResult searchByRangeActivity(DateRangeDTO dateRangeDTO, Integer userID);
 
     String buyAnIntention(Integer userId, Integer transactionID);
 
@@ -26,5 +24,5 @@ public interface TransactionDAO extends GenericDAO<Transaction>{
 
     Map<String, Object> cancelTransaction(Integer userId, Integer transactionID);
 
-    Map<String, Object> BuscarTransaccion(Integer transactionId);
+    Map<String, Object> findTransaction(Integer transactionId);
 }

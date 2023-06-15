@@ -1,13 +1,9 @@
 package com.spring.universidad.cryptop2p.modelo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 
 import java.io.Serializable;
 import java.util.Set;

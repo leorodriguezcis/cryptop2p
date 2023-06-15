@@ -1,6 +1,5 @@
 package com.spring.universidad.cryptop2p.modelo.entities.dto;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DateRangeDTO {

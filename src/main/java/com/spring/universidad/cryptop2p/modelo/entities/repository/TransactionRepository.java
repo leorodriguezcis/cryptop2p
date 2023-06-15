@@ -14,6 +14,6 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
     Iterable<Transaction> transactionByCryptoName(CryptoEnum cryptoType);
     @Query("select t from Transaction t where t.transactionState != 'FINISHED' AND t.transactionState != 'CANCELLED'")
     Iterable<Transaction> transactionsActive();
-    @Query("select t from Transaction t where t.user.id = ?3 and t.transactionDate BETWEEN ?1 and ?2")
+    @Query("select t from Transaction t where t.user.id = ?3 and t.transactionDate BETWEEN ?1 and ?2 and t.transactionState = 'FINISHED'")
     Iterable<Transaction> searchByRangeActivity(LocalDateTime start,LocalDateTime end,Integer userId);
 }

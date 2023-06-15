@@ -1,5 +1,6 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
+import com.spring.universidad.cryptop2p.modelo.entities.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
 import com.spring.universidad.cryptop2p.modelo.entities.User;
 import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
@@ -16,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService extends GenericService<Transaction, TransactionRepository> implements TransactionDAO {
@@ -74,10 +73,11 @@ public class TransactionService extends GenericService<Transaction, TransactionR
 
     @Override
     @Transactional(readOnly = true)
-    public Iterable<Transaction> searchByRangeActivity(DateRangeDTO dateRange, Integer userId) {
+    public CryptoActiveResult searchByRangeActivity(DateRangeDTO dateRange, Integer userId) {
         LocalDateTime start = convertToLocalDateTime(dateRange.getStartDate());
         LocalDateTime end = convertToLocalDateTime(dateRange.getEndDate());
-        return repo.searchByRangeActivity(start, end, userId);
+        ArrayList<Transaction> transactionRes = (ArrayList<Transaction>)(repo.searchByRangeActivity(start, end, userId));;
+        return new CryptoActiveResult(transactionRes);
     }
     @Transactional
     @Override
@@ -114,11 +114,16 @@ public class TransactionService extends GenericService<Transaction, TransactionR
             return message;
         }
         User user = userRepository.findById(userId).get();
-        if(user.getId()==transaction.get().getOtherUserId()&&action=="send"){
-            transaction.get().setIsActive(TransactionState.CONFIRMEDSEND);
+        if(user.getId()==transaction.get().getOtherUserId()&&action.equals("send")){
+            transaction.get().setIsActive(TransactionState.CONFIRMED);
         }
-        if(user.getId()==transaction.get().getOtherUserId()&&action=="receive"){
-            transaction.get().setIsActive(TransactionState.CONFIRMEDRECEIVE);
+        if(user.getId()==transaction.get().getOtherUserId()&&action.equals("receive")){
+            if(transaction.get().getIsActive()==TransactionState.CONFIRMED){transaction.get().setIsActive(TransactionState.FINISHED);}
+            else{
+                message.put(MSG_SUCCESS, Boolean.FALSE);
+                message.put("message", String.format("no se puede finalizar la transaccion si el usuario no confirmo la operacion"));
+                return message;
+            }
         }
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put("datos", transaction.get());
@@ -162,7 +167,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> BuscarTransaccion(Integer transactionId) {
+    public Map<String, Object> findTransaction(Integer transactionId) {
         Map<String, Object> message = new HashMap<>();
         Optional<Transaction> transactionO = repo.findById(transactionId);
         if(transactionO.isEmpty()){
