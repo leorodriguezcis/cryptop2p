@@ -76,7 +76,7 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
     public Map<String, Object> getAllCryptoCotization() {
         Map<String, Object> message = new HashMap<>();
         ArrayList<Crypto> arrayCrypto = (ArrayList<Crypto>)repo.findAll();
-        ArrayList<CryptoValueResponse> arrayCryptoValueResponse = null;
+        ArrayList<CryptoValueResponse> arrayCryptoValueResponse = new ArrayList<>();
         for (Crypto crypto: arrayCrypto) {
             CryptoValueResponse cryptoResponse = new CryptoValueResponse(crypto);
             arrayCryptoValueResponse.add(cryptoResponse);
