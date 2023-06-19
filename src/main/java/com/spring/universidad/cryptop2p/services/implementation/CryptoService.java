@@ -5,6 +5,7 @@ import com.spring.universidad.cryptop2p.model.dto.CryptoDTO;
 import com.spring.universidad.cryptop2p.model.dto.DolarDTOHelper;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
+import com.spring.universidad.cryptop2p.model.response.CryptoValueResponse;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,15 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class CryptoService extends GenericService<Crypto, CryptoRepository> implements CryptoDAO {
     private RestTemplate restTemplate= new RestTemplate();
+    private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
     public CryptoService(CryptoRepository repo) {super(repo);
     }
@@ -65,6 +70,20 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
     @Transactional(readOnly = true)
     public Optional<Crypto> findCryptosByName(CryptoEnum nombre) {
         return repo.findCryptosByName(nombre);
+    }
+
+    @Override
+    public Map<String, Object> getAllCryptoCotization() {
+        Map<String, Object> message = new HashMap<>();
+        ArrayList<Crypto> arrayCrypto = (ArrayList<Crypto>)repo.findAll();
+        ArrayList<CryptoValueResponse> arrayCryptoValueResponse = null;
+        for (Crypto crypto: arrayCrypto) {
+            CryptoValueResponse cryptoResponse = new CryptoValueResponse(crypto);
+            arrayCryptoValueResponse.add(cryptoResponse);
+        }
+        message.put(MSG_SUCCESS, Boolean.TRUE);
+        message.put("datos", arrayCryptoValueResponse);
+        return message;
     }
 
     public String priceUsd(){
