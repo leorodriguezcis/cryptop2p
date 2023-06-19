@@ -1,9 +1,9 @@
-package com.spring.universidad.cryptop2p.modelo.entities;
+package com.spring.universidad.cryptop2p.model.entities;
 
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
+import com.spring.universidad.cryptop2p.model.enums.TransactionState;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

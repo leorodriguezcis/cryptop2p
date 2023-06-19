@@ -1,4 +1,4 @@
-package com.spring.universidad.cryptop2p.modelo.entities;
+package com.spring.universidad.cryptop2p.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

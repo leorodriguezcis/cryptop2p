@@ -1,7 +1,7 @@
-package com.spring.universidad.cryptop2p.modelo.entities.repository;
+package com.spring.universidad.cryptop2p.model.repository;
 
-import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

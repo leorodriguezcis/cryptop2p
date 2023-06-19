@@ -1,7 +1,8 @@
-package com.spring.universidad.cryptop2p.modelo.entities;
+package com.spring.universidad.cryptop2p.model.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 
 import java.io.Serializable;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

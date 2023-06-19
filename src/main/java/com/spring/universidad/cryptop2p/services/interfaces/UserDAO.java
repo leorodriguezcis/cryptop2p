@@ -1,11 +1,8 @@
 package com.spring.universidad.cryptop2p.services.interfaces;
 
 
-import com.spring.universidad.cryptop2p.modelo.entities.User;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.UserRegisterDTO;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
+import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.model.dto.UserRegisterDTO;
 
 public interface UserDAO extends GenericDAO<User>{
      User registerUser(UserRegisterDTO userRegisterDto);

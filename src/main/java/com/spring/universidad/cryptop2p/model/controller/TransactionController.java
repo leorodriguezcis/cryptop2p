@@ -1,10 +1,10 @@
-package com.spring.universidad.cryptop2p.modelo.entities.controller;
+package com.spring.universidad.cryptop2p.model.controller;
 
-import com.spring.universidad.cryptop2p.modelo.entities.CryptoActiveResult;
-import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
+import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
+import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;

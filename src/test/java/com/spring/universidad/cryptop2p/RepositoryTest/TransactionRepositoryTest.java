@@ -1,16 +1,14 @@
 package com.spring.universidad.cryptop2p.RepositoryTest;
 import com.spring.universidad.cryptop2p.data.DatosDummy;
-import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
-import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.enums.TransactionState;
+import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.mockito.MockitoAnnotations;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 public class TransactionRepositoryTest {

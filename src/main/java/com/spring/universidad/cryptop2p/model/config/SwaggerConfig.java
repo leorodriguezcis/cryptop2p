@@ -1,4 +1,4 @@
-package com.spring.universidad.cryptop2p.modelo.entities.config;
+package com.spring.universidad.cryptop2p.model.config;
 
 
 import org.springframework.context.annotation.Bean;

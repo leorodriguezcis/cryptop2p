@@ -1,15 +1,15 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
-import com.spring.universidad.cryptop2p.modelo.entities.CryptoActiveResult;
-import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.DateRangeDTO;
-import com.spring.universidad.cryptop2p.modelo.entities.dto.TransactionDTO;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.TransactionState;
-import com.spring.universidad.cryptop2p.modelo.entities.repository.CryptoRepository;
-import com.spring.universidad.cryptop2p.modelo.entities.repository.TransactionRepository;
-import com.spring.universidad.cryptop2p.modelo.entities.repository.UserRepository;
+import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
+import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.enums.TransactionState;
+import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
+import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
+import com.spring.universidad.cryptop2p.model.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionService extends GenericService<Transaction, TransactionRepository> implements TransactionDAO {
@@ -45,7 +44,6 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
         transaction.setTransactionType(transactionDTO.getTransactionType());
         transaction.setIsActive(transactionDTO.getState());
-        transaction.setUser(user);
         transaction.setCrypto(cryptoRepository.findCryptosByName(transactionDTO.getCryptoType()).get());
         repo.save(transaction);
         return transactionDTO.getTransactionType() == "sell" ? user.getCvu(): user.getWallet();

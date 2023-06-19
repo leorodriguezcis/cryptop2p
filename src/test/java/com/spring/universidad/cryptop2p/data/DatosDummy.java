@@ -1,10 +1,9 @@
 package com.spring.universidad.cryptop2p.data;
 
-import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
-import com.spring.universidad.cryptop2p.modelo.entities.Transaction;
-import com.spring.universidad.cryptop2p.modelo.entities.User;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.BigDecimalConversion;
+import com.spring.universidad.cryptop2p.model.entities.Crypto;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -37,6 +36,22 @@ public class DatosDummy {
 
     public static Transaction transaction3 = new Transaction("buy",AAVEUSDT,102d,AAVEUSDT.getValueInArs()*5, new BigDecimal(AAVEUSDT.getValue()));
 
+
+    public static Crypto getMATICUSDT() {
+        return MATICUSDT;
+    }
+
+    public static Crypto getAXSUSDT() {
+        return AXSUSDT;
+    }
+
+    public static Crypto getAAVEUSDT() {
+        return AAVEUSDT;
+    }
+
+    public static Crypto getATOMUSDT() {
+        return ATOMUSDT;
+    }
 
     public static Transaction getTransaction1() {
         return transaction1;

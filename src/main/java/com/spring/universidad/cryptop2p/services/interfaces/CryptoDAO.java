@@ -1,8 +1,8 @@
 package com.spring.universidad.cryptop2p.services.interfaces;
 
 
-import com.spring.universidad.cryptop2p.modelo.entities.Crypto;
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.entities.Crypto;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;

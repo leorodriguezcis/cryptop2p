@@ -1,6 +1,7 @@
-package com.spring.universidad.cryptop2p.modelo.entities;
+package com.spring.universidad.cryptop2p.model.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.spring.universidad.cryptop2p.model.entities.Transaction;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

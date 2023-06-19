@@ -1,4 +1,4 @@
-package com.spring.universidad.cryptop2p.modelo.entities.controller;
+package com.spring.universidad.cryptop2p.model.controller;
 
 import com.spring.universidad.cryptop2p.services.interfaces.GenericDAO;
 

@@ -1,6 +1,6 @@
-package com.spring.universidad.cryptop2p.modelo.entities;
+package com.spring.universidad.cryptop2p.model.entities;
 
-import com.spring.universidad.cryptop2p.modelo.entities.numeradores.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
