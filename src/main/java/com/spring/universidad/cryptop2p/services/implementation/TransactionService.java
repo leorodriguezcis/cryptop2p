@@ -39,9 +39,9 @@ public class TransactionService extends GenericService<Transaction, TransactionR
 
     @Override
     @Transactional
-    public String addTransaction(TransactionDTO transactionDTO, int user_id) {
+    public String addTransaction(TransactionDTO transactionDTO, int userId) {
         Transaction transaction = new Transaction();
-        Optional<User> userOpt = userRepository.findById(user_id);
+        Optional<User> userOpt = userRepository.findById(userId);
         User user = new User();
         if(userOpt.isPresent()){
             user = userOpt.get();
