@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +24,6 @@ public class TransactionRepositoryTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.initMocks(this);
         DatosDummy.getTransaction1().setIsActive(TransactionState.NEW);
         DatosDummy.getTransaction2().setIsActive(TransactionState.CANCELLED);
         DatosDummy.getTransaction3().setIsActive(TransactionState.FINISHED);
@@ -44,15 +42,15 @@ public class TransactionRepositoryTest {
     @DisplayName("find transaction with crypto type")
     void findTransactionByCryptoType() {
         Iterable<Transaction> expected = transactionRepository.transactionByCryptoName(CryptoEnum.ETHUSDT);
-        assertThat(((List<Transaction>)expected).size() == 1).isTrue();
-        assertThat(((List<Transaction>)expected).get(0).getCrypto().getName() == CryptoEnum.ETHUSDT).isTrue();
+        assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
+        assertThat(((List<Transaction>)expected).get(0).getCrypto().getName() == CryptoEnum.ETHUSDT).isSameAs(true);
     }
 
     @Test
     @DisplayName("obtener transacciones activas")
     void transactionsActive() {
         Iterable<Transaction> expected = transactionRepository.transactionsActive();
-        assertThat(((List<Transaction>)expected).size() == 1).isTrue();
+        assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
     }
 
 
@@ -65,6 +63,6 @@ public class TransactionRepositoryTest {
         trans.setTransactionDate(LocalDateTime.of(2023,6,13,12,12,12));
         transactionRepository.save(trans);
         Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(LocalDateTime.of(2022,6,13,12,12,12),LocalDateTime.now(),1);
-        assertThat(((List<Transaction>)expected).size() == 1).isTrue();
+        assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
     }
 }
