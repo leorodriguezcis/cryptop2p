@@ -17,4 +17,17 @@ public class CryptoValueResponse implements Serializable {
         this.valueDollar = crypto.getValue();
         this.valuePesos = crypto.getValueInArs();
     }
+
+    public CryptoEnum getName() {
+        return name;
+    }
+
+    public double getValueDollar() {
+        return valueDollar;
+    }
+
+    public double getValuePesos() {
+        return valuePesos;
+    }
+    
 }

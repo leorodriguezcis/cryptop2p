@@ -50,7 +50,11 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
         CryptoDTO crypto = restTemplate.getForObject(url, CryptoDTO.class);
-        Double priceCriptoInUsd = crypto.getPrice();
+        Double priceCriptoInUsd = 0d;
+        if(crypto != null){
+             priceCriptoInUsd += crypto.getPrice();}
+        else{
+            throw new BadRequestException("Error al obtener valor");}
         Double priceArs = priceCriptoInUsd * dollarPrice;
         crypto.setPriceArs(priceArs);
         crypto.setHourCotization(hour);
@@ -89,6 +93,9 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
     public String priceUsd(){
         String url ="https://www.dolarsi.com/api/api.php?type=valoresprincipales";
 		DolarDTOHelper[] casa = restTemplate.getForObject(url, DolarDTOHelper[].class);
+        if(casa == null){
+            throw new BadRequestException("Error al obtener valor");
+        }
        return casa[1].getCasa().getCompra();
     }
     public class BadRequestException extends RuntimeException{

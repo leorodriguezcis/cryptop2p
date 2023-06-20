@@ -20,21 +20,17 @@ import java.util.*;
 @RestController
 @Api(tags = "Transaction")
 public class TransactionController extends GenericController<Transaction, TransactionDAO>{
-    private final CryptoDAO cryptoDAO;
-    private final UserDAO userDAO;
     private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
-    public TransactionController(TransactionDAO service, CryptoDAO cryptoDAO, UserDAO userDAO ) {
+    public TransactionController(TransactionDAO service ) {
         super(service);
-        this.cryptoDAO = cryptoDAO;
-        this.userDAO = userDAO;
     }
 
     @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
     public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
         Map<String, Object> message = service.transactionByCryptoName(crypto);
-        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
         return ResponseEntity.ok(message);
@@ -44,7 +40,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @GetMapping(value="/transaction/getActives")
     public ResponseEntity<Map<String, Object>> searchTransactionsActive(){
         Map<String, Object> message = service.transactionsActive();
-        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
         return ResponseEntity.ok(message);
@@ -54,7 +50,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @GetMapping(value="/transaction/get/{transactionId}")
     public ResponseEntity<Map<String, Object>> searchTransaction(@PathVariable Integer transactionId){
         Map<String, Object> message = service.findTransaction(transactionId);
-        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
         return ResponseEntity.ok(message);
@@ -84,7 +80,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/confirm/{action}/{transactionID}")
     public ResponseEntity<Map<String, Object>> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String action ){
         Map<String, Object> message  = service.confirmTransference(userId, transactionID,action);
-        if(message.get("SUCCESS").equals(Boolean.FALSE)){
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
         return ResponseEntity.ok(message);
@@ -95,7 +91,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
     public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID){
         Map<String, Object> message = service.cancelTransaction(userId,transactionID);
-        if(message.get("SUCCESS").equals(Boolean.FALSE))
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE))
             return ResponseEntity.badRequest().body(message);
 
         return ResponseEntity.ok(message);

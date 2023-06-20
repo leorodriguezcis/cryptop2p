@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UserServiceTest {
 
     private UserRegisterDTO userTest;
-    private UserRegisterDTO userTest1;
     private User user;
     @Autowired
     private UserService userService;
@@ -26,7 +25,6 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception{
          userTest = new UserRegisterDTO("chaco","lopez","chaaaco@gmail.com","123","1234","1234567891234567891234","asdf");
-         userTest1 = new UserRegisterDTO("leo","rodriguez","leoRodriguez@gmail.com","392","diego1234","9876543210987654321098","VACALORO");
     }
     @After
     public void tearDown(){
@@ -36,7 +34,7 @@ public class UserServiceTest {
     @Test
     public void checkRegisterUser() throws Exception {
         this.user = userService.registerUser(userTest);
-        Assert.assertTrue(userService.findById(user.getId()).get().getName().equals("chaco"));
+        Assert.assertEquals("chaco",userService.findById(user.getId()).get().getName());
     }
 
 }
