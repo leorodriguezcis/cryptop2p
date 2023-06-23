@@ -57,7 +57,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         transaction.setValueCotization(transactionDTO.getValueCotization());
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
         transaction.setTransactionType(transactionDTO.getTransactionType());
-        transaction.setIsActive(transactionDTO.getState());
+        transaction.setIsActive(TransactionState.NEW);
         transaction.setCrypto(crypto);
         repo.save(transaction);
         return transactionDTO.getTransactionType().equals("sell") ? user.getCvu(): user.getWallet();
@@ -97,16 +97,16 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Optional<Transaction> res = repo.findById(transactionID);
         Transaction transaction = new Transaction();
         if (res.isPresent()){ 
-             transaction = res.get();
+            transaction = res.get();
         }
         transaction.setIsActive(TransactionState.ON_PROCESS);
         repo.save(transaction);
         Optional<User> userRes = userRepository.findById(userId);
-        String resWallet = "";
+        String userWallet = "";
         if (userRes.isPresent()){
-            resWallet = userRes.get().getWallet();
+           userWallet = userRes.get().getWallet();
         }
-        return  resWallet;
+        return  userWallet;
     }
 
 

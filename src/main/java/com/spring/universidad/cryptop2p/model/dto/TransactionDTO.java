@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
 public class TransactionDTO {
 
     private Integer id;
-    public CryptoEnum cryptoType;
-    public Double nominalValue;
-    public BigDecimal valueCotization;
-    public Double valuePesos;
-    public Integer operationUserNumber;
-    public TransactionState state;
-    public LocalDateTime transactionDate;
-    public String transactionType;
+    private  CryptoEnum cryptoType;
+    private Double nominalValue;
+    private BigDecimal valueCotization;
+    private Double valuePesos;
+    private Integer operationUserNumber;
+    private TransactionState state;
+    private LocalDateTime transactionDate;
+    private String transactionType;
 
-    public String user;
+    private String user;
 
     public TransactionDTO(String transactionType, CryptoEnum cryptoName, Double value, Double valuePesos, String user, BigDecimal cotization) {
         this.cryptoType = cryptoName;

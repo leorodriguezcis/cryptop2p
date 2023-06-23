@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
     @Query("select t from Transaction t where t.crypto.name = ?1")
     Iterable<Transaction> transactionByCryptoName(CryptoEnum cryptoType);
-    @Query("select t from Transaction t where t.transactionState != 'FINISHED' AND t.transactionState != 'CANCELLED'")
+    @Query("select t from Transaction t where t.transactionState != 'NEW'")
     Iterable<Transaction> transactionsActive();
     @Query("select t from Transaction t where t.user.id = ?3 and t.transactionDate BETWEEN ?1 and ?2 and t.transactionState = 'FINISHED'")
     Iterable<Transaction> searchByRangeActivity(LocalDateTime start,LocalDateTime end,Integer userId);

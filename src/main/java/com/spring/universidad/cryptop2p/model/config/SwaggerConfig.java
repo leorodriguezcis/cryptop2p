@@ -21,7 +21,7 @@ public class SwaggerConfig {
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.spring.universidad.cryptop2p.modelo.entities.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.spring.universidad.cryptop2p.model.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(getApiInfo());

@@ -53,6 +53,10 @@ public class DatosDummy {
         return ATOMUSDT;
     }
 
+    public static Crypto getETHUSDT() {
+        return ETHUSDT;
+    }
+
     public static Transaction getTransaction1() {
         return transaction1;
     }

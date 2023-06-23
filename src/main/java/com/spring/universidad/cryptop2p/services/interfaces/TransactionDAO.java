@@ -5,7 +5,6 @@ import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
-
 import java.util.Map;
 
 public interface TransactionDAO extends GenericDAO<Transaction>{
