@@ -30,7 +30,10 @@ public class UserController extends GenericController <User, UserDAO>{
     @ApiOperation(value = "login user")
     @PostMapping(value="/login")
     public ResponseEntity<Map<String, Object>> userLogin(@Valid @RequestBody UserLoginDTO user){
-        return ResponseEntity.ok(service.logIn(user));
+        Map<String, Object> message = service.logIn(user);
+        if(message.get("SUCCESS").equals(Boolean.FALSE))
+            return ResponseEntity.badRequest().body(message);
+        return ResponseEntity.ok(message);
     }
 
 }

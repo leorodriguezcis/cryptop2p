@@ -30,87 +30,60 @@ public class TransactionController extends GenericController<Transaction, Transa
     @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
     public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto, @RequestHeader("Authorization") String token){
-        Map<String, Object> message = service.transactionByCryptoName(crypto);
-        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
-            return ResponseEntity.badRequest().body(message);
-        }
-        return ResponseEntity.ok(message);
+        return verifyMessageAndToken(token,service.transactionByCryptoName(crypto));
     }
     //este es el ejemplo
     @ApiOperation(value = "get by cryptoActive")
     @GetMapping(value="/transaction/getActives")
     public ResponseEntity<Map<String, Object>> searchTransactionsActive( @RequestHeader("Authorization") String token){
-        Map<String, Object> message = new HashMap<>();
-        if(!jwtUtil.validateToken(token)) {
-            message.put("ERROR","Token invalido");
-            return ResponseEntity.ok(message);}
-        message = service.transactionsActive();   
-        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
-            return ResponseEntity.badRequest().body(message);
-        }
-        return ResponseEntity.ok(message);
+        return verifyMessageAndToken(token,service.transactionsActive());
     }
 
     @ApiOperation(value = "get transaction by id")
     @GetMapping(value="/transaction/get/{transactionId}")
-    public ResponseEntity<Map<String, Object>> searchTransaction(@PathVariable Integer transactionId){
-        Map<String, Object> message = service.findTransaction(transactionId);
-        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
-            return ResponseEntity.badRequest().body(message);
-        }
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Map<String, Object>> searchTransaction(@PathVariable Integer transactionId,@RequestHeader("Authorization") String token){
+        return verifyMessageAndToken(token,service.findTransaction(transactionId));
     }
 
     @ApiOperation(value = "user intention activity ")
     @PostMapping(value="/transaction/{userId}/intention")
-    public ResponseEntity<String> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction  ){
-        String userTransferData = service.addTransaction(transaction,userId);
-        return ResponseEntity.ok(userTransferData);
+    public ResponseEntity<Map<String, Object>> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction, @RequestHeader("Authorization") String token){
+        return verifyMessageAndToken(token,service.addTransaction(transaction,userId));
     }
 
     @ApiOperation(value = "user buy an activity ")
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
-    public ResponseEntity<String> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention ){
-        String userTransferData = "";
-        if(intention.equals("buy")) {
-            userTransferData = service.buyAnIntention(userId, transactionID);
-        }
-        if(intention.equals("sell")) {
-            userTransferData = service.sellAnIntention(userId, transactionID);
-        }
-
-        return ResponseEntity.ok(userTransferData);
+    public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention, @RequestHeader("Authorization") String token){
+        Map<String, Object> message = intention.equals("buy")? service.buyAnIntention(userId, transactionID):service.sellAnIntention(userId, transactionID);
+        return verifyMessageAndToken(token,message);
     }
     @ApiOperation(value = "user confirm transference ")
     @PostMapping(value="/transaction/{userId}/confirm/{action}/{transactionID}")
-    public ResponseEntity<Map<String, Object>> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String action ){
-        Map<String, Object> message  = service.confirmTransference(userId, transactionID,action);
-        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
-            return ResponseEntity.badRequest().body(message);
-        }
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Map<String, Object>> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String action, @RequestHeader("Authorization") String token){
+        return verifyMessageAndToken(token,service.confirmTransference(userId, transactionID,action));
     }
 
 
     @ApiOperation(value = "user cancel transaction ")
     @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
-    public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID){
-        Map<String, Object> message = service.cancelTransaction(userId,transactionID);
-        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE))
-            return ResponseEntity.badRequest().body(message);
-
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID, @RequestHeader("Authorization") String token){
+        return verifyMessageAndToken(token,service.cancelTransaction(userId,transactionID));
     }
 
     @ApiOperation(value = "List activity betwen 2 dates")
     @GetMapping(value="/transaction/get/range/toUser/{userId}")
-    public ResponseEntity<Map<String, Object>> getTransactionByDates(@Valid @RequestBody DateRangeDTO rangeDTO, @PathVariable Integer userId){
-        Map<String, Object> message = new HashMap<>();
-        CryptoActiveResult transactionRange = service.searchByRangeActivity(rangeDTO, userId);
-        message.put(MSG_SUCCESS, Boolean.TRUE);
-        message.put("datos", transactionRange);
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Map<String, Object>> getTransactionByDates(@Valid @RequestBody DateRangeDTO rangeDTO, @PathVariable Integer userId, @RequestHeader("Authorization") String token){
+        return verifyMessageAndToken(token,service.searchByRangeActivity(rangeDTO, userId));
     }
 
-
+    private ResponseEntity<Map<String, Object>> verifyMessageAndToken(String token, Map<String, Object> message){
+        if(message.get(MSG_SUCCESS).equals(Boolean.FALSE))
+            return ResponseEntity.badRequest().body(message);
+        if(!jwtUtil.validateToken(token)) {
+            message.clear();
+            message.put("ERROR","Token invalido");
+            return ResponseEntity.badRequest().body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
 }
