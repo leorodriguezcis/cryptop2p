@@ -2,19 +2,13 @@ package com.spring.universidad.cryptop2p.ServiceTest;
 
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
-import com.spring.universidad.cryptop2p.model.dto.UserRegisterDTO;
-import com.spring.universidad.cryptop2p.model.entities.Crypto;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
-import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
 import com.spring.universidad.cryptop2p.model.repository.UserRepository;
 import com.spring.universidad.cryptop2p.services.implementation.TransactionService;
-import com.spring.universidad.cryptop2p.services.implementation.UserService;
-
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,10 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 
 @DataJpaTest
@@ -56,10 +48,12 @@ public class TransactionServiceTest {
     @AfterEach
     public void tearDown(){
         userRepository.deleteAll();
+        cryptoRepo.deleteAll();
+        transactionRepository.deleteAll();
     }
-    //TRANSACCION Q SE GUARDA SE GENERA CON ID 2
+
     @Test
-    @DisplayName("Agregar Transaccion")
+    @DisplayName("add transaction")
     void addTransaction() {
         transactionService.addTransaction(trans1, 3);
         Iterable<Transaction> res = transactionRepository.findAll();
@@ -68,7 +62,7 @@ public class TransactionServiceTest {
     }
 
     @Test
-    @DisplayName("Comprar una transaccion activa")
+    @DisplayName("buy an intention active")
     void buyAnIntentionTest() {
         transactionService.addTransaction(trans1, 3);
         System.out.println("ASD"+((ArrayList<Transaction>)transactionRepository.findAll()).get(0).getId());

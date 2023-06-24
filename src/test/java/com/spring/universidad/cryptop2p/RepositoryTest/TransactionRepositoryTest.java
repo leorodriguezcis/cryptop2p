@@ -24,18 +24,23 @@ public class TransactionRepositoryTest {
 
     @BeforeEach
     void setup() {
-        DatosDummy.getTransaction1().setIsActive(TransactionState.NEW);
-        DatosDummy.getTransaction2().setIsActive(TransactionState.CANCELLED);
-        DatosDummy.getTransaction3().setIsActive(TransactionState.FINISHED);
-        transactionRepository.save(DatosDummy.getTransaction3());
-        transactionRepository.save(DatosDummy.getTransaction2());
+        User mockUser = new User("name",  "lastname",  "email@jotmail.com",  "address",  "123456789Leo.-",  "cvasdasdasdasdu",  "walasdasdasdasdlet");
+        Transaction trans3 = DatosDummy.getTransaction3();
+        trans3.setIsActive(TransactionState.FINISHED);
+        trans3.setUser(mockUser);
+        trans3.setTransactionDate(LocalDateTime.of(2023,6,13,12,12,12));
+        Transaction trans2 = DatosDummy.getTransaction2();
+        trans2.setIsActive(TransactionState.CANCELLED);
+        Transaction trans1 = DatosDummy.getTransaction1();
+        trans1.setIsActive(TransactionState.NEW);
         transactionRepository.save(DatosDummy.getTransaction1());
-
+        transactionRepository.save(DatosDummy.getTransaction2());
+        transactionRepository.save(DatosDummy.getTransaction3());
     }
+    
     @AfterEach
     void tearDown() {
-        transactionRepository.deleteById(DatosDummy.getTransaction1().getId());
-        transactionRepository.deleteById(DatosDummy.getTransaction2().getId());
+        transactionRepository.deleteAll();
     }
 
     @Test
@@ -47,7 +52,7 @@ public class TransactionRepositoryTest {
     }
 
     @Test
-    @DisplayName("obtener transacciones activas")
+    @DisplayName("get all active transactions")
     void transactionsActive() {
         Iterable<Transaction> expected = transactionRepository.transactionsActive();
         assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
@@ -55,14 +60,11 @@ public class TransactionRepositoryTest {
 
 
     @Test
+    @DisplayName("get transactions of an user in a range of date")
     public void testFindOrdersByUserId() {
-        User mockUser = new User("name",  "lastname",  "email@jotmail.com",  "address",  "123456789Leo.-",  "cvasdasdasdasdu",  "walasdasdasdasdlet");
-        mockUser.setId(1);
-        Transaction trans = DatosDummy.getTransaction3();
-        trans.setUser(mockUser);
-        trans.setTransactionDate(LocalDateTime.of(2023,6,13,12,12,12));
-        transactionRepository.save(trans);
-        Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(LocalDateTime.of(2022,6,13,12,12,12),LocalDateTime.now(),1);
+        LocalDateTime start = LocalDateTime.of(2022,6,10,12,12,12);
+        LocalDateTime end = LocalDateTime.of(2023,6,15,12,12,12);
+        Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(start,end,3);
         assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
     }
 }

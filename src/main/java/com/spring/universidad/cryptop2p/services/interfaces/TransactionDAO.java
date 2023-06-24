@@ -1,6 +1,5 @@
 package com.spring.universidad.cryptop2p.services.interfaces;
 
-import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;

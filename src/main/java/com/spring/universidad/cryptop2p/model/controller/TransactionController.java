@@ -2,7 +2,6 @@ package com.spring.universidad.cryptop2p.model.controller;
 
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
-import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.model.config.JWTUtil;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
@@ -32,7 +31,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto, @RequestHeader("Authorization") String token){
         return verifyMessageAndToken(token,service.transactionByCryptoName(crypto));
     }
-    //este es el ejemplo
+
     @ApiOperation(value = "get by cryptoActive")
     @GetMapping(value="/transaction/getActives")
     public ResponseEntity<Map<String, Object>> searchTransactionsActive( @RequestHeader("Authorization") String token){
@@ -51,7 +50,7 @@ public class TransactionController extends GenericController<Transaction, Transa
         return verifyMessageAndToken(token,service.addTransaction(transaction,userId));
     }
 
-    @ApiOperation(value = "user buy an activity ")
+    @ApiOperation(value = "user buy/send an activity ")
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
     public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention, @RequestHeader("Authorization") String token){
         Map<String, Object> message = intention.equals("buy")? service.buyAnIntention(userId, transactionID):service.sellAnIntention(userId, transactionID);

@@ -24,12 +24,12 @@ public class CryptoRepositoryTest {
     }
     @AfterEach
     void tearDown() {
-        cryptoRepository.deleteById(DatosDummy.getATOMUSDT().getId());
+        cryptoRepository.deleteAll();
     }
     @Test
-    @DisplayName("obtener Crypto Por nombre")
+    @DisplayName("get crypto for name")
     void transactionsActive() {
         Crypto expected = cryptoRepository.findCryptosByName(CryptoEnum.ATOMUSDT).get();
-        assertThat(expected.getId() == DatosDummy.getATOMUSDT().getId()).isTrue();
+        assertThat(expected.getId()).isEqualTo(1);
     }
 }
