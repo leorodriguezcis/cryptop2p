@@ -3,6 +3,7 @@ package com.spring.universidad.cryptop2p.model.controller;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
+import com.spring.universidad.cryptop2p.model.config.JWTUtil;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
@@ -23,21 +24,27 @@ public class TransactionController extends GenericController<Transaction, Transa
     public TransactionController(TransactionDAO service ) {
         super(service);
     }
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @ApiOperation(value = "get by cryptoName")
     @GetMapping(value="/transaction/{crypto}")
-    public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto){
+    public ResponseEntity<Map<String, Object>> searchTransactionByCrypto( @PathVariable CryptoEnum crypto, @RequestHeader("Authorization") String token){
         Map<String, Object> message = service.transactionByCryptoName(crypto);
         if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }
         return ResponseEntity.ok(message);
     }
-
+    //este es el ejemplo
     @ApiOperation(value = "get by cryptoActive")
     @GetMapping(value="/transaction/getActives")
-    public ResponseEntity<Map<String, Object>> searchTransactionsActive(){
-        Map<String, Object> message = service.transactionsActive();
+    public ResponseEntity<Map<String, Object>> searchTransactionsActive( @RequestHeader("Authorization") String token){
+        Map<String, Object> message = new HashMap<>();
+        if(!jwtUtil.validateToken(token)) {
+            message.put("ERROR","Token invalido");
+            return ResponseEntity.ok(message);}
+        message = service.transactionsActive();   
         if(message.get(MSG_SUCCESS).equals(Boolean.FALSE)){
             return ResponseEntity.badRequest().body(message);
         }

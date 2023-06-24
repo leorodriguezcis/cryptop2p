@@ -18,7 +18,6 @@ import java.util.Optional;
 public class UserService extends GenericService<User, UserRepository> implements UserDAO {
 
     private static final  String MSG_SUCCESS = "SUCCESS";
-    private static final  String DATOS = "datos";
     private static final  String MESSAGE = "message";
     @Autowired
     public UserService(UserRepository repo) {
@@ -42,19 +41,16 @@ public class UserService extends GenericService<User, UserRepository> implements
     @Override
     public Map<String, Object> logIn(UserLoginDTO user) {
         Map<String, Object> message = new HashMap<>();
-        Optional<User> userByName = repo.findByName(user.getUserName());
-        System.out.println(userByName);
-        if(userByName.isPresent()){
-            if(userByName.get().getPassword().equals(user.getPassWord())){
-                String token = jwtUtil.generateToken(user.getUserName());
-                System.out.println(token);
-                message.put(MSG_SUCCESS, Boolean.TRUE);
-                message.put("token", token);
-                return message;
-            }
+        Optional<User> userByName = repo.findByName(user.getUsername());
+        if(userByName.isPresent()&&userByName.get().getPassword().equals(user.getPassword())){
+            String token = jwtUtil.generateToken(user.getUsername());
+            message.put(MSG_SUCCESS, Boolean.TRUE);
+            message.put("token", token);
+            return message;
+            
         }
         message.put(MSG_SUCCESS, Boolean.FALSE);
-        message.put(MESSAGE, String.format("nombre o contraseña incorrectos"));
+        message.put(MESSAGE, "nombre o contraseña incorrectos");
         return message;
     }
 
