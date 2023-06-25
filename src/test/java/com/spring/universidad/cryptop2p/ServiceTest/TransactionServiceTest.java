@@ -25,7 +25,7 @@ import java.util.Optional;
 
 
 @DataJpaTest
-public class TransactionServiceTest {
+class TransactionServiceTest {
     private TransactionDTO trans1;
     TransactionService transactionService;
     
