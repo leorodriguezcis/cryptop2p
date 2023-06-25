@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 @DataJpaTest
-public class UserServiceTest {
+class UserServiceTest {
     private UserRegisterDTO userTest;
     private UserService userService ;
     

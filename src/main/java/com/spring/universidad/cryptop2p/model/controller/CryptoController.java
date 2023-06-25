@@ -37,7 +37,6 @@ public class CryptoController {
         crypotoList[5] = NEOUSDT;
         crypotoList[6] = DOTUSDT;
         crypotoList[7] = ETHUSDT;
-       // crypotoList[8] = CAKEUSDT;
         crypotoList[8] = BTCUSDT;
         crypotoList[9] = BNBUSDT;
         crypotoList[10] = ADAUSDT;
