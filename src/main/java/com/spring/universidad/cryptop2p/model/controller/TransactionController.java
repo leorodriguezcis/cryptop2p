@@ -53,7 +53,7 @@ public class TransactionController extends GenericController<Transaction, Transa
     @ApiOperation(value = "user buy/send an activity ")
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
     public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention, @RequestHeader("Authorization") String token){
-        Map<String, Object> message = intention.equals("buy")? service.buyAnIntention(userId, transactionID):service.sellAnIntention(userId, transactionID);
+        Map<String, Object> message = service.publicAnIntention(userId, transactionID, intention);
         return verifyMessageAndToken(token,message);
     }
     @ApiOperation(value = "user confirm transference ")

@@ -25,8 +25,8 @@ public class TransactionService extends GenericService<Transaction, TransactionR
     private static final  String MSG_SUCCESS = "SUCCESS";
     private static final  String DATOS = "datos";
     private static final  String MESSAGE = "message";
-     private static final  String TRANSACTION_MSG = "no existe ninguna transaccion con id: %s";
-    
+    private static final  String TRANSACTION_MSG = "no existe ninguna transaccion con id: %s";
+    private static final  String USER_MSG = "no existe ningun usuario con id: %s";
     private UserRepository userRepository;
     private CryptoRepository cryptoRepository;
     @Autowired
@@ -46,7 +46,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Optional<Crypto> cryptoOpt = cryptoRepository.findCryptosByName(transactionDTO.getCryptoType());
         if (userOpt.isEmpty()) {
             message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format("no existe ningun usuario con id: %s", userId));
+            message.put(MESSAGE, String.format(USER_MSG, userId));
             return message;
         }
         if (cryptoOpt.isEmpty()) {
@@ -100,12 +100,12 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         LocalDateTime end = convertToLocalDateTime(dateRange.getEndDate());
         ArrayList<Transaction> transactionRes = (ArrayList<Transaction>)(repo.searchByRangeActivity(start, end, userId));
         message.put(MSG_SUCCESS, Boolean.TRUE);
-        message.put("datos", new CryptoActiveResult(transactionRes));
+        message.put(DATOS, new CryptoActiveResult(transactionRes));
         return message;
     }
     @Transactional
     @Override
-    public Map<String, Object> buyAnIntention(Integer userId, Integer transactionID) {
+    public Map<String, Object> publicAnIntention(Integer userId, Integer transactionID, String intention) {
         Map<String, Object> message = new HashMap<>();
         Optional<Transaction> res = repo.findById(transactionID);
         Optional<User> userRes = userRepository.findById(userId);
@@ -118,36 +118,14 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         }
         transaction = res.get();
         userWallet = userRes.get().getWallet();
+        String userCVU = userRes.get().getCvu();
         transaction.setIsActive(TransactionState.ON_PROCESS);
         repo.save(transaction);
         message.put(MSG_SUCCESS, Boolean.TRUE);
-        message.put(DATOS, userWallet);
+        message.put(DATOS, intention.equals("buy") ? userWallet : userCVU);
         return  message;
     }
 
-
-
-    @Transactional
-    @Override
-    public Map<String, Object> sellAnIntention(Integer userId, Integer transactionID) {
-        Map<String, Object> message = new HashMap<>();
-        Optional<Transaction> res = repo.findById(transactionID);
-        Optional<User> userRes = userRepository.findById(userId);
-        Transaction transaction;
-        String userCVU = "";
-        if (!res.isPresent() || !userRes.isPresent()){
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format("no existe usuario con id: %s o transaccion con id: %s2", userId, transactionID));
-            return message;
-        }
-        transaction = res.get();
-        userCVU = userRes.get().getCvu();
-        transaction.setIsActive(TransactionState.ON_PROCESS);
-        repo.save(transaction);
-        message.put(MSG_SUCCESS, Boolean.TRUE);
-        message.put(DATOS, userCVU);
-        return  message;
-    }
     @Transactional
     @Override
     public Map<String, Object> confirmTransference(Integer userId, Integer transactionID, String action) {
@@ -161,7 +139,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         }
         if (userRes.isEmpty()) {
             message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format("no existe ningun usuario con id: %s", userId));
+            message.put(MESSAGE, String.format(USER_MSG, userId));
             return message;
         }
         User user = userRes.get();
@@ -194,7 +172,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         }
         if (user.isEmpty()) {
             message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format("no existe ningun usuario con id: %s", userId));
+            message.put(MESSAGE, String.format(USER_MSG, userId));
             return message;
         }
         User userRes =  user.get();

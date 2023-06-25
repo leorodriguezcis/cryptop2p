@@ -3,7 +3,6 @@ package com.spring.universidad.cryptop2p.ServiceTest;
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
-import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
@@ -66,11 +65,12 @@ public class TransactionServiceTest {
     @DisplayName("buy an intention active")
     void buyAnIntentionTest() {
         transactionService.addTransaction(trans1, 7);
-        transactionService.buyAnIntention(8, 11 );
+        transactionService.publicAnIntention(8, 11, null );
         Optional<Transaction> res = transactionRepository.findById(11);
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
     }
+    //TRANSACCION 11 USER 7 y 8
 
 }
      
