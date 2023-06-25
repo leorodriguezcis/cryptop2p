@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class CryptoRepositoryTest {
+class CryptoRepositoryTest {
     @Autowired
     CryptoRepository cryptoRepository;
 
