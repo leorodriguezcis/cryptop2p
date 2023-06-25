@@ -28,7 +28,7 @@ public class CryptoController {
     @ApiOperation(value = "initialize crypto")
     @PostMapping(value="/crypto/initialize")
     public ResponseEntity<String> initializeCrypto(){
-        CryptoEnum[] crypotoList = new CryptoEnum[14];
+        CryptoEnum[] crypotoList = new CryptoEnum[13];
         crypotoList[0] = ALICEUSDT;
         crypotoList[1] = MATICUSDT;
         crypotoList[2] = AXSUSDT ;
@@ -37,12 +37,12 @@ public class CryptoController {
         crypotoList[5] = NEOUSDT;
         crypotoList[6] = DOTUSDT;
         crypotoList[7] = ETHUSDT;
-        crypotoList[8] = CAKEUSDT;
-        crypotoList[9] = BTCUSDT;
-        crypotoList[10] = BNBUSDT;
-        crypotoList[11] = ADAUSDT;
-        crypotoList[12] = TRXUSDT ;
-        crypotoList[13] = AUDIOUSDT;
+       // crypotoList[8] = CAKEUSDT;
+        crypotoList[8] = BTCUSDT;
+        crypotoList[9] = BNBUSDT;
+        crypotoList[10] = ADAUSDT;
+        crypotoList[11] = TRXUSDT ;
+        crypotoList[12] = AUDIOUSDT;
         service.inicializerCrypto(crypotoList);
         return ResponseEntity.ok("Cryptos inicializadas");
     }
