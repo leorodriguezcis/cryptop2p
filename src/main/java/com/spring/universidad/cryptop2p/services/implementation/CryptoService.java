@@ -7,6 +7,7 @@ import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.model.response.CryptoValueResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -74,7 +75,8 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository>{
     public Optional<Crypto> findCryptosByName(CryptoEnum nombre) {
         return repo.findCryptosByName(nombre);
     }
-
+    @Transactional(readOnly = true)
+    @Cacheable("getCryptos")
     public Map<String, Object> getAllCryptoCotization() {
         Map<String, Object> message = new HashMap<>();
         ArrayList<Crypto> arrayCrypto = (ArrayList<Crypto>)repo.findAll();
