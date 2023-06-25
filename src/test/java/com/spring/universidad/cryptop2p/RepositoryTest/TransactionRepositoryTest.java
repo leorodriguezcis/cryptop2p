@@ -61,7 +61,7 @@ class TransactionRepositoryTest {
 
     @Test
     @DisplayName("get transactions of an user in a range of date")
-    public void testFindOrdersByUserId() {
+    void testFindOrdersByUserId() {
         LocalDateTime start = LocalDateTime.of(2022,6,10,12,12,12);
         LocalDateTime end = LocalDateTime.of(2023,6,15,12,12,12);
         Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(start,end,3);

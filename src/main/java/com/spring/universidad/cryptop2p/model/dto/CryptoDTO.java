@@ -10,6 +10,7 @@ public class CryptoDTO {
     private String symbol;
     private Double price ;
     private Double priceArs;
+
     private CryptoEnum symbolEunm;
 
 
@@ -19,6 +20,7 @@ public class CryptoDTO {
 
     public void setSymbolToEnum(CryptoEnum symbolToEnum) {
         symbolEunm = symbolToEnum;
+
     }
 
     public LocalDateTime getHourCotization() {
