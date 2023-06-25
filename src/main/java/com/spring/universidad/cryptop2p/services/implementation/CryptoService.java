@@ -48,7 +48,7 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository>{
             throw new BadRequestException("Error al convertir");
         }
         LocalDateTime hour = LocalDateTime.now(ZoneId.of("America/Buenos_Aires"));
-        String url = "https://api.binance.us/api/v3/ticker/price?symbol" + symbol;
+        String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + symbol;
         CryptoDTO crypto = restTemplate.getForObject(url, CryptoDTO.class);
         Double priceCriptoInUsd = 0d;
         if(crypto != null){
