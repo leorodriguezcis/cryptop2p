@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class TransactionRepositoryTest {
+class TransactionRepositoryTest {
     @Autowired
     TransactionRepository transactionRepository;
 
