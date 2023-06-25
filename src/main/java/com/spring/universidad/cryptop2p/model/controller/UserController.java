@@ -1,9 +1,8 @@
 package com.spring.universidad.cryptop2p.model.controller;
 
 import com.spring.universidad.cryptop2p.model.dto.UserLoginDTO;
-import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.services.implementation.UserService;
 import com.spring.universidad.cryptop2p.model.dto.UserRegisterDTO;
-import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,9 @@ import java.util.Map;
 
 @RestController
 @Api(tags = "User")
-public class UserController extends GenericController <User, UserDAO>{
+public class UserController {
     @Autowired
-    public UserController(UserDAO service) {
-        super(service);
-    }
+    UserService service;
 
     @ApiOperation(value = "register user")
     @PostMapping(value="/register")

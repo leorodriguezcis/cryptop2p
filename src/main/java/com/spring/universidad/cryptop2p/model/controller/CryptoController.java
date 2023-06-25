@@ -1,9 +1,8 @@
 package com.spring.universidad.cryptop2p.model.controller;
 
 import com.spring.universidad.cryptop2p.model.config.JWTUtil;
-import com.spring.universidad.cryptop2p.model.entities.Crypto;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
-import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
+import com.spring.universidad.cryptop2p.services.implementation.CryptoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,12 @@ import static com.spring.universidad.cryptop2p.model.enums.CryptoEnum.*;
 
 @RestController
 @Api(tags = "Crypto")
-public class CryptoController extends GenericController<Crypto, CryptoDAO> {
+public class CryptoController {
     private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
     private  JWTUtil jwtUtil;
     @Autowired
-    public CryptoController(CryptoDAO service) {
-        super(service);
-    }
+    CryptoService service;
 
     @ApiOperation(value = "initialize crypto")
     @PostMapping(value="/crypto/initialize")

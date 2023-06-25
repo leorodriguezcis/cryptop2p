@@ -5,7 +5,6 @@ import com.spring.universidad.cryptop2p.model.dto.UserLoginDTO;
 import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.dto.UserRegisterDTO;
 import com.spring.universidad.cryptop2p.model.repository.UserRepository;
-import com.spring.universidad.cryptop2p.services.interfaces.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class UserService extends GenericService<User, UserRepository> implements UserDAO {
+public class UserService extends GenericService<User, UserRepository> {
 
     private static final  String MSG_SUCCESS = "SUCCESS";
     private static final  String MESSAGE = "message";
@@ -38,7 +37,6 @@ public class UserService extends GenericService<User, UserRepository> implements
         return user;
     }
 
-    @Override
     public Map<String, Object> logIn(UserLoginDTO user) {
         Map<String, Object> message = new HashMap<>();
         Optional<User> userByName = repo.findByName(user.getUsername());

@@ -4,6 +4,7 @@ import com.spring.universidad.cryptop2p.model.entities.Crypto;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
+import com.spring.universidad.cryptop2p.model.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,10 +32,10 @@ public class DatosDummy {
     public static Crypto AUDIOUSDT = new Crypto(CryptoEnum.AUDIOUSDT, LocalDate.now(),0.20030000,96.144);
 
     //transactions
-    public static Transaction transaction1 = new Transaction("sell",DOTUSDT,10d,DOTUSDT.getValueInArs()*10, new BigDecimal(DOTUSDT.getValue()));
-    public static Transaction transaction2 = new Transaction("buy",ETHUSDT,5d,ETHUSDT.getValueInArs()*5, new BigDecimal(ETHUSDT.getValue()));
+    public static Transaction transaction1 = new Transaction(TransactionType.SELL,DOTUSDT,10d,DOTUSDT.getValueInArs()*10, new BigDecimal(DOTUSDT.getValue()));
+    public static Transaction transaction2 = new Transaction(TransactionType.BUY,ETHUSDT,5d,ETHUSDT.getValueInArs()*5, new BigDecimal(ETHUSDT.getValue()));
 
-    public static Transaction transaction3 = new Transaction("buy",AAVEUSDT,102d,AAVEUSDT.getValueInArs()*5, new BigDecimal(AAVEUSDT.getValue()));
+    public static Transaction transaction3 = new Transaction(TransactionType.BUY,AAVEUSDT,102d,AAVEUSDT.getValueInArs()*5, new BigDecimal(AAVEUSDT.getValue()));
 
 
     public static Crypto getMATICUSDT() {

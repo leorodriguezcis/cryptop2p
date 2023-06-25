@@ -4,6 +4,7 @@ package com.spring.universidad.cryptop2p.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
+import com.spring.universidad.cryptop2p.model.enums.TransactionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -35,7 +36,8 @@ public class Transaction implements Serializable {
     @Column(name = "transaction_date")
     public LocalDateTime transactionDate;
     @Column(name = "transaction_type")
-    public String transactionType;
+    @Enumerated(EnumType.STRING)
+    public TransactionType transactionType;
     @Column(name = "state_of_transaction")
     @Enumerated(EnumType.STRING)
     public TransactionState transactionState;
@@ -53,7 +55,7 @@ public class Transaction implements Serializable {
     public Transaction() {
 
     }
-    public Transaction(String transactionType, Crypto crypto, Double value, Double valuePesos, BigDecimal cotization) {
+    public Transaction(TransactionType transactionType, Crypto crypto, Double value, Double valuePesos, BigDecimal cotization) {
 
         this.crypto = crypto;
         this.transactionDate = LocalDateTime.now();
@@ -94,11 +96,11 @@ public class Transaction implements Serializable {
         return operationUserNumber;
     }
 
-    public String getTransactionType() {
+    public TransactionType getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(String transactionType) {
+    public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }
 

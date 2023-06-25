@@ -1,11 +1,11 @@
 package com.spring.universidad.cryptop2p.model.controller;
 
-import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.config.JWTUtil;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
-import com.spring.universidad.cryptop2p.services.interfaces.TransactionDAO;
+import com.spring.universidad.cryptop2p.model.enums.TransactionType;
+import com.spring.universidad.cryptop2p.services.implementation.TransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.*;
 
 @RestController
 @Api(tags = "Transaction")
-public class TransactionController extends GenericController<Transaction, TransactionDAO>{
+public class TransactionController {
     private static final  String MSG_SUCCESS = "SUCCESS";
+
     @Autowired
-    public TransactionController(TransactionDAO service ) {
-        super(service);
-    }
+    TransactionService service;
+
     @Autowired
     private JWTUtil jwtUtil;
 
@@ -52,8 +52,8 @@ public class TransactionController extends GenericController<Transaction, Transa
 
     @ApiOperation(value = "user buy/send an activity ")
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
-    public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String intention, @RequestHeader("Authorization") String token){
-        Map<String, Object> message = service.publicAnIntention(userId, transactionID, intention);
+    public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable TransactionType intention, @RequestHeader("Authorization") String token){
+        Map<String, Object> message = service.sellOrBuyAnIntention(userId, transactionID, intention);
         return verifyMessageAndToken(token,message);
     }
     @ApiOperation(value = "user confirm transference ")

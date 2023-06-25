@@ -2,6 +2,7 @@ package com.spring.universidad.cryptop2p.model.dto;
 
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
+import com.spring.universidad.cryptop2p.model.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,11 +17,11 @@ public class TransactionDTO {
     private Integer operationUserNumber;
     private TransactionState state;
     private LocalDateTime transactionDate;
-    private String transactionType;
+    private TransactionType transactionType;
 
     private String user;
 
-    public TransactionDTO(String transactionType, CryptoEnum cryptoName, Double value, Double valuePesos, String user, BigDecimal cotization) {
+    public TransactionDTO(TransactionType transactionType, CryptoEnum cryptoName, Double value, Double valuePesos, String user, BigDecimal cotization) {
         this.cryptoType = cryptoName;
         this.transactionDate = LocalDateTime.now();
         this.valuePesos = valuePesos;
@@ -87,11 +88,11 @@ public class TransactionDTO {
         this.transactionDate = transactionDate;
     }
 
-    public String getTransactionType() {
+    public TransactionType getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(String transactionType) {
+    public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }
 

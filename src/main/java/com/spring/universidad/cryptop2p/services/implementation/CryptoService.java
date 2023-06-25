@@ -6,7 +6,6 @@ import com.spring.universidad.cryptop2p.model.dto.DolarDTOHelper;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.model.response.CryptoValueResponse;
-import com.spring.universidad.cryptop2p.services.interfaces.CryptoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class CryptoService extends GenericService<Crypto, CryptoRepository> implements CryptoDAO {
+public class CryptoService extends GenericService<Crypto, CryptoRepository>{
     private RestTemplate restTemplate= new RestTemplate();
     private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
@@ -61,7 +60,7 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
         crypto.setSymbolToEnum(symbol);
         return crypto;
     }
-    @Override
+
     @Transactional
     public Boolean inicializerCrypto(CryptoEnum[] cryptoEnumList) {
         for(CryptoEnum cryptoEnum:cryptoEnumList){
@@ -70,13 +69,12 @@ public class CryptoService extends GenericService<Crypto, CryptoRepository> impl
 
         return true;
     }
-    @Override
+
     @Transactional(readOnly = true)
     public Optional<Crypto> findCryptosByName(CryptoEnum nombre) {
         return repo.findCryptosByName(nombre);
     }
 
-    @Override
     public Map<String, Object> getAllCryptoCotization() {
         Map<String, Object> message = new HashMap<>();
         ArrayList<Crypto> arrayCrypto = (ArrayList<Crypto>)repo.findAll();

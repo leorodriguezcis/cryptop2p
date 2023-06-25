@@ -5,6 +5,7 @@ import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
+import com.spring.universidad.cryptop2p.model.enums.TransactionType;
 import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
 import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
 import com.spring.universidad.cryptop2p.model.repository.UserRepository;
@@ -37,7 +38,7 @@ public class TransactionServiceTest {
 
     @BeforeEach
     public void setUp(){
-        trans1 = new TransactionDTO("sell", CryptoEnum.ETHUSDT,1d,879000d,"chaco lopez",new BigDecimal(11831) );
+        trans1 = new TransactionDTO(TransactionType.SELL, CryptoEnum.ETHUSDT,1d,879000d,"chaco lopez",new BigDecimal(11831) );
         transactionService = new TransactionService(transactionRepository, userRepository, cryptoRepo);
         userRepository.save(DatosDummy.getUser1());
         userRepository.save(DatosDummy.getUser2());
@@ -65,7 +66,7 @@ public class TransactionServiceTest {
     @DisplayName("buy an intention active")
     void buyAnIntentionTest() {
         transactionService.addTransaction(trans1, 7);
-        transactionService.publicAnIntention(8, 11, null );
+        transactionService.sellOrBuyAnIntention(8, 11, null );
         Optional<Transaction> res = transactionRepository.findById(11);
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
