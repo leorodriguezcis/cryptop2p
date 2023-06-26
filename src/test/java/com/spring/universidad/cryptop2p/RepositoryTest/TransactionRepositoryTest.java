@@ -5,6 +5,8 @@ import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
 import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
+import com.spring.universidad.cryptop2p.model.repository.UserRepository;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TransactionRepositoryTest {
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @BeforeEach
     void setup() {
@@ -33,9 +37,9 @@ class TransactionRepositoryTest {
         trans2.setIsActive(TransactionState.CANCELLED);
         Transaction trans1 = DatosDummy.getTransaction1();
         trans1.setIsActive(TransactionState.NEW);
-        transactionRepository.save(DatosDummy.getTransaction1());
-        transactionRepository.save(DatosDummy.getTransaction2());
-        transactionRepository.save(DatosDummy.getTransaction3());
+        transactionRepository.save(trans1);
+        transactionRepository.save(trans2);
+        transactionRepository.save(trans3);
     }
     
     @AfterEach
@@ -64,7 +68,8 @@ class TransactionRepositoryTest {
     void testFindOrdersByUserId() {
         LocalDateTime start = LocalDateTime.of(2022,6,10,12,12,12);
         LocalDateTime end = LocalDateTime.of(2023,6,15,12,12,12);
-        Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(start,end,3);
+        User user = userRepository.findAll().iterator().next();
+        Iterable<Transaction> expected = transactionRepository.searchByRangeActivity(start,end,user.getId());
         assertThat(((List<Transaction>)expected).size() == 1).isSameAs(true);
     }
 }

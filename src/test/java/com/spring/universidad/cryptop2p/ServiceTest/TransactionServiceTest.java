@@ -3,6 +3,7 @@ package com.spring.universidad.cryptop2p.ServiceTest;
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
+import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
 import com.spring.universidad.cryptop2p.model.enums.TransactionType;
@@ -56,7 +57,8 @@ class TransactionServiceTest {
     @Test
     @DisplayName("add transaction")
     void addTransaction() {
-        transactionService.addTransaction(trans1, 6);
+        User user1 = userRepository.findAll().iterator().next();
+        transactionService.addTransaction(trans1, user1.getId());
         Iterable<Transaction> res = transactionRepository.findAll();
         ArrayList<Transaction> resList = (ArrayList<Transaction>)res;
         assertThat(resList).hasSize(1);
@@ -65,9 +67,12 @@ class TransactionServiceTest {
     @Test
     @DisplayName("buy an intention active")
     void buyAnIntentionTest() {
-        transactionService.addTransaction(trans1, 7);
-        transactionService.sellOrBuyAnIntention(8, 11, TransactionType.BUY );
-        Optional<Transaction> res = transactionRepository.findById(11);
+        User user1 = userRepository.findAll().iterator().next();
+        User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
+        transactionService.addTransaction(trans1, user1.getId());
+        Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
+        Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
     }
