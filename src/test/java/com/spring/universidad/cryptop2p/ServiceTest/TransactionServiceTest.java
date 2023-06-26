@@ -66,7 +66,7 @@ class TransactionServiceTest {
     @DisplayName("buy an intention active")
     void buyAnIntentionTest() {
         transactionService.addTransaction(trans1, 7);
-        transactionService.sellOrBuyAnIntention(8, 11, null );
+        transactionService.sellOrBuyAnIntention(8, 11, TransactionType.BUY );
         Optional<Transaction> res = transactionRepository.findById(11);
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
