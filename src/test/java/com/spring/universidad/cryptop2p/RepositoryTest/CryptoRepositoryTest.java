@@ -28,7 +28,7 @@ class CryptoRepositoryTest {
     }
     @Test
     @DisplayName("get crypto for name")
-    void transactionsActive() {
+    void findCripto() {
         Crypto expected = cryptoRepository.findCryptosByName(CryptoEnum.ATOMUSDT).get();
         assertThat(expected.getId()).isEqualTo(1);
     }
