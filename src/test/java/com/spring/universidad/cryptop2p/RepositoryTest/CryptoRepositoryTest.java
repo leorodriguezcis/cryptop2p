@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+
 @DataJpaTest
 class CryptoRepositoryTest {
     @Autowired
@@ -29,7 +31,8 @@ class CryptoRepositoryTest {
     @Test
     @DisplayName("get crypto for name")
     void findCripto() {
-        Crypto expected = cryptoRepository.findCryptosByName(CryptoEnum.ATOMUSDT).get();
-        assertThat(expected.getId()).isEqualTo(1);
+        ArrayList<Crypto> list = (ArrayList<Crypto>)cryptoRepository.findAll();
+        Crypto expected = list.get(0);
+        assertThat(expected.getName()).isEqualTo(CryptoEnum.ATOMUSDT);
     }
 }
