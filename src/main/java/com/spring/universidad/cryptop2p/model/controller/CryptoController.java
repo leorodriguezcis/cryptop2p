@@ -8,13 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-
-import static com.spring.universidad.cryptop2p.model.enums.CryptoEnum.*;
 
 @RestController
 @Api(tags = "Crypto")
@@ -28,27 +27,18 @@ public class CryptoController {
     @ApiOperation(value = "initialize crypto")
     @PostMapping(value="/crypto/initialize")
     public ResponseEntity<String> initializeCrypto(){
-        CryptoEnum[] crypotoList = new CryptoEnum[13];
-        crypotoList[0] = ALICEUSDT;
-        crypotoList[1] = MATICUSDT;
-        crypotoList[2] = AXSUSDT ;
-        crypotoList[3] = AAVEUSDT;
-        crypotoList[4] = ATOMUSDT ;
-        crypotoList[5] = NEOUSDT;
-        crypotoList[6] = DOTUSDT;
-        crypotoList[7] = ETHUSDT;
-        crypotoList[8] = BTCUSDT;
-        crypotoList[9] = BNBUSDT;
-        crypotoList[10] = ADAUSDT;
-        crypotoList[11] = TRXUSDT ;
-        crypotoList[12] = AUDIOUSDT;
-        service.inicializerCrypto(crypotoList);
+        service.inicializerCrypto();
         return ResponseEntity.ok("Cryptos inicializadas");
     }
     @ApiOperation(value = "get all cryptos values")
     @GetMapping(value="/crypto/getAll")
     public ResponseEntity<Map<String, Object>> searchTransactionsActive(@RequestHeader("Authorization") String token){
         return verifyMessageAndToken(token, service.getAllCryptoCotization());
+    }
+    @ApiOperation(value = "get crypto value for 24hs")
+    @GetMapping(value="/crypto/get24h/{symbol}")
+    public  ResponseEntity<Map<String, Object>> getCrypto24h(@PathVariable CryptoEnum symbol){
+        return  ResponseEntity.ok((service.getCotizationBySymbol24hs(symbol)));
     }
 
     private ResponseEntity<Map<String, Object>> verifyMessageAndToken(String token, Map<String, Object> message){
