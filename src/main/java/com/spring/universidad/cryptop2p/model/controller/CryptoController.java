@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
 
-import static com.spring.universidad.cryptop2p.model.enums.CryptoEnum.*;
 
 @RestController
 @Api(tags = "Crypto")
 public class CryptoController {
-    private static final Logger logger = LogManager.getLogger(UserController.class);
+    private static final Logger logger = LogManager.getLogger(CryptoController.class);
     private static final  String MSG_SUCCESS = "SUCCESS";
     @Autowired
     private  JWTUtil jwtUtil;
