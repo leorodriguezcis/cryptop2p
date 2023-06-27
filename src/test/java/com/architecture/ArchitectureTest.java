@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class ArchitectureTest {
+class ArchitectureTest {
     private JavaClasses importedClasses;
 
     @BeforeEach
