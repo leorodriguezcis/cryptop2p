@@ -15,13 +15,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void testCreateUser() throws Exception {
+    void testCreateUser() throws Exception {
         String jsonBody = "{\r\n" + //
                 "    \"name\": \"leo3\",\r\n" + //
                 "    \"lastName\": \"leo1\",\r\n" + //
@@ -38,7 +38,7 @@ public class UserControllerTest {
                 .andReturn();
     }
     @Test
-    public void testLoginUser() throws Exception {
+    void testLoginUser() throws Exception {
         String jsonBody = "{\r\n" + //
                 "    \"password\": \"randomPassword\",\r\n" + //
                 "    \"username\": \"RandomUser\",\r\n" + //

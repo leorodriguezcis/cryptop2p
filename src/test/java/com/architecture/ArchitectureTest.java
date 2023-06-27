@@ -12,7 +12,7 @@ public class ArchitectureTest {
     private JavaClasses importedClasses;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         importedClasses = new ClassFileImporter()
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                 .importPackages("com.spring.universidad.cryptop2p.model");
