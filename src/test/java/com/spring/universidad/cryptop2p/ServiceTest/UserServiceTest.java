@@ -26,8 +26,8 @@ class UserServiceTest {
 
     @BeforeEach
     public void setUp(){
-         userTest = new UserRegisterDTO("chaco","lopez","chaaaco@gmail.com","123","1234","1234567891234567891234","asdf");
-         userService = new UserService(userRepository);
+        userTest = new UserRegisterDTO("chaco","lopez","chaaaco@gmail.com","123","1234Asd","1234567891234567891234","asdf");
+        userService = new UserService(userRepository);
     }
     @AfterEach
     public void tearDown(){
@@ -35,8 +35,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("test1")
-    void test1() {
+    @DisplayName("register user")
+    void registerTest() {
         userService.registerUser(userTest);
         assertThat(((ArrayList<User>)userRepository.findAll()).get(0).getName()).isEqualTo("chaco");
     }
