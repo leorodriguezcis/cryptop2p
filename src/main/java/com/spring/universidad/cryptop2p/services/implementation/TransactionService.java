@@ -45,7 +45,6 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<Crypto> cryptoOpt = cryptoRepository.findCryptosByName(transactionDTO.getCryptoType());
         if (userOpt.isEmpty()) {
-            System.out.println(userOpt);
             message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put(MESSAGE, String.format(USER_MSG, userId));
             return message;
