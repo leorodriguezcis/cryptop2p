@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -61,7 +62,8 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         transaction.setTransactionDate(transactionDTO.getTransactionDate());
         transaction.setValuePesos(transactionDTO.getValuePesos());
         transaction.setNominalValue(transactionDTO.getNominalValue());
-        transaction.setValueCotization(transactionDTO.getValueCotization());
+        BigDecimal res = transaction.validateCotization(transactionDTO.getValueCotization(),crypto);
+        transaction.setValueCotization(res);
         transaction.setOperationUserNumber(transactionDTO.getOperationUserNumber());
         transaction.setTransactionType(transactionDTO.getTransactionType());
         transaction.setIsActive(TransactionState.NEW);
