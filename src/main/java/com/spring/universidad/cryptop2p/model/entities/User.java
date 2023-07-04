@@ -21,7 +21,7 @@ public class User implements Serializable {
     protected String name;
     @Column(name = "user_lastname")
     protected String lastname;
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     @Email(message = "Email should be valid")
     protected String email;
     @Column(name = "user_address")
@@ -104,6 +104,11 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public User() {

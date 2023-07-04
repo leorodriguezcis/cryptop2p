@@ -39,9 +39,9 @@ public class UserService extends GenericService<User, UserRepository> {
 
     public Map<String, Object> logIn(UserLoginDTO user) {
         Map<String, Object> message = new HashMap<>();
-        Optional<User> userByName = repo.findByName(user.getUsername());
-        if(userByName.isPresent()&&userByName.get().getPassword().equals(user.getPassword())){
-            String token = jwtUtil.generateToken(user.getUsername());
+        Optional<User> userByEmail = repo.findByEmail(user.getEmail());
+        if(userByEmail.isPresent()&&userByEmail.get().getPassword().equals(user.getPassword())){
+            String token = jwtUtil.generateToken(user.getEmail());
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("token", token);
             return message;
