@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Entity
@@ -89,7 +91,15 @@ public class User implements Serializable {
         return wallet;
     }
     public void cancelTransaction(){
-        this.reputation = this.reputation -10;
+        this.reputation = this.reputation -20;
+    }
+    public void finishedTransaction(LocalDateTime fecha1, LocalDateTime fecha2){
+        long diferenciaEnMinutos = ChronoUnit.MINUTES.between(fecha1, fecha2);
+        if (Math.abs(diferenciaEnMinutos) < 30) {
+            this.reputation = this.reputation + 10;
+        } else {
+            this.reputation = this.reputation + 5;
+        }
     }
 
     public void setId(Integer id) {

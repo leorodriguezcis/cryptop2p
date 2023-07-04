@@ -44,6 +44,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<Crypto> cryptoOpt = cryptoRepository.findCryptosByName(transactionDTO.getCryptoType());
         if (userOpt.isEmpty()) {
+            System.out.println(userOpt);
             message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put(MESSAGE, String.format(USER_MSG, userId));
             return message;
@@ -144,7 +145,22 @@ public class TransactionService extends GenericService<Transaction, TransactionR
            transRes.setIsActive(TransactionState.CONFIRMED);
         }
         if(action.equals("receive")&&user.getId().equals(transRes.getUser().getId())){
-            if(transRes.getIsActive()==TransactionState.CONFIRMED){transRes.setIsActive(TransactionState.FINISHED);}
+            if(transRes.getIsActive()==TransactionState.CONFIRMED){
+                transRes.setIsActive(TransactionState.FINISHED);
+                Optional<User> user1o = userRepository.findById(transRes.getOtherUserId());
+                Optional<User> user2o = userRepository.findById(transRes.getUser().getId());
+                if (user1o.isEmpty() || user2o.isEmpty()) {
+                 message.put(MSG_SUCCESS, Boolean.FALSE);
+                 message.put(MESSAGE, (USER_MSG));
+                 return message;
+                }
+                User user1 = user1o.get();
+                User user2 =user2o.get();
+                user1.finishedTransaction(transRes.getTransactionDate(), LocalDateTime.now());
+                user2.finishedTransaction(transRes.getTransactionDate(), LocalDateTime.now());
+                userRepository.save(user1);
+                userRepository.save(user2);
+            }
             else{
                 message.put(MSG_SUCCESS, Boolean.FALSE);
                 message.put(MESSAGE, String.format("no se puede finalizar la transaccion si el usuario no confirmo la operacion, usuario falta confirmar: %s", userId));
@@ -176,8 +192,9 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
             transRes.setIsActive(TransactionState.CANCELLED);
             repo.save(transRes);
-            userRes.cancelTransaction();
-            userRepository.save(userRes);
+            if(transRes.transactionState.equals(TransactionState.CONFIRMED)){
+                userRes.cancelTransaction();
+                userRepository.save(userRes);}
             repo.save(transRes);
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("Se elimino la transaccion con id:", transactionID);
