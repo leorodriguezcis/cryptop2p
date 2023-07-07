@@ -1,5 +1,6 @@
 package com.spring.universidad.cryptop2p.model.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -25,6 +26,13 @@ public class JWTUtil {
                 .setExpiration(expiryDate)
                 .signWith(SECRET_KEY)
                 .compact();
+    }
+    public String getUsernameFromToken(String token) {
+    Claims claims = Jwts.parser()
+        .setSigningKey(SECRET_KEY)
+        .parseClaimsJws(token)
+        .getBody();
+        return claims.getSubject();
     }
 
     public boolean validateToken(String token) {
