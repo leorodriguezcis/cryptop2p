@@ -44,22 +44,17 @@ class UserControllerTest {
         mockMvc.perform(post("/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
-                .andExpect(status().isOk())
-                .andReturn();
+                .andExpect(status().isOk());
     }
 
     @Test
     void testLoginUser() throws Exception {
-
-        String jsonBody = "{\r\n" + //
-                "    \"email\": \"elpepe@gmail.com\",\r\n" + //
-                "    \"password\": \"1234\",\r\n" + //
-                "}";
+        
+        String jsonBody = "{\"email\":\"elpepe@gmail.com\",\"password\":\"1234\"}";
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
-                .andExpect(status().isBadRequest())
-                .andReturn();
+                .andExpect(status().isOk());
     }
 
 }

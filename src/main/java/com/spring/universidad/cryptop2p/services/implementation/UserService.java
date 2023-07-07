@@ -28,7 +28,6 @@ public class UserService extends GenericService<User, UserRepository> {
 
     @Transactional
     public User registerUser(UserRegisterDTO userRegisterDto){
-
         User user = new User(userRegisterDto.getName(),
                 userRegisterDto.getLastName(),userRegisterDto.getEmail(),
                 userRegisterDto.getAddress(),userRegisterDto.getPassword(),
