@@ -1,33 +1,43 @@
-package com.spring.universidad.cryptop2p.controller;
+package com.spring.universidad.cryptop2p.model.controller;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.spring.universidad.cryptop2p.data.DatosDummy;
+import com.spring.universidad.cryptop2p.model.repository.UserRepository;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class UserControllerTest {
+@AutoConfigureTestDatabase
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private UserRepository userRepository;
+    @BeforeEach
+    void setup(){
+        userRepository.save(DatosDummy.getUser1());
+    }
 
     @Test
-    public void testCreateUser() throws Exception {
+    void testCreateUser() throws Exception {
         String jsonBody = "{\r\n" + //
                 "    \"name\": \"leo3\",\r\n" + //
                 "    \"lastName\": \"leo1\",\r\n" + //
-                "    \"email\": \"leo@leo.com.leo\",\r\n" + //
+                "    \"email\": \"leo1@leo.com\",\r\n" + //
                 "    \"address\": \"leo 1772\",\r\n" + //
-                "    \"password\": \"1234leo\",\r\n" + //
+                "    \"password\": \"randomPassword\",\r\n" + //
                 "    \"cvu\": \"123123123123\",\r\n" + //
                 "    \"addrWallet\":\"12312312312\"\r\n" + //
                 "}";
@@ -37,11 +47,13 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
     @Test
-    public void testLoginUser() throws Exception {
+    void testLoginUser() throws Exception {
+
         String jsonBody = "{\r\n" + //
-                "    \"password\": \"randomPassword\",\r\n" + //
-                "    \"username\": \"RandomUser\",\r\n" + //
+                "    \"email\": \"elpepe@gmail.com\",\r\n" + //
+                "    \"password\": \"1234\",\r\n" + //
                 "}";
         mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -1,11 +1,9 @@
-package com.spring.universidad.cryptop2p.model;
+package com.spring.universidad.cryptop2p.model.entities;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.spring.universidad.cryptop2p.model.entities.Crypto;
-import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;

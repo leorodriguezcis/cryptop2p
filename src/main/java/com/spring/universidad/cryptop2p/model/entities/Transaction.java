@@ -72,7 +72,7 @@ public class Transaction implements Serializable {
             return resMax;
         if(cotization.subtract(resMin).signum() <= 0)
             return resMin;
-        return cotization;
+        return cotization; 
     }
     
     public void setNominalValue(Double nominalValue) {

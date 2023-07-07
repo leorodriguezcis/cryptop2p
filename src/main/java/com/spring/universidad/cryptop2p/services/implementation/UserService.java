@@ -40,7 +40,7 @@ public class UserService extends GenericService<User, UserRepository> {
     public Map<String, Object> logIn(UserLoginDTO user) {
         Map<String, Object> message = new HashMap<>();
         Optional<User> userByEmail = repo.findByEmail(user.getEmail());
-        if(userByEmail.isPresent()&&userByEmail.get().getPassword().equals(user.getPassword())){
+        if(validateUser(userByEmail, user)){
             String token = jwtUtil.generateToken(user.getEmail());
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("token", token);
@@ -51,5 +51,7 @@ public class UserService extends GenericService<User, UserRepository> {
         message.put(MESSAGE, "nombre o contraseña incorrectos");
         return message;
     }
-
+    public boolean validateUser(Optional<User> userByEmail, UserLoginDTO user){
+        return userByEmail.isPresent()&&userByEmail.get().getPassword().equals(user.getPassword());
+    }
 }

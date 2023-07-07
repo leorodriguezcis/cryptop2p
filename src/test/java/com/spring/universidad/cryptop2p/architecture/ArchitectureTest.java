@@ -1,4 +1,4 @@
-package com.architecture;
+package com.spring.universidad.cryptop2p.architecture;
 
 
 import com.tngtech.archunit.core.domain.JavaClasses;

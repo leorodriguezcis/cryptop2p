@@ -5,9 +5,9 @@ public class UserLoginDTO {
     private String email;
     private String password;
 
-    public UserLoginDTO(String email, String pw) {
+    public UserLoginDTO(String email, String password) {
         this.email = email;
-        this.password = pw;
+        this.password = password;
     }
 
     public String getEmail() {

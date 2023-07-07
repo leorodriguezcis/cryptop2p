@@ -1,4 +1,4 @@
-package com.spring.universidad.cryptop2p.RepositoryTest;
+package com.spring.universidad.cryptop2p.model.repository;
 
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.model.entities.Crypto;
