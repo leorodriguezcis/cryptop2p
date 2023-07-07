@@ -28,11 +28,13 @@ public class JWTUtil {
                 .compact();
     }
     public String getUsernameFromToken(String token) {
-    Claims claims = Jwts.parser()
+        Claims claims = Jwts.parserBuilder()
         .setSigningKey(SECRET_KEY)
+        .build()
         .parseClaimsJws(token)
         .getBody();
-        return claims.getSubject();
+
+return claims.getSubject();
     }
 
     public boolean validateToken(String token) {

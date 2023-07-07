@@ -43,7 +43,6 @@ public class UserService extends GenericService<User, UserRepository> {
             String token = jwtUtil.generateToken(user.getEmail());
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("token", token);
-             message.put("email", jwtUtil.getUsernameFromToken(token));
             return message;
             
         }
