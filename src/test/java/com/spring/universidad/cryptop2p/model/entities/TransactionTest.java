@@ -10,11 +10,29 @@ import java.math.BigDecimal;
 @SpringBootTest
 class TransactionTest {
     @Test
-    void transactionValidateTest(){
+    void transactionValidateTestIfAmountIsBetween(){
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.getValue()).thenReturn(100d);
         Transaction trans = new Transaction();
-        System.out.println("ASD"+trans.validateCotization(BigDecimal.valueOf(105), cryptoMock));
-        Assert.assertEquals(trans.validateCotization(BigDecimal.valueOf(105), cryptoMock),BigDecimal.valueOf(105));
+        Assert.assertEquals(BigDecimal.valueOf(105d),trans.validateCotization(BigDecimal.valueOf(105), cryptoMock));
+        Assert.assertEquals(BigDecimal.valueOf(96d),trans.validateCotization(BigDecimal.valueOf(96), cryptoMock));
+        Assert.assertEquals(BigDecimal.valueOf(95d),trans.validateCotization(BigDecimal.valueOf(95), cryptoMock));
     }
+
+    @Test
+    void transactionValidateTestAmountgreaterthan(){
+        Crypto cryptoMock = mock(Crypto.class);
+        when(cryptoMock.getValue()).thenReturn(100d);
+        Transaction trans = new Transaction();
+        Assert.assertEquals(BigDecimal.valueOf(105d),trans.validateCotization(BigDecimal.valueOf(1010), cryptoMock));
+    }
+
+    @Test
+    void transactionValidateTestAmountSmallerthan(){
+        Crypto cryptoMock = mock(Crypto.class);
+        when(cryptoMock.getValue()).thenReturn(100d);
+        Transaction trans = new Transaction();
+        Assert.assertEquals(BigDecimal.valueOf(95d),trans.validateCotization(BigDecimal.valueOf(90), cryptoMock));
+    }
+
 }

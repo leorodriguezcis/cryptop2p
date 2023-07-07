@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     private JWTUtil jwtUtil;
 
     @Test
-    void testLoginUser() throws Exception {
+    void testGetActives() throws Exception {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZW9AbGVvLmNvbSIsImlhdCI6MTY4ODY4NTc5MywiZXhwIjoxNjg5MTg1NzkzfQ.6ygznmM8kZaq8wcxftV8gO4n5ApWk0ZaW4ig8CtFqkk";
         when(jwtUtil.validateToken(token)).thenReturn(true);
         mockMvc.perform(get("/transaction/getActives")
