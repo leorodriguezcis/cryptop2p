@@ -4,8 +4,6 @@ import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.entities.User;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
 import com.spring.universidad.cryptop2p.model.enums.TransactionState;
-import com.spring.universidad.cryptop2p.model.repository.TransactionRepository;
-import com.spring.universidad.cryptop2p.model.repository.UserRepository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
