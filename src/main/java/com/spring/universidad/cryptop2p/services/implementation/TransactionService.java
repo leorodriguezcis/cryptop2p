@@ -30,6 +30,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
     private static final  String USER_MSG = "no existe ningun usuario con id: %s";
     private UserRepository userRepository;
     private CryptoRepository cryptoRepository;
+
     @Autowired
     public TransactionService(TransactionRepository repo, UserRepository userRepo, CryptoRepository cryptoRepo) {
         super(repo);
@@ -103,7 +104,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         return message;
     }
     @Transactional
-    public Map<String, Object> sellOrBuyAnIntention(Integer userId, Integer transactionID, TransactionType intention) {
+    public Map<String, Object> sellOrBuyAnIntention(Integer userId, Integer transactionID, TransactionType intention, String email) {
         Map<String, Object> message = new HashMap<>();
         Optional<Transaction> res = repo.findById(transactionID);
         Optional<User> userRes = userRepository.findById(userId);
@@ -115,6 +116,16 @@ public class TransactionService extends GenericService<Transaction, TransactionR
             return message;
         }
         transaction = res.get();
+        if(transaction.getUser().getEmail().equals(email)){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, "no puede comprar o vender su propia transaccion");
+            return message;
+        }
+        if(transaction.getTransactionType().equals(intention)){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, "Accion invalida");
+            return message;
+        }
         userWallet = userRes.get().getWallet();
         String userCVU = userRes.get().getCvu();
         transaction.setIsActive(TransactionState.ON_PROCESS);
@@ -126,7 +137,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
     }
 
     @Transactional
-    public Map<String, Object> confirmTransference(Integer userId, Integer transactionID, String action) {
+    public Map<String, Object> confirmTransference(Integer userId, Integer transactionID, String action, String email) {
         Map<String, Object> message = new HashMap<>();
         Optional<User> userRes = userRepository.findById(userId);
         Optional<Transaction> transaction = repo.findById(transactionID);
@@ -143,9 +154,19 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         User user = userRes.get();
         Transaction transRes = transaction.get();
         if(action.equals("send")&&user.getId().equals(transRes.getOtherUserId())){
+           if(!user.getEmail().equals(email)){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, "Accion invalida para el usuario");
+            return message;
+           }
            transRes.setIsActive(TransactionState.CONFIRMED);
         }
         if(action.equals("receive")&&user.getId().equals(transRes.getUser().getId())){
+            if(!user.getEmail().equals(email)){
+                message.put(MSG_SUCCESS, Boolean.FALSE);
+                message.put(MESSAGE, "Accion invalida para el usuario");
+                return message;
+           }
             if(transRes.getIsActive()==TransactionState.CONFIRMED){
                 transRes.setIsActive(TransactionState.FINISHED);
                 Optional<User> user1o = userRepository.findById(transRes.getOtherUserId());
@@ -174,7 +195,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         return(message);
     }
     @Transactional
-    public Map<String, Object> cancelTransaction(Integer userId, Integer transactionID) {
+    public Map<String, Object> cancelTransaction(Integer userId, Integer transactionID, String email) {
         Map<String, Object> message = new HashMap<>();
         Optional<User> user = userRepository.findById(userId);
         Optional<Transaction> transaction = repo.findById(transactionID);
@@ -190,6 +211,11 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         }
         User userRes =  user.get();
         Transaction transRes = transaction.get();
+        if(!transRes.getUser().getEmail().equals(email)){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, "Solo el usuario dueño de la transaccion puede cancelarla");
+            return message;
+        }
         if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
             transRes.setIsActive(TransactionState.CANCELLED);
             repo.save(transRes);

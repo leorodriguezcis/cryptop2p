@@ -27,7 +27,7 @@ public class JWTUtil {
                 .signWith(SECRET_KEY)
                 .compact();
     }
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
         .setSigningKey(SECRET_KEY)
         .build()

@@ -73,7 +73,7 @@ class TransactionServiceTest {
         User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
         transactionService.addTransaction(trans1, user1.getId());
         Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
-        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY,user2.getEmail() );
         Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
@@ -86,7 +86,7 @@ class TransactionServiceTest {
         User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
         transactionService.addTransaction(trans2, user1.getId());
         Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
-        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.SELL, user2.getEmail() );
         Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.ON_PROCESS);
@@ -98,8 +98,8 @@ class TransactionServiceTest {
         User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
         transactionService.addTransaction(trans2, user1.getId());
         Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
-        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
-        transactionService.confirmTransference(user2.getId(), resList.getId(), "send");
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.SELL, user2.getEmail() );
+        transactionService.confirmTransference(user2.getId(), resList.getId(), "send", user2.getEmail());
         Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.CONFIRMED);
@@ -111,9 +111,9 @@ class TransactionServiceTest {
         User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
         transactionService.addTransaction(trans2, user1.getId());
         Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
-        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
-        transactionService.confirmTransference(user2.getId(), resList.getId(), "send");
-        transactionService.confirmTransference(user1.getId(), resList.getId(), "receive");
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.SELL, user2.getEmail() );
+        transactionService.confirmTransference(user2.getId(), resList.getId(), "send", user2.getEmail());
+        transactionService.confirmTransference(user1.getId(), resList.getId(), "receive", user1.getEmail());
         Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.FINISHED);
@@ -125,8 +125,8 @@ class TransactionServiceTest {
         User user2 = ((ArrayList<User>)userRepository.findAll()).get(1);
         transactionService.addTransaction(trans2, user1.getId());
         Transaction resList = ((ArrayList<Transaction>)transactionRepository.findAll()).get(0);
-        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.BUY );
-        transactionService.cancelTransaction(user2.getId(), resList.getId());
+        transactionService.sellOrBuyAnIntention(user2.getId(), resList.getId(), TransactionType.SELL, user2.getEmail() );
+        transactionService.cancelTransaction(user2.getId(), resList.getId(),user1.getEmail());
         Optional<Transaction> res = transactionRepository.findById(resList.getId());
         Transaction resTransaction = res.get();
         assertThat(resTransaction.getIsActive()).isEqualTo(TransactionState.CANCELLED);
