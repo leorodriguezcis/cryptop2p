@@ -1,9 +1,11 @@
 package com.spring.universidad.cryptop2p.services.implementation;
 
+import com.spring.universidad.cryptop2p.model.dto.CryptoDTO;
 import com.spring.universidad.cryptop2p.model.response.CryptoActiveResult;
 import com.spring.universidad.cryptop2p.model.entities.Crypto;
 import com.spring.universidad.cryptop2p.model.entities.Transaction;
 import com.spring.universidad.cryptop2p.model.entities.User;
+import com.spring.universidad.cryptop2p.model.config.Pair;
 import com.spring.universidad.cryptop2p.model.dto.DateRangeDTO;
 import com.spring.universidad.cryptop2p.model.dto.TransactionDTO;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
@@ -112,7 +114,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         String userWallet = "";
         if (!res.isPresent() || !userRes.isPresent()){
             message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format("no existe usuario con id: %s o transaccion con id: %s2", userId, transactionID));
+            message.put(MESSAGE, String.format("no existe usuario con id: %s o transaccion con id: %s", userId, transactionID));
             return message;
         }
         transaction = res.get();
@@ -141,18 +143,18 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Map<String, Object> message = new HashMap<>();
         Optional<User> userRes = userRepository.findById(userId);
         Optional<Transaction> transaction = repo.findById(transactionID);
-        if (transaction.isEmpty()) {
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format(TRANSACTION_MSG, transactionID));
+        message = comprobarExistencias(new Pair(transaction.isEmpty(),transactionID),new Pair(userRes.isEmpty(),userId), message);
+        if(!message.isEmpty())
             return message;
-        }
-        if (userRes.isEmpty()) {
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format(USER_MSG, userId));
-            return message;
-        }
         User user = userRes.get();
         Transaction transRes = transaction.get();
+        transRes = checkCotizationDifferece(transRes);
+        if (transRes.transactionState.equals(TransactionState.CANCELLED)){
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, "Se anulo la transaccion debido a la diferencia de cotizacion actual de la Crypto");
+            repo.save(transRes);
+            return message;
+        }
         if(action.equals("send")&&user.getId().equals(transRes.getOtherUserId())){
            if(!user.getEmail().equals(email)){
             message.put(MSG_SUCCESS, Boolean.FALSE);
@@ -189,6 +191,7 @@ public class TransactionService extends GenericService<Transaction, TransactionR
                 return message;
             }
         }
+
         message.put(MSG_SUCCESS, Boolean.TRUE);
         message.put(DATOS,transRes);
         repo.save(transRes);
@@ -199,16 +202,9 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         Map<String, Object> message = new HashMap<>();
         Optional<User> user = userRepository.findById(userId);
         Optional<Transaction> transaction = repo.findById(transactionID);
-        if (transaction.isEmpty()) {
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format(TRANSACTION_MSG, transactionID));
-            return message;
-        }
-        if (user.isEmpty()) {
-            message.put(MSG_SUCCESS, Boolean.FALSE);
-            message.put(MESSAGE, String.format(USER_MSG, userId));
-            return message;
-        }
+        Pair transactionPair = new Pair(transaction.isEmpty(), transactionID);
+        Pair userPair = new Pair(user.isEmpty(), userId);
+        comprobarExistencias(transactionPair, userPair, message);
         User userRes =  user.get();
         Transaction transRes = transaction.get();
         if(!transRes.getUser().getEmail().equals(email)){
@@ -253,5 +249,26 @@ public class TransactionService extends GenericService<Transaction, TransactionR
                 dateToConvert.toInstant(), ZoneId.systemDefault());
     }
 
-
+    public Map<String, Object> comprobarExistencias(Pair pair1, Pair pair2, Map<String, Object> message){
+        if (pair1.getBooleanValue()) {
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, String.format(USER_MSG, pair1.getIntegerValue()));
+            return message;
+        }
+        if (pair2.getBooleanValue()) {
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(MESSAGE, String.format(USER_MSG, pair2.getIntegerValue()));
+            return message;
+        }
+        return message;
+    }
+    public Transaction checkCotizationDifferece(Transaction transaction){
+        CryptoService cryptoService = new CryptoService(this.cryptoRepository);
+        CryptoDTO cryptoDTO = cryptoService.getCotizationBySymbol(transaction.getCrypto().getName());
+        if((transaction.getTransactionType().equals(TransactionType.BUY) && Double.valueOf(transaction.valueCotization.toString()) > cryptoDTO.getPrice())||
+            (transaction.getTransactionType().equals(TransactionType.SELL) && Double.valueOf(transaction.valueCotization.toString()) < cryptoDTO.getPrice())){
+            transaction.setIsActive(TransactionState.CANCELLED);
+        }
+        return transaction;
+    }
 }
