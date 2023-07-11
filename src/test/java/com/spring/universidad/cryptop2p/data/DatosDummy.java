@@ -23,7 +23,7 @@ public class DatosDummy {
     public static Crypto ATOMUSDT = new Crypto(CryptoEnum.ATOMUSDT, LocalDate.now(),9.39800000,4511.04);
     public static Crypto NEOUSDT = new Crypto(CryptoEnum.NEOUSDT, LocalDate.now(),8.89000000,4267.2);
     public static Crypto DOTUSDT = new Crypto(CryptoEnum.DOTUSDT, LocalDate.now(),5.00800000,2403.84);
-    public static Crypto ETHUSDT = new Crypto(CryptoEnum.ETHUSDT, LocalDate.now(),11831.25000000,879000.00);
+    public static Crypto ETHUSDT = new Crypto(CryptoEnum.ETHUSDT, LocalDate.now(),1831.25000000,879000.00);
     public static Crypto CAKEUSDT = new Crypto(CryptoEnum.CAKEUSDT, LocalDate.now(),1.53300000,735.84);
     public static Crypto BTCUSDT = new Crypto(CryptoEnum.BTCUSDT, LocalDate.now(),26308.99000000,12628315.2);
     public static Crypto BNBUSDT = new Crypto(CryptoEnum.BNBUSDT, LocalDate.now(),258.50000000,124080.00);

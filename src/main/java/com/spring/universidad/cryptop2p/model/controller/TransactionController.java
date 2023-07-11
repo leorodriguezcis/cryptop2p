@@ -47,26 +47,26 @@ public class TransactionController {
     @ApiOperation(value = "user intention activity ")
     @PostMapping(value="/transaction/{userId}/intention")
     public ResponseEntity<Map<String, Object>> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction, @RequestHeader("Authorization") String token){
-        return verifyMessageAndToken(token,service.addTransaction(transaction,userId));
+        return verifyMessageAndToken(token,service.addTransaction(transaction,userId, jwtUtil.getEmailFromToken(token)));
     }
 
     @ApiOperation(value = "user buy/send an activity ")
     @PostMapping(value="/transaction/{userId}/{intention}/{transactionID}")
     public ResponseEntity<Map<String, Object>> userBuyAnIntention(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable TransactionType intention, @RequestHeader("Authorization") String token){
-        Map<String, Object> message = service.sellOrBuyAnIntention(userId, transactionID, intention);
+        Map<String, Object> message = service.sellOrBuyAnIntention(userId, transactionID, intention, jwtUtil.getEmailFromToken(token));
         return verifyMessageAndToken(token,message);
     }
     @ApiOperation(value = "user confirm transference ")
     @PostMapping(value="/transaction/{userId}/confirm/{action}/{transactionID}")
     public ResponseEntity<Map<String, Object>> userConfirmTransference(@PathVariable Integer userId,@PathVariable Integer transactionID,@PathVariable String action, @RequestHeader("Authorization") String token){
-        return verifyMessageAndToken(token,service.confirmTransference(userId, transactionID,action));
+        return verifyMessageAndToken(token,service.confirmTransference(userId, transactionID,action, jwtUtil.getEmailFromToken(token)));
     }
 
 
     @ApiOperation(value = "user cancel transaction ")
     @PostMapping(value="/transaction/{userId}/cancel/{transactionID}")
     public ResponseEntity<Map<String, Object>> userCancelTransaction(@PathVariable Integer userId,@PathVariable Integer transactionID, @RequestHeader("Authorization") String token){
-        return verifyMessageAndToken(token,service.cancelTransaction(userId,transactionID));
+        return verifyMessageAndToken(token,service.cancelTransaction(userId,transactionID,jwtUtil.getEmailFromToken(token)));
     }
 
     @ApiOperation(value = "List activity betwen 2 dates")
