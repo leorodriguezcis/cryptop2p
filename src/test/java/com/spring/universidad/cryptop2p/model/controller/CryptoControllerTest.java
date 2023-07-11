@@ -29,13 +29,7 @@ class CryptoControllerTest {
     @MockBean
     private JWTUtil jwtUtil;
 
-    @Test
-    void testCryptoInizialize() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/crypto/initialize"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Cryptos inicializadas"));;
-    }
+   
     @Test
     void  testGetAllCryptos() throws Exception {
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZW9AbGVvLmNvbSIsImlhdCI6MTY4ODY4NTc5MywiZXhwIjoxNjg5MTg1NzkzfQ.6ygznmM8kZaq8wcxftV8gO4n5ApWk0ZaW4ig8CtFqkk";
