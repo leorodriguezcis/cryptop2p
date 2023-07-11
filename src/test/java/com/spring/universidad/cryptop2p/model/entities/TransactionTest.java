@@ -2,12 +2,14 @@ package com.spring.universidad.cryptop2p.model.entities;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 @SpringBootTest
+@AutoConfigureTestDatabase
 class TransactionTest {
     @Test
     void transactionValidateTestIfAmountIsBetween(){
