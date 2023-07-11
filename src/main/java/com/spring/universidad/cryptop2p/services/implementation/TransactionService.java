@@ -200,12 +200,11 @@ public class TransactionService extends GenericService<Transaction, TransactionR
             return message;
         }
         if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
-            transRes.setIsActive(TransactionState.CANCELLED);
-            repo.save(transRes);
             if(transRes.transactionState.equals(TransactionState.CONFIRMED) || 
                transRes.transactionState.equals(TransactionState.ON_PROCESS)){
                 userRes.cancelTransaction();
                 userRepository.save(userRes);}
+            transRes.setIsActive(TransactionState.CANCELLED);
             repo.save(transRes);
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("The transaction with id was deleted:", transactionID);
