@@ -47,7 +47,7 @@ public class TransactionController {
     @ApiOperation(value = "user intention activity ")
     @PostMapping(value="/transaction/{userId}/intention")
     public ResponseEntity<Map<String, Object>> userSellIntention(@PathVariable Integer userId,@Valid @RequestBody TransactionDTO transaction, @RequestHeader("Authorization") String token){
-        return verifyMessageAndToken(token,service.addTransaction(transaction,userId));
+        return verifyMessageAndToken(token,service.addTransaction(transaction,userId, jwtUtil.getEmailFromToken(token)));
     }
 
     @ApiOperation(value = "user buy/send an activity ")
