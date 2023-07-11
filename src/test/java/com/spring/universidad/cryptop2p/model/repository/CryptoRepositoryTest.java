@@ -1,9 +1,8 @@
-package com.spring.universidad.cryptop2p.RepositoryTest;
+package com.spring.universidad.cryptop2p.model.repository;
 
 import com.spring.universidad.cryptop2p.data.DatosDummy;
 import com.spring.universidad.cryptop2p.model.entities.Crypto;
 import com.spring.universidad.cryptop2p.model.enums.CryptoEnum;
-import com.spring.universidad.cryptop2p.model.repository.CryptoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

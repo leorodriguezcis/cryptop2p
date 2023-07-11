@@ -62,9 +62,23 @@ public class Transaction implements Serializable {
         this.valuePesos = valuePesos;
         this.nominalValue = value;
         this.transactionType = transactionType;
-        this.valueCotization = cotization;
+        this.valueCotization = validateCotization(cotization, crypto);
     }
-
+    public BigDecimal validateCotization(BigDecimal cotization, Crypto crypto){
+        
+        BigDecimal cryptoCotization = BigDecimal.valueOf(crypto.getValue());
+        BigDecimal resMax = cryptoCotization.divide(BigDecimal.valueOf(100)).multiply(BigDecimal.valueOf(5)).add(cryptoCotization);
+        BigDecimal resMin = cryptoCotization.subtract(cryptoCotization.divide(BigDecimal.valueOf(100)).multiply(BigDecimal.valueOf(5)));
+        if(cotization.subtract(resMax).signum() >= 0 )
+            return resMax;
+        if(cotization.subtract(resMin).signum() <= 0)
+            return resMin;
+        return normalize(cotization); 
+    }
+    
+    private BigDecimal normalize(BigDecimal cotization) {
+        return cotization.multiply(BigDecimal.valueOf(1d));
+    }
     public void setNominalValue(Double nominalValue) {
         this.nominalValue = nominalValue;
     }

@@ -28,7 +28,6 @@ public class UserService extends GenericService<User, UserRepository> {
 
     @Transactional
     public User registerUser(UserRegisterDTO userRegisterDto){
-
         User user = new User(userRegisterDto.getName(),
                 userRegisterDto.getLastName(),userRegisterDto.getEmail(),
                 userRegisterDto.getAddress(),userRegisterDto.getPassword(),
@@ -39,9 +38,9 @@ public class UserService extends GenericService<User, UserRepository> {
 
     public Map<String, Object> logIn(UserLoginDTO user) {
         Map<String, Object> message = new HashMap<>();
-        Optional<User> userByName = repo.findByName(user.getUsername());
-        if(userByName.isPresent()&&userByName.get().getPassword().equals(user.getPassword())){
-            String token = jwtUtil.generateToken(user.getUsername());
+        Optional<User> userByEmail = repo.findByEmail(user.getEmail());
+        if(validateUser(userByEmail, user)){
+            String token = jwtUtil.generateToken(user.getEmail());
             message.put(MSG_SUCCESS, Boolean.TRUE);
             message.put("token", token);
             return message;
@@ -51,5 +50,7 @@ public class UserService extends GenericService<User, UserRepository> {
         message.put(MESSAGE, "nombre o contraseña incorrectos");
         return message;
     }
-
+    public boolean validateUser(Optional<User> userByEmail, UserLoginDTO user){
+        return userByEmail.isPresent()&&userByEmail.get().getPassword().equals(user.getPassword());
+    }
 }
