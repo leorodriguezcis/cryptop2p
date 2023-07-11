@@ -8,11 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class ArchitectureTest {
+class ArchitectureTest {
     private JavaClasses importedClasses;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         importedClasses = new ClassFileImporter()
                 .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                 .importPackages("com.spring.universidad.cryptop2p.model");
