@@ -202,7 +202,8 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         if(userId.equals(transRes.getOtherUserId()) || userId.equals(transRes.getUser().getId())){
             transRes.setIsActive(TransactionState.CANCELLED);
             repo.save(transRes);
-            if(transRes.transactionState.equals(TransactionState.CONFIRMED)){
+            if(transRes.transactionState.equals(TransactionState.CONFIRMED) || 
+               transRes.transactionState.equals(TransactionState.ON_PROCESS)){
                 userRes.cancelTransaction();
                 userRepository.save(userRes);}
             repo.save(transRes);
