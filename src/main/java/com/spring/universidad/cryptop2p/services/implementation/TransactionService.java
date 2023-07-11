@@ -115,6 +115,12 @@ public class TransactionService extends GenericService<Transaction, TransactionR
         }
         if(validateEmailWithId(userRes.get(), email)){return userNotValid();}
         transaction = res.get();
+        if(checkCotizationDifferece(transaction)){ 
+            transaction.setIsActive(TransactionState.CANCELLED);
+            message.put(MSG_SUCCESS, Boolean.FALSE);
+            message.put(DATOS, "transaction has been canceled caused by actual cotyzation value");
+            return  message;
+        }
         if(transaction.getUser().getEmail().equals(email)){
             message.put(MSG_SUCCESS, Boolean.FALSE);
             message.put(MESSAGE, "you cannot buy or sell your own transaction");
@@ -236,14 +242,11 @@ public class TransactionService extends GenericService<Transaction, TransactionR
                 dateToConvert.toInstant(), ZoneId.systemDefault());
     }
 
-    public Transaction checkCotizationDifferece(Transaction transaction){
+    public boolean checkCotizationDifferece(Transaction transaction){
         CryptoService cryptoService = new CryptoService(this.cryptoRepository);
         CryptoDTO cryptoDTO = cryptoService.getCotizationBySymbol(transaction.getCrypto().getName());
-        if((transaction.getTransactionType().equals(TransactionType.BUY) && ((transaction.valueCotization.doubleValue()) >= cryptoDTO.getPrice()))||
-            (transaction.getTransactionType().equals(TransactionType.SELL) && ((transaction.valueCotization.doubleValue()) <= cryptoDTO.getPrice()))){
-            transaction.setIsActive(TransactionState.CANCELLED);
-        }
-        return transaction;
+        return((transaction.getTransactionType().equals(TransactionType.BUY) && ((transaction.valueCotization.doubleValue()) >= cryptoDTO.getPrice()))||
+            (transaction.getTransactionType().equals(TransactionType.SELL) && ((transaction.valueCotization.doubleValue()) <= cryptoDTO.getPrice())));
     }
     public Map<String, Object> invalidAction(){
         Map<String, Object> message = new HashMap<>();
